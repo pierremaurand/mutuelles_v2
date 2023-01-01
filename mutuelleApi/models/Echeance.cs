@@ -31,7 +31,7 @@ namespace mutuelleApi.models
         {
             get
             {
-                return MontantTotal - (Mouvements?.Sum(m => m.MontantCredit) ?? 0);
+                return MontantCapital - (Mouvements?.Sum(m => m.MontantCredit) ?? 0);
             }
         }
 
