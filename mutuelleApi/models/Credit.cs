@@ -16,7 +16,5 @@ namespace mutuelleApi.models
         public float MontantInterets { get; set; }
         [Required]
         public string? DateEnregistrement { get; set; }
-        
-        public Membre? Membre { get; set; }
     }
 }

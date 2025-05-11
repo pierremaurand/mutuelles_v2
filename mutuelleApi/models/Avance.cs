@@ -1,5 +1,3 @@
-
-
 using System.ComponentModel.DataAnnotations;
 
 namespace mutuelleApi.models
@@ -14,8 +12,5 @@ namespace mutuelleApi.models
         public float MontantCapital { get; set; }
         [Required]
         public string? DateEnregistrement { get; set; }
-        
-        public Membre? Membre { get; set; }
-        
     }
 }

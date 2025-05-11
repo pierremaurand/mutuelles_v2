@@ -12,7 +12,5 @@ namespace mutuelleApi.models
         public string? DateCotisation { get; set; }
         [Required]
         public float Montant { get; set; }
-
-        public Membre? Membre { get; set; }
     }
 }

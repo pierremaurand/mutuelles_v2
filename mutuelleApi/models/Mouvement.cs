@@ -20,11 +20,5 @@ namespace mutuelleApi.models
         public int? AvanceId { get; set; }
         public int? CreditId { get; set; }
         public int? EcheanceId { get; set; }
-
-        public Membre? Membre { get; set; }
-        public Cotisation? Cotisation { get; set; }
-        public Avance? Avance { get; set; }
-        public Credit? Credit { get; set; }
-        public Echeance? Echeance { get; set; }
     }
 }

@@ -12,7 +12,5 @@ namespace mutuelleApi.models
         public string? Libelle { get; set; }
         [Required]
         public int? MouvementId { get; set; }
-
-        public Mouvement? Mouvement { get; set; }
     }
 }

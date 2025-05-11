@@ -14,7 +14,5 @@ namespace mutuelleApi.models
         public float MontantDebit { get; set; }
         [Required]
         public float MontantCredit { get; set; }
-
-        public Ecriture? Ecriture { get; set; }
     }
 }

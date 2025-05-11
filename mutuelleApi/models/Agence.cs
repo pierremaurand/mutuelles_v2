@@ -1,9 +1,12 @@
 
 
+using System.ComponentModel.DataAnnotations;
+
 namespace mutuelleApi.models
 {
     public class Agence : BaseEntity
     {
-       public string? Nom { get; set; }
+        [Required]
+        public string? Nom { get; set; }
     }
 }

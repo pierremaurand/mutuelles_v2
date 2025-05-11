@@ -16,5 +16,6 @@ namespace mutuelleApi.models
         [Required]
         public Role? Role { get; set; }
         public bool? EstActif { get; set; }
+        public string? Photo { get; set; }
     }
 }

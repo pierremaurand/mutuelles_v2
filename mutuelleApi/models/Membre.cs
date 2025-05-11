@@ -26,6 +26,5 @@ namespace mutuelleApi.models
 
         public string? Photo { get; set; }
         public bool? EstActif { get; set; }
-        public Agence? Agence { get; set; }
     }
 }

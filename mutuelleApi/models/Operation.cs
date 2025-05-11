@@ -16,8 +16,5 @@ namespace mutuelleApi.models
         public float MontantDebit { get; set; }
         [Required]
         public float MontantCredit { get; set; }
-
-        public Gabarit? Gabarit { get; set; }
-        public Compte? Compte { get; set; }
     }
 }

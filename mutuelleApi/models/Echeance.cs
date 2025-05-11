@@ -14,9 +14,5 @@ namespace mutuelleApi.models
 
         public int? CreditId { get; set; }
         public int? AvanceId { get; set; }
-
-        
-        public Credit? Credit { get; set; }
-        public Avance? Avance { get; set; }
     }
 }
