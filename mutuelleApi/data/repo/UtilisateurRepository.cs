@@ -25,6 +25,20 @@ namespace mutuelleApi.data.repo
             throw new NotImplementedException();
         }
 
+        public async Task<Utilisateur?> FindByLoginAsync(string login)
+        {
+             if(dc.Utilisateurs is not null) {
+                var utilisateur = await dc.Utilisateurs
+                .Where(s => s.Login == login)
+                .FirstAsync();
+                if(utilisateur is not null) {
+                    return utilisateur;
+                }
+            }
+
+            return null;
+        }
+
         public async Task<IEnumerable<Utilisateur>?> GetAllAsync()
         {
             if(dc.Utilisateurs is not null) {

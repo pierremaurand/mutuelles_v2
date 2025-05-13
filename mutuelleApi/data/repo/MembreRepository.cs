@@ -20,6 +20,15 @@ namespace mutuelleApi.data.repo
             }
         }
 
+        public async Task<bool> AgenceIsUse(int id)
+        {
+            if (dc.Membres is not null)
+            {
+                return await dc.Membres.AnyAsync(x => x.AgenceId == id);
+            }
+            return false;
+        }
+
         public void Delete(int id)
         {
             throw new NotImplementedException();
@@ -36,6 +45,15 @@ namespace mutuelleApi.data.repo
             }
 
             return null;
+        }
+
+        public async Task<bool> UtilisateurIsUse(int id)
+        {
+            if (dc.Membres is not null)
+            {
+                return await dc.Membres.AnyAsync(x => x.ModifiePar == id);
+            }
+            return false;
         }
     }
 }
