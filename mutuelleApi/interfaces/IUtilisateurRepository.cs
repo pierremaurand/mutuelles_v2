@@ -8,5 +8,6 @@ namespace mutuelleApi.interfaces
         void Add(Utilisateur utilisateur);
         void Delete(int id);
         Task<Utilisateur?> FindByLoginAsync(string login);
+        Task<Utilisateur?> FindByIdAsync(int id);
     }
 }

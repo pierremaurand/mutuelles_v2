@@ -1,25 +1,20 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using mutuelleApi.dtos;
+using mutuelleApi.hubConfig;
 using mutuelleApi.interfaces;
 using mutuelleApi.models;
 
 namespace mutuelleApi.controllers
 {
-    public class MouvementComptableController : BaseController
+    public class MouvementComptableController(IMapper mapper, IUnitOfWork uow, IHubContext<SignalrServer> signalrHub) : BaseController
     {
-        private readonly IUnitOfWork uow;
-        private readonly IMapper mapper;
-        private readonly IConfiguration configuration;
+        private readonly IUnitOfWork uow = uow;
+        private readonly IMapper mapper = mapper;
+        private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
-        public MouvementComptableController(IMapper mapper, IUnitOfWork uow, IConfiguration configuration)
-        {
-            this.configuration = configuration;
-            this.mapper = mapper;
-            this.uow = uow;
-        }
-
-         [HttpPost("add")]
+        [HttpPost("add")]
         public async Task<IActionResult> Add(MouvementDto mouvementDto)
         {
             var mouvement = mapper.Map<Mouvement>(mouvementDto);

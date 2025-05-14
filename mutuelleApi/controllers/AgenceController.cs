@@ -1,23 +1,18 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using mutuelleApi.dtos;
+using mutuelleApi.hubConfig;
 using mutuelleApi.interfaces;
 using mutuelleApi.models;
 
 namespace mutuelleApi.controllers
 {
-    public class AgenceController : BaseController
+    public class AgenceController(IMapper mapper, IUnitOfWork uow, IHubContext<SignalrServer> signalrHub) : BaseController
     {
-        private readonly IUnitOfWork uow;
-        private readonly IMapper mapper;
-        private readonly IConfiguration configuration;
-
-        public AgenceController(IMapper mapper, IUnitOfWork uow, IConfiguration configuration)
-        {
-            this.configuration = configuration;
-            this.mapper = mapper;
-            this.uow = uow;
-        }
+        private readonly IUnitOfWork uow = uow;
+        private readonly IMapper mapper = mapper;
+        private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
         [HttpPost("add")]
         public async Task<IActionResult> Add(AgenceDto agenceDto)
@@ -28,6 +23,7 @@ namespace mutuelleApi.controllers
             uow.AgenceRepository.Add(agence);
 
             await uow.SaveAsync();
+            await signalrHub.Clients.All.SendAsync("AgenceAdded", mapper.Map<AgenceDto>(agence));
             return StatusCode(201);
         }
 
@@ -38,6 +34,7 @@ namespace mutuelleApi.controllers
                 return Unauthorized("Cette agence ne peut pas être supprimer!");
             uow.AgenceRepository.Delete(id);
             await uow.SaveAsync();
+            await signalrHub.Clients.All.SendAsync("AgenceDeleted", id);
             return Ok();
         }
 
@@ -54,6 +51,7 @@ namespace mutuelleApi.controllers
             uow.AgenceRepository.Add(agence);
 
             await uow.SaveAsync();
+            await signalrHub.Clients.All.SendAsync("AgenceUpdated", mapper.Map<AgenceDto>(agence));
             return StatusCode(201);
         }
 

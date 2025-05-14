@@ -1,25 +1,21 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using mutuelleApi.dtos;
+using mutuelleApi.hubConfig;
 using mutuelleApi.interfaces;
 using mutuelleApi.models;
 
 namespace mutuelleApi.controllers
 {
-    public class MembreController : BaseController
+    public class MembreController(IMapper mapper, IUnitOfWork uow, IConfiguration configuration, IHubContext<SignalrServer> signalrHub) : BaseController
     {
-        private readonly IUnitOfWork uow;
-        private readonly IMapper mapper;
-        private readonly IConfiguration configuration;
+        private readonly IUnitOfWork uow = uow;
+        private readonly IMapper mapper = mapper;
+        private readonly IConfiguration configuration = configuration;
+        private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
-        public MembreController(IMapper mapper, IUnitOfWork uow, IConfiguration configuration)
-        {
-            this.configuration = configuration;
-            this.mapper = mapper;
-            this.uow = uow;
-        }
-
-         [HttpPost("add")]
+        [HttpPost("add")]
         public async Task<IActionResult> Add(MembreDto membreDto)
         {
             var membre = mapper.Map<Membre>(membreDto);

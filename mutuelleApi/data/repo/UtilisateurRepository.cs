@@ -4,13 +4,9 @@ using mutuelleApi.models;
 
 namespace mutuelleApi.data.repo
 {
-    public class UtilisateurRepository : IUtilisateurRepository
+    public class UtilisateurRepository(DataContext dc) : IUtilisateurRepository
     {
-        public readonly DataContext dc;
-        public UtilisateurRepository(DataContext dc)
-        {
-            this.dc = dc;
-        }
+        public readonly DataContext dc = dc;
 
         public void Add(Utilisateur utilisateur)
         {
@@ -25,9 +21,25 @@ namespace mutuelleApi.data.repo
             throw new NotImplementedException();
         }
 
+        public async Task<Utilisateur?> FindByIdAsync(int id)
+        {
+            if (dc.Utilisateurs is not null)
+            {
+                var utilisateur = await dc.Utilisateurs
+                .Where(s => s.Id == id)
+                .FirstAsync();
+                if (utilisateur is not null)
+                {
+                    return utilisateur;
+                }
+            }
+
+            return null;
+        }
+
         public async Task<Utilisateur?> FindByLoginAsync(string login)
         {
-             if(dc.Utilisateurs is not null) {
+            if(dc.Utilisateurs is not null) {
                 var utilisateur = await dc.Utilisateurs
                 .Where(s => s.Login == login)
                 .FirstAsync();

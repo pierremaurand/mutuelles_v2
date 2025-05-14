@@ -1,25 +1,22 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using mutuelleApi.dtos;
+using mutuelleApi.hubConfig;
 using mutuelleApi.interfaces;
+using mutuelleApi.Migrations;
 using mutuelleApi.models;
 
 namespace mutuelleApi.controllers
 {
-    public class UtilisateurController : BaseController
+    public class UtilisateurController(IMapper mapper, IUnitOfWork uow, IConfiguration configuration, IHubContext<SignalrServer> signalrHub) : BaseController
     {
-        private readonly IUnitOfWork uow;
-        private readonly IMapper mapper;
-        private readonly IConfiguration configuration;
+        private readonly IUnitOfWork uow = uow;
+        private readonly IMapper mapper = mapper;
+        private readonly IConfiguration configuration = configuration;
+        private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
-        public UtilisateurController(IMapper mapper, IUnitOfWork uow, IConfiguration configuration)
-        {
-            this.configuration = configuration;
-            this.mapper = mapper;
-            this.uow = uow;
-        }
-
-         [HttpPost("add")]
+        [HttpPost("add")]
         public async Task<IActionResult> Add(UtilisateurDto utilisateurDto)
         {
             var utilisateur = mapper.Map<Utilisateur>(utilisateurDto);
@@ -29,6 +26,29 @@ namespace mutuelleApi.controllers
 
             await uow.SaveAsync();
             return StatusCode(201);
+        }
+
+        [HttpPost("addImage/{id}")]
+        public async Task<IActionResult> AddImage(int id, IFormFile files)
+        {
+            if (id == 0)
+                return BadRequest("Utilisateur non valid");
+
+            var utilisateur = await uow.UtilisateurRepository.FindByIdAsync(id);
+
+            if (utilisateur is null)
+                return NotFound("Utilisateur introuvable");
+
+            if (files.Length > 0)
+            {
+
+
+
+            }
+
+            await uow.SaveAsync();
+            await signalrHub.Clients.All.SendAsync("UtilisateurUpdated", mapper.Map<UtilisateurDto>(utilisateur));
+            return Ok();
         }
 
         [HttpDelete("{id}")]
