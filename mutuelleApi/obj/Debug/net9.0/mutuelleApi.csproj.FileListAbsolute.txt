@@ -180,3 +180,4 @@ D:\MesProjets\mutuelles_v2\mutuelleApi\bin\Debug\net9.0\NSwag.Core.Yaml.dll
 D:\MesProjets\mutuelles_v2\mutuelleApi\bin\Debug\net9.0\NSwag.Generation.dll
 D:\MesProjets\mutuelles_v2\mutuelleApi\bin\Debug\net9.0\NSwag.Generation.AspNetCore.dll
 D:\MesProjets\mutuelles_v2\mutuelleApi\bin\Debug\net9.0\YamlDotNet.dll
+D:\MesProjets\mutuelles_v2\mutuelleApi\bin\Debug\net9.0\System.Net.WebSockets.WebSocketProtocol.dll
