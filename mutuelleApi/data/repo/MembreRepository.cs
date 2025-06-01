@@ -4,13 +4,9 @@ using mutuelleApi.models;
 
 namespace mutuelleApi.data.repo
 {
-    public class MembreRepository : IMembreRepository
+    public class MembreRepository(DataContext dc) : IMembreRepository
     {
-        public readonly DataContext dc;
-        public MembreRepository(DataContext dc)
-        {
-            this.dc = dc;
-        }
+        public readonly DataContext dc = dc;
 
         public void Add(Membre membre)
         {

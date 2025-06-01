@@ -4,13 +4,9 @@ using mutuelleApi.models;
 
 namespace mutuelleApi.data.repo
 {
-    public class MouvementComptableRepository : IMouvementComptableRepository
+    public class MouvementComptableRepository(DataContext dc) : IMouvementComptableRepository
     {
-        public readonly DataContext dc;
-        public MouvementComptableRepository(DataContext dc)
-        {
-            this.dc = dc;
-        }
+        public readonly DataContext dc = dc;
 
         public void Add(MouvementComptable mouvement)
         {

@@ -3,10 +3,8 @@ using mutuelleApi.models;
 
 namespace mutuelleApi.data
 {
-    public class DataContext : DbContext
+    public class DataContext(DbContextOptions<DataContext> options) : DbContext(options)
     {
-        public DataContext(DbContextOptions<DataContext> options) : base(options) { }
-
         public DbSet<Agence>? Agences { get; set; }
         public DbSet<Avance>? Avances { get; set; }
         public DbSet<Compte>? Comptes { get; set; }

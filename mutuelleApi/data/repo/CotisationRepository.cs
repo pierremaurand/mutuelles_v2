@@ -4,13 +4,9 @@ using mutuelleApi.models;
 
 namespace mutuelleApi.data.repo
 {
-    public class CotisationRepository : ICotisationRepository
+    public class CotisationRepository(DataContext dc) : ICotisationRepository
     {
-        public readonly DataContext dc;
-        public CotisationRepository(DataContext dc)
-        {
-            this.dc = dc;
-        }
+        public readonly DataContext dc = dc;
 
         public void Add(Cotisation cotisation)
         {

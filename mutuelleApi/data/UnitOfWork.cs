@@ -3,13 +3,9 @@ using mutuelleApi.interfaces;
 
 namespace mutuelleApi.data
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork(DataContext dc) : IUnitOfWork
     {
-        private readonly DataContext dc;
-        public UnitOfWork(DataContext dc)
-        {
-            this.dc = dc;
-        }
+        private readonly DataContext dc = dc;
 
         public IAgenceRepository AgenceRepository => new AgenceRepository(dc);
 

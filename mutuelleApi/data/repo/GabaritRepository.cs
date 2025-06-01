@@ -4,13 +4,9 @@ using mutuelleApi.models;
 
 namespace mutuelleApi.data.repo
 {
-    public class GabaritRepository : IGabaritRepository
+    public class GabaritRepository(DataContext dc) : IGabaritRepository
     {
-        public readonly DataContext dc;
-        public GabaritRepository(DataContext dc)
-        {
-            this.dc = dc;
-        }
+        public readonly DataContext dc = dc;
 
         public void Add(Gabarit gabarit)
         {

@@ -4,13 +4,9 @@ using mutuelleApi.models;
 
 namespace mutuelleApi.data.repo
 {
-    public class EcheanceRepository : IEcheanceRepository
+    public class EcheanceRepository(DataContext dc) : IEcheanceRepository
     {
-        public readonly DataContext dc;
-        public EcheanceRepository(DataContext dc)
-        {
-            this.dc = dc;
-        }
+        public readonly DataContext dc = dc;
 
         public void Add(Echeance echeance)
         {

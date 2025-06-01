@@ -1,4 +1,3 @@
 export class AuthRequest {
-  login?: string;
-  password?: string;
+  constructor(public login: string, public password: string) {}
 }

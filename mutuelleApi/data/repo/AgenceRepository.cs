@@ -4,13 +4,9 @@ using mutuelleApi.models;
 
 namespace mutuelleApi.data.repo
 {
-    public class AgenceRepository : IAgenceRepository
+    public class AgenceRepository(DataContext dc) : IAgenceRepository
     {
-        public readonly DataContext dc;
-        public AgenceRepository(DataContext dc)
-        {
-            this.dc = dc;
-        }
+        public readonly DataContext dc = dc;
 
         public void Add(Agence agence)
         {

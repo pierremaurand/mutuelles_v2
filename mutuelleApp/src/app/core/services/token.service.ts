@@ -19,4 +19,9 @@ export class TokenService {
   get refreshToken(): string {
     return localStorage.getItem('refreshToken') as string;
   }
+
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+  }
 }

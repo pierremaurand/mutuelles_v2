@@ -4,13 +4,9 @@ using mutuelleApi.models;
 
 namespace mutuelleApi.data.repo
 {
-    public class CompteRepository : ICompteRepository
+    public class CompteRepository(DataContext dc) : ICompteRepository
     {
-        public readonly DataContext dc;
-        public CompteRepository(DataContext dc)
-        {
-            this.dc = dc;
-        }
+        public readonly DataContext dc = dc;
 
         public void Add(Compte compte)
         {

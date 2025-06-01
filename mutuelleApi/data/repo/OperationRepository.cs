@@ -4,13 +4,9 @@ using mutuelleApi.models;
 
 namespace mutuelleApi.data.repo
 {
-    public class OperationRepository : IOperationRepository
+    public class OperationRepository(DataContext dc) : IOperationRepository
     {
-        public readonly DataContext dc;
-        public OperationRepository(DataContext dc)
-        {
-            this.dc = dc;
-        }
+        public readonly DataContext dc = dc;
 
         public void Add(Operation operation)
         {

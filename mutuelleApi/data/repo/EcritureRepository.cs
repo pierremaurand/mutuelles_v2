@@ -4,13 +4,9 @@ using mutuelleApi.models;
 
 namespace mutuelleApi.data.repo
 {
-    public class EcritureRepository : IEcritureRepository
+    public class EcritureRepository(DataContext dc) : IEcritureRepository
     {
-        public readonly DataContext dc;
-        public EcritureRepository(DataContext dc)
-        {
-            this.dc = dc;
-        }
+        public readonly DataContext dc = dc;
 
         public void Add(Ecriture ecriture)
         {

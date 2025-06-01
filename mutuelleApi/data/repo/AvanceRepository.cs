@@ -4,13 +4,9 @@ using mutuelleApi.models;
 
 namespace mutuelleApi.data.repo
 {
-    public class AvanceRepository : IAvanceRepository
+    public class AvanceRepository(DataContext dc) : IAvanceRepository
     {
-        public readonly DataContext dc;
-        public AvanceRepository(DataContext dc)
-        {
-            this.dc = dc;
-        }
+        public readonly DataContext dc = dc;
 
         public void Add(Avance avance)
         {

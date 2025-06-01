@@ -4,13 +4,9 @@ using mutuelleApi.models;
 
 namespace mutuelleApi.data.repo
 {
-    public class CreditRepository : ICreditRepository
+    public class CreditRepository(DataContext dc) : ICreditRepository
     {
-        public readonly DataContext dc;
-        public CreditRepository(DataContext dc)
-        {
-            this.dc = dc;
-        }
+        public readonly DataContext dc = dc;
 
         public void Add(Credit credit)
         {
