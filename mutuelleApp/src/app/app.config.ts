@@ -7,10 +7,6 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import {
-  provideClientHydration,
-  withEventReplay,
-} from '@angular/platform-browser';
-import {
   provideHttpClient,
   withInterceptors,
   withFetch,
@@ -25,7 +21,6 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     { provide: LOCALE_ID, useValue: 'fr-FR' },
-    provideClientHydration(withEventReplay()),
     provideHttpClient(withInterceptors([httpTokenInterceptor]), withFetch()),
     provideToastr({ closeButton: true }),
   ],
