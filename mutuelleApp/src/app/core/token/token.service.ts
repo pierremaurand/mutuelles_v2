@@ -13,15 +13,10 @@ export class TokenService {
   }
 
   set refreshToken(token: string) {
-    localStorage.setItem('refreshToken', token);
+    localStorage.setItem('refresh-token', token);
   }
 
   get refreshToken(): string {
-    return localStorage.getItem('refreshToken') as string;
-  }
-
-  logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
+    return localStorage.getItem('refresh-token') as string;
   }
 }
