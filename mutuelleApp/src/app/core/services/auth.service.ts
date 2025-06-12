@@ -1,9 +1,24 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { AuthRequest } from '../models/auth-request';
+import { Observable } from 'rxjs';
+import { AuthResponse } from '../models/auth-response';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
+  baseUrl: string = environment.baseUrl;
 
-  constructor() { }
+  constructor(private http: HttpClient) {}
+
+  login(request: AuthRequest): Observable<AuthResponse> {
+    console.log(request);
+    return this.http.post<AuthResponse>(
+      `${this.baseUrl}/auth/login`,
+      request,
+      {}
+    );
+  }
 }

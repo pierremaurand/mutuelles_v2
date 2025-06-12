@@ -39,6 +39,6 @@ export class TokenService {
 
   logout(): void {
     localStorage.clear();
-    this.router.navigate(['auth']);
+    this.router.navigateByUrl('/auth');
   }
 }

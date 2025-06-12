@@ -1,8 +1,8 @@
-import { AuthService } from './../../../../core/services/services/auth.service';
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { AuthRequestDto } from '../../../../core/services/models';
+import {AuthService} from '../../../../core/services/auth.service';
+import {AuthRequest} from '../../../../core/models/auth-request';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +11,7 @@ import { AuthRequestDto } from '../../../../core/services/models';
   styleUrl: './login.component.scss',
 })
 export default class LoginComponent {
-  authRequest: AuthRequestDto = { login: '', password: '' };
+  authRequest: AuthRequest = { login: '', password: '' };
 
   constructor(
     private toastr: ToastrService,
@@ -24,7 +24,7 @@ export default class LoginComponent {
       return;
     }
 
-    this.authService.apiAuthLoginPost({ body: form.value }).subscribe({
+    this.authService.login(form.value).subscribe({
       next: (response) => {
         this.toastr.success('Login successful!');
         // Handle successful login, e.g., redirect or store token
