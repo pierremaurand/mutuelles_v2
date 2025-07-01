@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import {AuthService} from '../../../../core/services/auth.service';
-import {AuthRequest} from '../../../../core/models/auth-request';
+import { AuthService } from '../../../../core/services/auth.service';
+import { AuthRequest } from '../../../../core/models/auth-request';
+import { Router } from '@angular/router';
+import { TokenService } from '../../../../core/token/token.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +17,9 @@ export default class LoginComponent {
 
   constructor(
     private toastr: ToastrService,
-    private authService: AuthService
+    private authService: AuthService,
+    private tokenService: TokenService,
+    private router: Router
   ) {}
 
   onSubmitForm(form: NgForm): void {
@@ -27,7 +31,9 @@ export default class LoginComponent {
     this.authService.login(form.value).subscribe({
       next: (response) => {
         this.toastr.success('Login successful!');
-        // Handle successful login, e.g., redirect or store token
+        this.tokenService.token = response.token as string;
+        this.tokenService.refreshToken = response.refreshToken as string;
+        this.router.navigateByUrl('/home');
       },
       error: (error) => {
         this.toastr.error('Login failed. Please check your credentials.');

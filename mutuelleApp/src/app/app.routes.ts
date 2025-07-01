@@ -19,7 +19,6 @@ export const routes: Routes = [
       },
     ],
   },
-
   {
     path: 'auth',
     loadChildren: () =>

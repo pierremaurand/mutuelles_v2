@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TokenService {
-  constructor(private router: Router) {}
+  constructor(private router: Router, private toastr: ToastrService) {}
 
   set token(token: string) {
     localStorage.setItem('token', token);
@@ -40,5 +41,6 @@ export class TokenService {
   logout(): void {
     localStorage.clear();
     this.router.navigateByUrl('/auth');
+    this.toastr.success('Logout successful!');
   }
 }

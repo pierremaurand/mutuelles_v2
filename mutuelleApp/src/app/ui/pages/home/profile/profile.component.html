@@ -1,0 +1,54 @@
+<div class="container" *ngIf="userInfos$ | async as user">
+  <div class="row">
+    <h1 class="h3">Profile Utilisateur</h1>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <img
+        [src]="photo"
+        class="card-img-top"
+        alt="image user"
+        data-bs-toggle="modal"
+        data-bs-target="#addPicture"
+        width="200"
+      />
+    </div>
+    <div class="col-md-10">
+      <table class="table">
+        <tbody>
+          <tr>
+            <th>Login</th>
+            <td>{{ user.login }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col d-flex flex-row gap-1">
+      <button
+        type="button"
+        class="btn btn-warning"
+        data-bs-toggle="modal"
+        data-bs-target="#changePassword"
+      >
+        <i class="fa-solid fa-lock"></i> Modifier le mot de passe
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        *ngIf="image"
+        (click)="saveChanges()"
+      >
+        <i class="fa-solid fa-floppy-disk"></i> Enregistrer les modifications
+      </button>
+    </div>
+  </div>
+  <app-change-password
+    (changePassword)="changePassword($event)"
+  ></app-change-password>
+  <app-image-add
+    [photo]="photo"
+    (photoChange)="photoChange($event)"
+  ></app-image-add>
+</div>

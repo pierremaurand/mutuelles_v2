@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.SignalR;
 using mutuelleApi.dtos;
 using mutuelleApi.hubConfig;
 using mutuelleApi.interfaces;
-using mutuelleApi.Migrations;
 using mutuelleApi.models;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace mutuelleApi.controllers
 {
@@ -28,8 +29,8 @@ namespace mutuelleApi.controllers
             return StatusCode(201);
         }
 
-        [HttpPost("addImage/{id}")]
-        public async Task<IActionResult> AddImage(int id, IFormFile files)
+        [HttpPut("addImage/{id}")]
+        public async Task<IActionResult> AddImage(int id, UploadImage imageInfos)
         {
             if (id == 0)
                 return BadRequest("Utilisateur non valid");
@@ -39,13 +40,31 @@ namespace mutuelleApi.controllers
             if (utilisateur is null)
                 return NotFound("Utilisateur introuvable");
 
-            if (files.Length > 0)
+            if (imageInfos.Image is null)
             {
-
-
-
+                return BadRequest("Update not allowed");
             }
 
+            byte[] bytes = Convert.FromBase64String(imageInfos.Image);
+
+            Image image;
+            using (MemoryStream ms = new MemoryStream(bytes))
+            {
+                image = Image.FromStream(ms);
+            }
+
+            int i = 0;
+            var imageName = "utilisateur_" + id + "_" + i + "." + imageInfos.Extension;
+
+            while (!string.IsNullOrEmpty(utilisateur.Photo) && utilisateur.Photo.Equals(imageName))
+            {
+                i += 1;
+                imageName = "utilisateur_" + id + "_" + i + "." + imageInfos.Extension;
+            }
+
+            image.Save("wwwroot/assets/images/" + imageName, ImageFormat.Png);
+
+            utilisateur.Photo = imageName;
             await uow.SaveAsync();
             await signalrHub.Clients.All.SendAsync("UtilisateurUpdated", mapper.Map<UtilisateurDto>(utilisateur));
             return Ok();

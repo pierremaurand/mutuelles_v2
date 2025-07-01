@@ -6,6 +6,10 @@ const routes: Routes = [
     path: '',
     loadComponent: () => import('../../pages/home/home/home.component'),
   },
+  {
+    path: 'profile',
+    loadComponent: () => import('../../pages/home/profile/profile.component'),
+  },
 ];
 
 @NgModule({

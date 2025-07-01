@@ -1,12 +1,20 @@
 {
   "Version": 1,
-  "Hash": "V+ILQvr+1AMwCmRMDYPEvrBRkcanMCF96Hf4uja/FKY=",
+  "Hash": "jAocPFadsFLPvi57zFb263AXYg7qxXSJOq61G+ECTgU=",
   "Source": "mutuelleApi",
   "BasePath": "_content/mutuelleApi",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "mutuelleApi\\wwwroot",
+      "Source": "mutuelleApi",
+      "ContentRoot": "D:\\MesProjets\\mutuelles_v2\\mutuelleApi\\wwwroot\\",
+      "BasePath": "_content/mutuelleApi",
+      "Pattern": "**"
+    }
+  ],
   "Assets": [],
   "Endpoints": []
 }

@@ -21,6 +21,7 @@ namespace mutuelleApi.helpers
             CreateMap<MouvementComptable, MouvementComptableDto>().ReverseMap();
             CreateMap<Operation, OperationDto>().ReverseMap();
             CreateMap<Utilisateur, UtilisateurDto>().ReverseMap();
+            CreateMap<Utilisateur, UserInfos>().ReverseMap();
         }
     }
 }

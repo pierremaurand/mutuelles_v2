@@ -1,0 +1,66 @@
+<div
+  id="addPicture"
+  class="modal fade"
+  tabindex="-1"
+  aria-labelledby="addPicture"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="card shadow">
+        <div class="card-body">
+          <div class="d-flex flex-row justify-content-between">
+            <h5>Ajout d'une image</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              #closeModal
+              aria-label="Close"
+            ></button>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-12 text-center">
+              <input
+                type="file"
+                (change)="fileChangeEvent($event)"
+                class="form-control"
+              />
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-8 text-center">
+              <image-cropper
+                [imageChangedEvent]="imageChangedEvent"
+                [maintainAspectRatio]="true"
+                [aspectRatio]="4 / 4"
+                format="png"
+                (imageCropped)="imageCropped($event)"
+                (imageLoaded)="imageLoaded($event)"
+                (cropperReady)="cropperReady()"
+                (loadImageFailed)="loadImageFailed()"
+              ></image-cropper>
+            </div>
+            <div class="col-4 text-center" *ngIf="croppedImage !== ''">
+              <img [src]="croppedImage" alt="image à découper" />
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col d-flex justify-content-between">
+              <button
+                type="button"
+                class="btn btn-success"
+                (click)="selectionner()"
+              >
+                <i class="fa fa-check"></i>&nbsp; Selectionner
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
