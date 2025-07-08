@@ -5,6 +5,7 @@ import { TokenService } from '../../../core/token/token.service';
 import { Observable, tap } from 'rxjs';
 import { UserInfos } from '../../../core/models/user-infos';
 import { AuthService } from '../../../core/services/auth.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-side-bar',
@@ -16,6 +17,7 @@ import { AuthService } from '../../../core/services/auth.service';
 export class SideBarComponent implements OnInit {
   userInfos$!: Observable<UserInfos>;
   photo: string = './assets/images/default_man.jpg';
+  baseUrl: string = environment.imagesUrl;
 
   constructor(
     private tokenService: TokenService,
@@ -27,7 +29,7 @@ export class SideBarComponent implements OnInit {
     this.userInfos$ = this.authService.userInfos$.pipe(
       tap((infos) => {
         if (infos.photo) {
-          this.photo = infos.photo;
+          this.photo = this.baseUrl + '/' + infos.photo;
         }
       })
     );

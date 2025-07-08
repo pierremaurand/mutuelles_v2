@@ -11,6 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 import { UploadImage } from '../../../../core/models/upload-image';
 import { FileUploadService } from '../../../../core/services/file-upload.service';
 import { CroppedImage } from '../../../../core/models/cropped-image';
+import { UploadResponse } from '../../../../core/models/upload-response';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-profile',
@@ -27,7 +29,8 @@ import { CroppedImage } from '../../../../core/models/cropped-image';
 export default class ProfileComponent implements OnInit {
   userInfos$!: Observable<UserInfos>;
   photo: SafeUrl = './assets/images/default_man.jpg';
-  image: Blob | null | undefined = null;
+  baseUrl: string = environment.imagesUrl;
+  blob!: Blob | undefined;
   id!: number;
   uploadImage!: UploadImage;
 
@@ -40,12 +43,14 @@ export default class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.userInfos$ = this.authService.userInfos$.pipe(
       tap((infos) => {
+        // console.log(infos);
+        this.blob = undefined;
         if (infos.id) {
           this.id = infos.id;
         }
 
         if (infos.photo) {
-          this.photo = infos.photo;
+          this.photo = this.baseUrl + '/' + infos.photo;
         }
       })
     );
@@ -54,7 +59,7 @@ export default class ProfileComponent implements OnInit {
 
   photoChange(croppendImage: CroppedImage): void {
     this.photo = croppendImage.croppendImage as SafeUrl;
-    this.image = croppendImage.blob as Blob;
+    this.blob = croppendImage.blob as Blob;
   }
 
   changePassword(request: ChangePasswordRequest): void {
@@ -73,25 +78,41 @@ export default class ProfileComponent implements OnInit {
   }
 
   saveChanges(): void {
-    this.fileUploadService.uploadFile(this.image as Blob).subscribe({
-      next: (response: string) => {
-        this.authService
-          .updateInfos(this.id, { photo: response } as UserInfos)
-          .subscribe({
-            next: () => {
-              this.toastr.success('Image uploaded successfully!');
-              this.authService.getUserInfosFromServer();
+    if (this.blob) {
+      this.fileUploadService.blobToBase64(this.blob).then(
+        (base64Image: string) => {
+          this.uploadImage = {
+            image: base64Image,
+            extension: 'png',
+          };
+          // console.log(this.uploadImage);
+          this.fileUploadService.uploadFile(this.uploadImage).subscribe({
+            next: (response: UploadResponse) => {
+              // console.log(response);
+              this.authService
+                .updateInfos(this.id, { photo: response.fileName } as UserInfos)
+                .subscribe({
+                  next: () => {
+                    this.toastr.success('Image uploaded successfully!');
+                    this.authService.getUserInfosFromServer();
+                  },
+                  error: (error) => {
+                    this.toastr.error('Image upload failed. Please try again.');
+                    console.error('Image upload error:', error);
+                  },
+                });
             },
             error: (error) => {
               this.toastr.error('Image upload failed. Please try again.');
               console.error('Image upload error:', error);
             },
           });
-      },
-      error: (error) => {
-        this.toastr.error('Image upload failed. Please try again.');
-        console.error('Image upload error:', error);
-      },
-    });
+        },
+        (error) => {
+          console.error('Error converting blob to base64:', error);
+          this.toastr.error('Failed to convert image. Please try again.');
+        }
+      );
+    }
   }
 }

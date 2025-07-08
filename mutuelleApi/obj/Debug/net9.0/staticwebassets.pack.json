@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\MesProjets\\mutuelles_v2\\mutuelleApi\\wwwroot\\uploads\\12c07c10-a81d-4ef4-bda5-f91a694772d8",
+      "PackagePath": "staticwebassets\\uploads"
+    },
+    {
+      "Id": "D:\\MesProjets\\mutuelles_v2\\mutuelleApi\\wwwroot\\uploads\\4acab839-0d8a-40bb-8eba-d0f8e1917493",
+      "PackagePath": "staticwebassets\\uploads"
+    },
+    {
+      "Id": "D:\\MesProjets\\mutuelles_v2\\mutuelleApi\\wwwroot\\uploads\\61d91da4-a533-41ea-b2a4-59ae2cb76373.png",
+      "PackagePath": "staticwebassets\\uploads\\61d91da4-a533-41ea-b2a4-59ae2cb76373.png"
+    },
+    {
+      "Id": "D:\\MesProjets\\mutuelles_v2\\mutuelleApi\\wwwroot\\uploads\\de06c144-d5ea-4b19-afe2-0389665960eb",
+      "PackagePath": "staticwebassets\\uploads"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.build.mutuelleApi.props",
+      "PackagePath": "build\\mutuelleApi.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildMultiTargeting.mutuelleApi.props",
+      "PackagePath": "buildMultiTargeting\\mutuelleApi.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.buildTransitive.mutuelleApi.props",
+      "PackagePath": "buildTransitive\\mutuelleApi.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.mutuelleApi.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.mutuelleApi.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

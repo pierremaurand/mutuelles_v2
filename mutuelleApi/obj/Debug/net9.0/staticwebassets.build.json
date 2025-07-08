@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "jAocPFadsFLPvi57zFb263AXYg7qxXSJOq61G+ECTgU=",
+  "Hash": "41bIBQ9BWrX9H4OmnkhxdQUMSrfvcdzIlR0xUzK+QhY=",
   "Source": "mutuelleApi",
   "BasePath": "_content/mutuelleApi",
   "Mode": "Default",
@@ -15,6 +15,420 @@
       "Pattern": "**"
     }
   ],
-  "Assets": [],
-  "Endpoints": []
+  "Assets": [
+    {
+      "Identity": "D:\\MesProjets\\mutuelles_v2\\mutuelleApi\\wwwroot\\uploads\\12c07c10-a81d-4ef4-bda5-f91a694772d8",
+      "SourceId": "mutuelleApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\MesProjets\\mutuelles_v2\\mutuelleApi\\wwwroot\\",
+      "BasePath": "_content/mutuelleApi",
+      "RelativePath": "uploads/12c07c10-a81d-4ef4-bda5-f91a694772d8#[.{fingerprint}]?",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "8eaxeu1buj",
+      "Integrity": "IHdcpapD+Pac4ExfFnN8t+Dagkh7dNRzoid/JDq24O0=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\12c07c10-a81d-4ef4-bda5-f91a694772d8"
+    },
+    {
+      "Identity": "D:\\MesProjets\\mutuelles_v2\\mutuelleApi\\wwwroot\\uploads\\4acab839-0d8a-40bb-8eba-d0f8e1917493",
+      "SourceId": "mutuelleApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\MesProjets\\mutuelles_v2\\mutuelleApi\\wwwroot\\",
+      "BasePath": "_content/mutuelleApi",
+      "RelativePath": "uploads/4acab839-0d8a-40bb-8eba-d0f8e1917493#[.{fingerprint}]?",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "8eaxeu1buj",
+      "Integrity": "IHdcpapD+Pac4ExfFnN8t+Dagkh7dNRzoid/JDq24O0=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\4acab839-0d8a-40bb-8eba-d0f8e1917493"
+    },
+    {
+      "Identity": "D:\\MesProjets\\mutuelles_v2\\mutuelleApi\\wwwroot\\uploads\\61d91da4-a533-41ea-b2a4-59ae2cb76373.png",
+      "SourceId": "mutuelleApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\MesProjets\\mutuelles_v2\\mutuelleApi\\wwwroot\\",
+      "BasePath": "_content/mutuelleApi",
+      "RelativePath": "uploads/61d91da4-a533-41ea-b2a4-59ae2cb76373#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "lwdkz02c33",
+      "Integrity": "ZaY3EKFCyV1rakUMGNwtsC4p1xcXH434KMaalljuIXY=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\61d91da4-a533-41ea-b2a4-59ae2cb76373.png"
+    },
+    {
+      "Identity": "D:\\MesProjets\\mutuelles_v2\\mutuelleApi\\wwwroot\\uploads\\de06c144-d5ea-4b19-afe2-0389665960eb",
+      "SourceId": "mutuelleApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\MesProjets\\mutuelles_v2\\mutuelleApi\\wwwroot\\",
+      "BasePath": "_content/mutuelleApi",
+      "RelativePath": "uploads/de06c144-d5ea-4b19-afe2-0389665960eb#[.{fingerprint}]?",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "8eaxeu1buj",
+      "Integrity": "IHdcpapD+Pac4ExfFnN8t+Dagkh7dNRzoid/JDq24O0=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\de06c144-d5ea-4b19-afe2-0389665960eb"
+    }
+  ],
+  "Endpoints": [
+    {
+      "Route": "uploads/12c07c10-a81d-4ef4-bda5-f91a694772d8",
+      "AssetFile": "D:\\MesProjets\\mutuelles_v2\\mutuelleApi\\wwwroot\\uploads\\12c07c10-a81d-4ef4-bda5-f91a694772d8",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "105853"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/octet-stream"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"IHdcpapD+Pac4ExfFnN8t+Dagkh7dNRzoid/JDq24O0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 07 Jul 2025 16:06:25 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-IHdcpapD+Pac4ExfFnN8t+Dagkh7dNRzoid/JDq24O0="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/12c07c10-a81d-4ef4-bda5-f91a694772d8.8eaxeu1buj",
+      "AssetFile": "D:\\MesProjets\\mutuelles_v2\\mutuelleApi\\wwwroot\\uploads\\12c07c10-a81d-4ef4-bda5-f91a694772d8",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "105853"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/octet-stream"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"IHdcpapD+Pac4ExfFnN8t+Dagkh7dNRzoid/JDq24O0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 07 Jul 2025 16:06:25 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "8eaxeu1buj"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/12c07c10-a81d-4ef4-bda5-f91a694772d8"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-IHdcpapD+Pac4ExfFnN8t+Dagkh7dNRzoid/JDq24O0="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/4acab839-0d8a-40bb-8eba-d0f8e1917493",
+      "AssetFile": "D:\\MesProjets\\mutuelles_v2\\mutuelleApi\\wwwroot\\uploads\\4acab839-0d8a-40bb-8eba-d0f8e1917493",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "105853"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/octet-stream"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"IHdcpapD+Pac4ExfFnN8t+Dagkh7dNRzoid/JDq24O0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 07 Jul 2025 16:06:05 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-IHdcpapD+Pac4ExfFnN8t+Dagkh7dNRzoid/JDq24O0="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/4acab839-0d8a-40bb-8eba-d0f8e1917493.8eaxeu1buj",
+      "AssetFile": "D:\\MesProjets\\mutuelles_v2\\mutuelleApi\\wwwroot\\uploads\\4acab839-0d8a-40bb-8eba-d0f8e1917493",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "105853"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/octet-stream"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"IHdcpapD+Pac4ExfFnN8t+Dagkh7dNRzoid/JDq24O0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 07 Jul 2025 16:06:05 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "8eaxeu1buj"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/4acab839-0d8a-40bb-8eba-d0f8e1917493"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-IHdcpapD+Pac4ExfFnN8t+Dagkh7dNRzoid/JDq24O0="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/61d91da4-a533-41ea-b2a4-59ae2cb76373.lwdkz02c33.png",
+      "AssetFile": "D:\\MesProjets\\mutuelles_v2\\mutuelleApi\\wwwroot\\uploads\\61d91da4-a533-41ea-b2a4-59ae2cb76373.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "98387"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ZaY3EKFCyV1rakUMGNwtsC4p1xcXH434KMaalljuIXY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 07 Jul 2025 16:05:19 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "lwdkz02c33"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/61d91da4-a533-41ea-b2a4-59ae2cb76373.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-ZaY3EKFCyV1rakUMGNwtsC4p1xcXH434KMaalljuIXY="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/61d91da4-a533-41ea-b2a4-59ae2cb76373.png",
+      "AssetFile": "D:\\MesProjets\\mutuelles_v2\\mutuelleApi\\wwwroot\\uploads\\61d91da4-a533-41ea-b2a4-59ae2cb76373.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "98387"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ZaY3EKFCyV1rakUMGNwtsC4p1xcXH434KMaalljuIXY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 07 Jul 2025 16:05:19 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-ZaY3EKFCyV1rakUMGNwtsC4p1xcXH434KMaalljuIXY="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/de06c144-d5ea-4b19-afe2-0389665960eb",
+      "AssetFile": "D:\\MesProjets\\mutuelles_v2\\mutuelleApi\\wwwroot\\uploads\\de06c144-d5ea-4b19-afe2-0389665960eb",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "105853"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/octet-stream"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"IHdcpapD+Pac4ExfFnN8t+Dagkh7dNRzoid/JDq24O0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 07 Jul 2025 16:06:12 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-IHdcpapD+Pac4ExfFnN8t+Dagkh7dNRzoid/JDq24O0="
+        }
+      ]
+    },
+    {
+      "Route": "uploads/de06c144-d5ea-4b19-afe2-0389665960eb.8eaxeu1buj",
+      "AssetFile": "D:\\MesProjets\\mutuelles_v2\\mutuelleApi\\wwwroot\\uploads\\de06c144-d5ea-4b19-afe2-0389665960eb",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "105853"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/octet-stream"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"IHdcpapD+Pac4ExfFnN8t+Dagkh7dNRzoid/JDq24O0=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Mon, 07 Jul 2025 16:06:12 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "8eaxeu1buj"
+        },
+        {
+          "Name": "label",
+          "Value": "uploads/de06c144-d5ea-4b19-afe2-0389665960eb"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-IHdcpapD+Pac4ExfFnN8t+Dagkh7dNRzoid/JDq24O0="
+        }
+      ]
+    }
+  ]
 }

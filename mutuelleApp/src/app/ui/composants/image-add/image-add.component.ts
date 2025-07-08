@@ -29,7 +29,7 @@ export class ImageAddComponent implements OnInit {
   imageChangedEvent: Event | null = null;
   @ViewChild('closeModal') modalClose: any;
   croppedImage: SafeUrl = '';
-  image!: Blob;
+  blob!: Blob; // This will hold the cropped image blob
 
   constructor(private sanitizer: DomSanitizer) {}
 
@@ -40,10 +40,12 @@ export class ImageAddComponent implements OnInit {
   }
 
   imageCropped(event: ImageCroppedEvent) {
-    this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(
-      event.objectUrl ?? ''
-    );
-    this.image = event.blob as Blob;
+    if (event.objectUrl) {
+      this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(
+        event.objectUrl
+      );
+      this.blob = event.blob as Blob; // Ensure the blob is set correctly
+    }
   }
   imageLoaded(image: LoadedImage) {
     // show cropper
@@ -58,7 +60,7 @@ export class ImageAddComponent implements OnInit {
   selectionner(): void {
     this.photoChange.emit({
       croppendImage: this.croppedImage,
-      blob: this.image,
+      blob: this.blob,
     });
     this.modalClose.nativeElement.click();
   }

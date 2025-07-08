@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Drawing;
+using System.Drawing.Imaging;
+using mutuelleApi.dtos;
 
 namespace mutuelleApi.controllers
 {
@@ -9,11 +12,11 @@ namespace mutuelleApi.controllers
 
         [HttpPost("upload")]
         [AllowAnonymous]
-        public async Task<IActionResult> UploadFile(IFormFile file)
+        public Task<IActionResult> UploadFile(UploadImage fichier)
         {
-            if (file == null || file.Length == 0)
+            if (fichier == null || fichier.Image == null || fichier.Image == "")
             {
-                return BadRequest("Aucun fichier n'a été envoyé.");
+                return Task.FromResult<IActionResult>(BadRequest("Aucun fichier n'a été envoyé."));
             }
 
             var uploadsFolder = Path.Combine(_env.WebRootPath, "uploads");
@@ -22,15 +25,20 @@ namespace mutuelleApi.controllers
                 Directory.CreateDirectory(uploadsFolder);
             }
 
-            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            string filePath = Path.Combine(uploadsFolder, file.FileName);
+            string fileName = Guid.NewGuid().ToString() + '.' + fichier.Extension;
+            string filePath = Path.Combine(uploadsFolder, fileName);
 
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            byte[] bytes = Convert.FromBase64String(fichier.Image.Split(',')[1]);
+
+            Image image;
+            using (MemoryStream ms = new MemoryStream(bytes))
             {
-                await file.CopyToAsync(stream);
+                image = Image.FromStream(ms);
             }
 
-            return Ok(new { FileName = fileName });
+            image.Save(filePath, ImageFormat.Png);
+
+            return Task.FromResult<IActionResult>(Ok(new { FileName = fileName }));
         }
     }
 }

@@ -48,7 +48,7 @@ export class AuthService {
 
   updateInfos(id: number, request: UserInfos): Observable<UserInfos> {
     return this.http
-      .put<UserInfos>(`${this.baseUrl}/update/${id}`, request)
+      .put<UserInfos>(`${this.baseUrl}/updateinfos/${id}`, request)
       .pipe(
         tap((infos) => {
           console.log(infos);
