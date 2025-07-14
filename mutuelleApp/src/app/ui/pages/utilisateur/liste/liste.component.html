@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="d-flex justify-content-between">
+    <h1 class="h3">Les utilisateurs</h1>
+    <button
+      class="btn btn-primary"
+      type="button"
+      (click)="ajouterUtilisateur(0)"
+    >
+      Ajouter un utilisateur
+    </button>
+  </div>
+  <hr />
+  <div class="row" *ngIf="utilisateurs$ | async as utilisateurs">
+    <div class="col-md-3 mb-3" *ngFor="let utilisateur of utilisateurs">
+      <app-utilisateur-card
+        [utilisateur]="utilisateur"
+        (updateInfos)="updateInfos($event)"
+        (editUser)="editUser($event)"
+        (viewUser)="viewUser($event)"
+      ></app-utilisateur-card>
+    </div>
+  </div>
+  <h2 class="text-center" *ngIf="!utilisateurs$">
+    Aucun utilisateur n'a été trouvé dans la base
+  </h2>
+</div>

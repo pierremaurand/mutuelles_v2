@@ -24,7 +24,10 @@ export default class LoginComponent {
 
   onSubmitForm(form: NgForm): void {
     if (form.invalid) {
-      this.toastr.error('Please fill in all required fields.');
+      this.toastr.error(
+        'Veuillez remplir tous les champs.',
+        'Erreur de saisie!'
+      );
       return;
     }
 
@@ -36,7 +39,10 @@ export default class LoginComponent {
         this.router.navigateByUrl('/home');
       },
       error: (error) => {
-        this.toastr.error('Login failed. Please check your credentials.');
+        this.toastr.error(
+          'Des données invalides ont été trouvés dans le formulaire .',
+          'Données invalides!'
+        );
         console.error('Login error:', error);
       },
     });

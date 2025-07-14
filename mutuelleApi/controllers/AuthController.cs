@@ -18,7 +18,7 @@ namespace mutuelleApi.controllers
         private readonly IMapper mapper = mapper;
         private readonly IConfiguration configuration = configuration;
 
-        [HttpPost("login")]
+        [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Login(AuthRequestDto request)
         {
@@ -47,26 +47,26 @@ namespace mutuelleApi.controllers
             return Ok(authResponseDto);
         }
 
-        [HttpGet("infos")]
-        public async Task<IActionResult> Infos()
+        [HttpGet]
+        public async Task<IActionResult> Get()
         {
             var utilisateur = await uow.UtilisateurRepository.FindByIdAsync(GetUserId());
 
             if (utilisateur is null)
             {
-                throw new UnauthorizedAccessException("Cet utilisateur n'existe pas dans la base");
+                return NotFound("Cet utilisateur n'existe pas!");
             }
 
-            var userInfos = mapper.Map<UserInfos>(utilisateur);
-            return Ok(userInfos);
+            var utilisateurDto = mapper.Map<UtilisateurDto>(utilisateur);
+            return Ok(utilisateurDto);
         }
 
-        [HttpPut("changePassword/{id}")]
-        public async Task<IActionResult> changePassword(int id, ChangePasswordRequest request)
+        [HttpPut("password/{id}")]
+        public async Task<IActionResult> Password(int id, ChangePasswordRequest request)
         {
             if (id != GetUserId())
             {
-                return Unauthorized("Vous ne pouvez pas modifier le mot de passe d'un autre utilisateur");
+                return Unauthorized("Changement de mot de passe non authorisé!");
             }
             var utilisateur = await uow.UtilisateurRepository.FindByIdAsync(id);
             if (utilisateur is null)
@@ -84,28 +84,24 @@ namespace mutuelleApi.controllers
                 utilisateur.MotDePasse = passwordHash;
             }
             await uow.SaveAsync();
-            return Ok(id);
+            return Ok();
         }
 
-        [HttpPut("updateInfos/{id}")]
-        public async Task<IActionResult> UpdateInfos(int id, UserInfos userInfos)
+        [HttpPut("photo/{id}")]
+        public async Task<IActionResult> Photo(int id, UpdateUtilisateurPhotoDto request)
         {
             if (id != GetUserId())
             {
-                return Unauthorized("Vous ne pouvez pas modifier les informations d'un autre utilisateur");
+                return Unauthorized("Changement de photo non authorisé!");
             }
             var utilisateur = await uow.UtilisateurRepository.FindByIdAsync(id);
             if (utilisateur is null)
             {
                 return NotFound("Utilisateur introuvable");
             }
-            
-            utilisateur.Photo = userInfos.Photo;
-            utilisateur.ModifiePar = GetUserId();
-            utilisateur.ModifieLe = DateTime.Now;
-
+            mapper.Map(request, utilisateur);
             await uow.SaveAsync();
-            return Ok(id);
+            return Ok(utilisateur);
         }
 
         private string CreateJWT(Utilisateur utilisateur, int expiration)

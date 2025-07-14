@@ -1,0 +1,48 @@
+<div class="card shadow">
+  <img
+    [src]="
+      utilisateur.photo
+        ? baseUrl + '/' + utilisateur.photo
+        : './assets/images/default_man.jpg'
+    "
+    class="card-img-top"
+    alt="photo utilisateur"
+  />
+
+  <div class="card-body">
+    <h5 class="card-title">{{ utilisateur.login }}</h5>
+    <div class="input-group input-group-sm">
+      @if(utilisateur.estActif) {
+      <button
+        class="btn btn-danger form-control"
+        type="button"
+        (click)="updateEtatUser()"
+      >
+        <i class="fa-solid fa-user-xmark"></i>
+      </button>
+      } @else {
+      <button
+        class="btn btn-success form-control"
+        type="button"
+        (click)="updateEtatUser()"
+      >
+        <i class="fa-solid fa-user-check"></i>
+      </button>
+      }
+      <button
+        class="btn btn-warning form-control"
+        type="button"
+        (click)="edit()"
+      >
+        <i class="fa-solid fa-pen-to-square"></i>
+      </button>
+      <button
+        class="btn btn-primary form-control"
+        type="button"
+        (click)="view()"
+      >
+        <i class="fa-solid fa-eye"></i>
+      </button>
+    </div>
+  </div>
+</div>

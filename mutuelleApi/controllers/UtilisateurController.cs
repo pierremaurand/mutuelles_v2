@@ -5,8 +5,6 @@ using mutuelleApi.dtos;
 using mutuelleApi.hubConfig;
 using mutuelleApi.interfaces;
 using mutuelleApi.models;
-using System.Drawing;
-using System.Drawing.Imaging;
 
 namespace mutuelleApi.controllers
 {
@@ -17,10 +15,14 @@ namespace mutuelleApi.controllers
         private readonly IConfiguration configuration = configuration;
         private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
-        [HttpPost("add")]
-        public async Task<IActionResult> Add(UtilisateurDto utilisateurDto)
+        [HttpPost]
+        public async Task<IActionResult> Add(UtilisateurRequestDto request)
         {
-            var utilisateur = mapper.Map<Utilisateur>(utilisateurDto);
+            if (await uow.UtilisateurRepository.FindByLoginAsync(request.Login))
+            {
+                return BadRequest("Ce login est pris!");
+            }
+            var utilisateur = mapper.Map<Utilisateur>(request);
             utilisateur.ModifiePar = GetUserId();
             utilisateur.ModifieLe = DateTime.Now;
             uow.UtilisateurRepository.Add(utilisateur);
@@ -29,82 +31,62 @@ namespace mutuelleApi.controllers
             return StatusCode(201);
         }
 
-        [HttpPut("addImage/{id}")]
-        public async Task<IActionResult> AddImage(int id, UploadImage imageInfos)
+        [HttpPut("activate/{id}")]
+        public async Task<IActionResult> Activate(int id, UpdateUtilisateurActifRequestDto request)
         {
-            if (id == 0)
-                return BadRequest("Utilisateur non valid");
-
             var utilisateur = await uow.UtilisateurRepository.FindByIdAsync(id);
-
             if (utilisateur is null)
-                return NotFound("Utilisateur introuvable");
-
-            if (imageInfos.Image is null)
             {
-                return BadRequest("Update not allowed");
+                return NotFound("Cet utilisateur n'existe pas!");
             }
-
-            byte[] bytes = Convert.FromBase64String(imageInfos.Image);
-
-            Image image;
-            using (MemoryStream ms = new MemoryStream(bytes))
-            {
-                image = Image.FromStream(ms);
-            }
-
-            int i = 0;
-            var imageName = "utilisateur_" + id + "_" + i + "." + imageInfos.Extension;
-
-            while (!string.IsNullOrEmpty(utilisateur.Photo) && utilisateur.Photo.Equals(imageName))
-            {
-                i += 1;
-                imageName = "utilisateur_" + id + "_" + i + "." + imageInfos.Extension;
-            }
-
-            image.Save("wwwroot/assets/images/" + imageName, ImageFormat.Png);
-
-            utilisateur.Photo = imageName;
-            await uow.SaveAsync();
-            await signalrHub.Clients.All.SendAsync("UtilisateurUpdated", mapper.Map<UtilisateurDto>(utilisateur));
-            return Ok();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            if (await uow.MembreRepository.UtilisateurIsUse(id))
-                return Unauthorized("Cette utilisateur ne peut pas être supprimer!");
-            uow.UtilisateurRepository.Delete(id);
+            mapper.Map(request, utilisateur);
             await uow.SaveAsync();
             return Ok();
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, UtilisateurDto utilisateurDto)
+        public async Task<IActionResult> Update(int id, UtilisateurRequestDto request)
         {
-            if (id != utilisateurDto.Id)
+            var utilisateur = await uow.UtilisateurRepository.FindByIdAsync(id);
+            if (utilisateur is null)
             {
-                return Unauthorized("Cette utilisateur ne peut pas être modifier");
+                return NotFound("Cet utilisateur n'existe pas!");
             }
-            var utilisateur = mapper.Map<Utilisateur>(utilisateurDto);
+
+            if (utilisateur.Login is not null && !utilisateur.Login.Equals(request.Login) && await uow.UtilisateurRepository.FindByLoginAsync(request.Login))
+            {
+                return BadRequest("Ce login est pris!");
+            }
+
+            mapper.Map(request, utilisateur);
             utilisateur.ModifiePar = GetUserId();
             utilisateur.ModifieLe = DateTime.Now;
-            uow.UtilisateurRepository.Add(utilisateur);
 
             await uow.SaveAsync();
-            return StatusCode(201);
+            return Ok();
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var utilisateurs = await uow.UtilisateurRepository.GetAllAsync();
-            if(utilisateurs is null) {
+            if (utilisateurs is null)
+            {
                 return NotFound("Aucune utilisateur n'a été trouvé dans la bdd");
             }
             var utilisateursDto = mapper.Map<List<UtilisateurDto>>(utilisateurs);
             return Ok(utilisateursDto);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var utilisateur = await uow.UtilisateurRepository.FindByIdAsync(id);
+            if (utilisateur is null) {
+                return NotFound("Utilisateur non trouvé!");
+            }
+            var utilisateurDto = mapper.Map<UtilisateurDto>(utilisateur);
+            return Ok(utilisateurDto);
         }
     }
 }

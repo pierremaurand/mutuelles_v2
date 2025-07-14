@@ -49,6 +49,8 @@ builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(build
                 {
                     Login = "admin",
                     MotDePasse = passwordHash,
+                    Nom = "OVASSA PIERRE MAURAND",
+                    Sexe = mutuelleApi.enums.Sexe.Masculin,
                     ClesMotDePasse = passwordKey,
                     Role = mutuelleApi.enums.Role.Administrateur,
                     ModifiePar = 0,

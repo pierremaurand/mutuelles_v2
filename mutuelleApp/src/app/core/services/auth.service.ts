@@ -6,6 +6,7 @@ import { AuthResponse } from '../models/auth-response';
 import { environment } from '../../../environments/environment';
 import { UserInfos } from '../models/user-infos';
 import { ChangePasswordRequest } from '../models/change-password-request';
+import { UpdatePhotoRequest } from '../models/update-photo-request';
 
 @Injectable({
   providedIn: 'root',
@@ -21,39 +22,25 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   login(request: AuthRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.baseUrl}/login`, request);
+    return this.http.post<AuthResponse>(this.baseUrl, request);
   }
 
   getUserInfosFromServer(): void {
     this.http
-      .get<UserInfos>(`${this.baseUrl}/infos`)
+      .get<UserInfos>(this.baseUrl)
       .pipe(
         tap((infos) => {
-          console.log(infos);
           this._userInfos$.next(infos);
         })
       )
       .subscribe();
   }
 
-  changePassword(
-    id: number,
-    request: ChangePasswordRequest
-  ): Observable<number> {
-    return this.http.put<number>(
-      `${this.baseUrl}/changepassword/${id}`,
-      request
-    );
+  changePassword(id: number, request: ChangePasswordRequest): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/password/${id}`, request);
   }
 
-  updateInfos(id: number, request: UserInfos): Observable<UserInfos> {
-    return this.http
-      .put<UserInfos>(`${this.baseUrl}/updateinfos/${id}`, request)
-      .pipe(
-        tap((infos) => {
-          console.log(infos);
-          this._userInfos$.next(infos);
-        })
-      );
+  updatePhoto(id: number, request: UpdatePhotoRequest): Observable<UserInfos> {
+    return this.http.put<UserInfos>(`${this.baseUrl}/photo/${id}`, request);
   }
 }

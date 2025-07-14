@@ -5,7 +5,7 @@
   <div class="row">
     <div class="col-md-2">
       <img
-        [src]="photo"
+        [src]="user.photo && !blob ? baseUrl + '/' + user.photo : photo"
         class="card-img-top"
         alt="image user"
         data-bs-toggle="modal"
@@ -19,6 +19,14 @@
           <tr>
             <th>Login</th>
             <td>{{ user.login }}</td>
+          </tr>
+          <tr>
+            <th>Nom</th>
+            <td>{{ user.nom }}</td>
+          </tr>
+          <tr>
+            <th>Sexe</th>
+            <td>{{ user.sexe ? "M" : "F" }}</td>
           </tr>
         </tbody>
       </table>

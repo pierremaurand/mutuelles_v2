@@ -1,11 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Utilisateur } from '../models/utilisateur';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { SafeUrl } from '@angular/platform-browser';
-import { UploadImage } from '../models/upload-image';
 import { UserInfos } from '../models/user-infos';
+import { UpdateUtilisateurActifRequest } from '../models/update-utilisateur-actif-request';
+import { UpdateUtilisateurRequest } from '../models/update-utilisateur-request';
 
 @Injectable({
   providedIn: 'root',
@@ -13,28 +12,72 @@ import { UserInfos } from '../models/user-infos';
 export class UtilisateurService {
   baseUrl: string = environment.baseUrl;
 
-  private _utilisateurs$ = new BehaviorSubject<Utilisateur[]>([]);
-  get utilisateurs$(): Observable<Utilisateur[]> {
+  private _utilisateurs$ = new BehaviorSubject<UserInfos[]>([]);
+  get utilisateurs$(): Observable<UserInfos[]> {
     return this._utilisateurs$.asObservable();
   }
+
+  private _utilisateur$ = new BehaviorSubject<UserInfos>({});
+  get utilisateur$(): Observable<UserInfos> {
+    return this._utilisateur$.asObservable();
+  }
+
   constructor(private http: HttpClient) {}
 
   getAllUtilisateurFromServer(): void {
     this.http
-      .get<Utilisateur[]>(`${this.baseUrl}/utilisateur`)
+      .get<UserInfos[]>(`${this.baseUrl}/utilisateur`)
       .pipe(
         tap((utilisateurs) => {
-          console.log(utilisateurs);
           this._utilisateurs$.next(utilisateurs);
         })
       )
       .subscribe();
   }
 
-  addImage(id: number, request: UploadImage): Observable<UserInfos> {
-    return this.http.put<UserInfos>(
-      `${this.baseUrl}/utilisateur/${id}`,
+  getUtilisateur(id: number): void {
+    if (id != 0) {
+      this.http
+        .get<UserInfos>(`${this.baseUrl}/utilisateur/${id}`)
+        .pipe(
+          tap((utilisateur) => {
+            this._utilisateur$.next(utilisateur);
+          })
+        )
+        .subscribe();
+    } else {
+      this._utilisateur$.next({});
+    }
+  }
+
+  addOrUpdateUser(
+    id: number,
+    request: UpdateUtilisateurRequest
+  ): Observable<any> {
+    if (id) {
+      return this.updateUtilisateur(id, request);
+    }
+    return this.addUser(request);
+  }
+
+  updateUtilisateur(
+    id: number,
+    request: UpdateUtilisateurRequest
+  ): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/utilisateur/${id}`, request);
+  }
+
+  updateActif(
+    id: number,
+    request: UpdateUtilisateurActifRequest
+  ): Observable<any> {
+    return this.http.put<any>(
+      `${this.baseUrl}/utilisateur/activate/${id}`,
       request
     );
+  }
+
+  addUser(request: UpdateUtilisateurRequest): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/utilisateur`, request);
   }
 }

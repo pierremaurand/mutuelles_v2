@@ -13,6 +13,8 @@ import { FileUploadService } from '../../../../core/services/file-upload.service
 import { CroppedImage } from '../../../../core/models/cropped-image';
 import { UploadResponse } from '../../../../core/models/upload-response';
 import { environment } from '../../../../../environments/environment';
+import { UtilisateurService } from '../../../../core/services/utilisateur.service';
+import { UpdatePhotoRequest } from '../../../../core/models/update-photo-request';
 
 @Component({
   selector: 'app-profile',
@@ -31,27 +33,22 @@ export default class ProfileComponent implements OnInit {
   photo: SafeUrl = './assets/images/default_man.jpg';
   baseUrl: string = environment.imagesUrl;
   blob!: Blob | undefined;
-  id!: number;
   uploadImage!: UploadImage;
+  utilisateur!: UserInfos;
+  updatePhotoRequest!: UpdatePhotoRequest;
 
   constructor(
     private authService: AuthService,
+    private utilisateurService: UtilisateurService,
     private fileUploadService: FileUploadService,
     private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
     this.userInfos$ = this.authService.userInfos$.pipe(
-      tap((infos) => {
-        // console.log(infos);
+      tap((infos: UserInfos) => {
+        this.utilisateur = infos;
         this.blob = undefined;
-        if (infos.id) {
-          this.id = infos.id;
-        }
-
-        if (infos.photo) {
-          this.photo = this.baseUrl + '/' + infos.photo;
-        }
       })
     );
     this.userInfos$.subscribe();
@@ -63,18 +60,18 @@ export default class ProfileComponent implements OnInit {
   }
 
   changePassword(request: ChangePasswordRequest): void {
-    console.log(request);
-    this.authService.changePassword(this.id, request).subscribe({
-      next: () => {
-        this.toastr.success('Password change successful!');
-      },
-      error: (error) => {
-        this.toastr.error(
-          'Change password failed. Please check your credentials.'
-        );
-        console.error('Login error:', error);
-      },
-    });
+    if (this.utilisateur.id) {
+      this.authService.changePassword(this.utilisateur.id, request).subscribe({
+        next: () => {
+          this.toastr.success('Password change successful!');
+        },
+        error: (error) => {
+          this.toastr.error(
+            'Change password failed. Please check your credentials.'
+          );
+        },
+      });
+    }
   }
 
   saveChanges(): void {
@@ -89,18 +86,26 @@ export default class ProfileComponent implements OnInit {
           this.fileUploadService.uploadFile(this.uploadImage).subscribe({
             next: (response: UploadResponse) => {
               // console.log(response);
-              this.authService
-                .updateInfos(this.id, { photo: response.fileName } as UserInfos)
-                .subscribe({
-                  next: () => {
-                    this.toastr.success('Image uploaded successfully!');
-                    this.authService.getUserInfosFromServer();
-                  },
-                  error: (error) => {
-                    this.toastr.error('Image upload failed. Please try again.');
-                    console.error('Image upload error:', error);
-                  },
-                });
+              if (this.utilisateur.id) {
+                this.updatePhotoRequest = {
+                  photo: response.fileName,
+                };
+                this.authService
+                  .updatePhoto(this.utilisateur.id, this.updatePhotoRequest)
+                  .subscribe({
+                    next: () => {
+                      this.toastr.success('Image uploaded successfully!');
+                      this.authService.getUserInfosFromServer();
+                      this.utilisateurService.getAllUtilisateurFromServer();
+                    },
+                    error: (error) => {
+                      this.toastr.error(
+                        'Image upload failed. Please try again.'
+                      );
+                      console.error('Image upload error:', error);
+                    },
+                  });
+              }
             },
             error: (error) => {
               this.toastr.error('Image upload failed. Please try again.');

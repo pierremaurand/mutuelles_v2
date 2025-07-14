@@ -10,6 +10,10 @@ namespace mutuelleApi.models
         [Required]
         public string? Login { get; set; }
         [Required]
+        public string? Nom { get; set; }
+        [Required]
+        public Sexe? Sexe { get; set; }
+        [Required]
         public byte[]? MotDePasse { get; set; }
         [Required]
         public byte[]? ClesMotDePasse { get; set; }
