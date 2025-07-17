@@ -38,16 +38,16 @@ namespace mutuelleApi.controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, MembreDto membreDto)
+        public async Task<IActionResult> Update(int id, MembreRequest request)
         {
-            if (id != membreDto.Id)
+            var membre = await uow.MembreRepository.FindByIdAsync(id);
+            if (membre is null)
             {
-                return Unauthorized("Cette membre ne peut pas être modifier");
+                return NotFound("Membre non trouvé!");
             }
-            var membre = mapper.Map<Membre>(membreDto);
+            mapper.Map(request, membre);
             membre.ModifiePar = GetUserId();
             membre.ModifieLe = DateTime.Now;
-            uow.MembreRepository.Add(membre);
 
             await uow.SaveAsync();
             return StatusCode(201);
@@ -56,12 +56,25 @@ namespace mutuelleApi.controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var membres = await uow.MembreRepository.GetAllAsync();
-            if(membres is null) {
+            var membres = await uow.MembreRepository.FindAllAsync();
+            if (membres is null)
+            {
                 return NotFound("Aucune membre n'a été trouvé dans la bdd");
             }
             var membresDto = mapper.Map<List<MembreDto>>(membres);
             return Ok(membresDto);
         }
+        
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var membre = await uow.MembreRepository.FindByIdAsync(id);
+            if (membre is null) {
+                return NotFound("Membre non trouvé!");
+            }
+            var membreDto = mapper.Map<MembreDto>(membre);
+            return Ok(membreDto);
+        }
+       
     }
 }

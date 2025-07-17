@@ -16,26 +16,20 @@ namespace mutuelleApi.data.repo
             }
         }
 
-        public async Task<bool> AgenceIsUse(int id)
-        {
-            if (dc.Membres is not null)
-            {
-                return await dc.Membres.AnyAsync(x => x.AgenceId == id);
-            }
-            return false;
-        }
 
         public void Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Membre>?> GetAllAsync()
+        public async Task<IEnumerable<Membre>?> FindAllAsync()
         {
-             if(dc.Membres is not null) {
+            if (dc.Membres is not null)
+            {
                 var membres = await dc.Membres
                 .ToListAsync();
-                if(membres is not null) {
+                if (membres is not null)
+                {
                     return membres;
                 }
             }
@@ -43,13 +37,20 @@ namespace mutuelleApi.data.repo
             return null;
         }
 
-        public async Task<bool> UtilisateurIsUse(int id)
+        public async Task<Membre?> FindByIdAsync(int id)
         {
             if (dc.Membres is not null)
             {
-                return await dc.Membres.AnyAsync(x => x.ModifiePar == id);
+                var membre = await dc.Membres
+                .Where(s => s.Id == id)
+                .FirstAsync();
+                if (membre is not null)
+                {
+                    return membre;
+                }
             }
-            return false;
+
+            return null;
         }
     }
 }

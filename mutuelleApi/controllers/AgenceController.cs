@@ -30,8 +30,6 @@ namespace mutuelleApi.controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            if (await uow.MembreRepository.AgenceIsUse(id))
-                return Unauthorized("Cette agence ne peut pas être supprimer!");
             uow.AgenceRepository.Delete(id);
             await uow.SaveAsync();
             await signalrHub.Clients.All.SendAsync("AgenceDeleted", id);

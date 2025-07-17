@@ -21,6 +21,10 @@ const routes: Routes = [
         path: 'image',
         loadComponent: () =>
           import('../../composants/image-add/image-add.component'),
+        data: {
+          origin: 'utilisateur',
+          backUrl: 'home/profile',
+        },
       },
       {
         path: 'password',

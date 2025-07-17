@@ -1,1 +1,14 @@
-<p>view works!</p>
+<div class="row">
+  <div class="col-md-12">
+    <h1 class="h3">Infos agence</h1>
+    <hr />
+    <table class="table" *ngIf="agence$ | async as agence">
+      <tbody>
+        <tr>
+          <th>Nom</th>
+          <td>{{ agence.nom }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

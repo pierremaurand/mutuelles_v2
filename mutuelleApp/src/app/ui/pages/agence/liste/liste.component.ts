@@ -3,7 +3,6 @@ import { Agence } from '../../../../core/models/agence';
 import { Observable } from 'rxjs';
 import { AgenceService } from '../../../../core/services/agence.service';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { AgenceCardComponent } from '../agence-card/agence-card.component';
 

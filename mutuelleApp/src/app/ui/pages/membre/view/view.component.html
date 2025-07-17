@@ -1,1 +1,47 @@
-<p>view works!</p>
+<div class="container" *ngIf="membre$ | async as membre">
+  <div class="row">
+    <h1 class="h3">Infos membre</h1>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="d-flex justify-content-center">
+        <img
+          [src]="membre.photo ? baseUrl + '/' + membre.photo : photo"
+          class="rounded-circle"
+          alt="image membre"
+          width="200"
+        />
+      </div>
+      <div class="row">
+        <div class="col-12 text-center text-truncate">
+          <h5>{{ membre.nom | uppercase }}</h5>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center gap-1">
+        @if(membre.estActif) {
+        <button
+          class="btn btn-danger form-control btn-sm"
+          type="button"
+          (click)="onActivated()"
+        >
+          <i class="fa-solid fa-user-xmark"></i>
+        </button>
+        } @else {
+        <button
+          class="btn btn-success form-control btn-sm"
+          type="button"
+          (click)="onActivated()"
+        >
+          <i class="fa-solid fa-user-check"></i>
+        </button>
+        }
+        <button type="button" class="btn btn-primary" (click)="onChangeImage()">
+          <i class="fa-solid fa-floppy-disk"></i> Image
+        </button>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <router-outlet />
+    </div>
+  </div>
+</div>

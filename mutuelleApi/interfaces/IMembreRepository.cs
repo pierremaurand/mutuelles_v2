@@ -4,10 +4,9 @@ namespace mutuelleApi.interfaces
 {
     public interface IMembreRepository
     {
-        Task<IEnumerable<Membre>?> GetAllAsync();
+        Task<IEnumerable<Membre>?> FindAllAsync();
+        Task<Membre?> FindByIdAsync(int id);
         void Add(Membre membre);
         void Delete(int id);
-        Task<bool> AgenceIsUse(int id);
-        Task<bool> UtilisateurIsUse(int id);
     }
 }

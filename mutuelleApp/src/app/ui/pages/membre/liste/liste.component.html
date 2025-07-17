@@ -1,1 +1,21 @@
-<p>liste works!</p>
+<div class="container">
+  <div class="d-flex justify-content-between">
+    <h1 class="h3">Les membres</h1>
+    <button class="btn btn-primary" type="button" (click)="add(0)">
+      Ajouter un membre
+    </button>
+  </div>
+  <hr />
+  <div class="row" *ngIf="membres$ | async as membres">
+    <div class="col-md-2 mb-3" *ngFor="let membre of membres">
+      <app-membre-card
+        [membre]="membre"
+        (edit)="edit($event)"
+        (view)="view($event)"
+      ></app-membre-card>
+    </div>
+    <div class="col" *ngIf="membres.length == 0">
+      <h2 class="text-center">Aucun membre n'a été trouvé dans la base</h2>
+    </div>
+  </div>
+</div>
