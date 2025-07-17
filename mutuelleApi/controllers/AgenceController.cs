@@ -15,15 +15,15 @@ namespace mutuelleApi.controllers
         private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
         [HttpPost]
-        public async Task<IActionResult> Add(AgenceDto agenceDto)
+        public async Task<IActionResult> Add(AgenceRequest request)
         {
-            var agence = mapper.Map<Agence>(agenceDto);
+            var agence = mapper.Map<Agence>(request);
             agence.ModifiePar = GetUserId();
             agence.ModifieLe = DateTime.Now;
             uow.AgenceRepository.Add(agence);
 
             await uow.SaveAsync();
-            await signalrHub.Clients.All.SendAsync("AgenceAdded", mapper.Map<AgenceDto>(agence));
+            // await signalrHub.Clients.All.SendAsync("AgenceAdded", mapper.Map<AgenceDto>(agence));
             return StatusCode(201);
         }
 
@@ -39,26 +39,26 @@ namespace mutuelleApi.controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, AgenceDto agenceDto)
+        public async Task<IActionResult> Update(int id, AgenceRequest request)
         {
-            if (id != agenceDto.Id)
+            var agence = await uow.AgenceRepository.FindByIdAsync(id);
+            if (agence is null)
             {
-                return Unauthorized("Cette agence ne peut pas être modifier");
+                return NotFound("Agence non trouvée!");
             }
-            var agence = mapper.Map<Agence>(agenceDto);
+            mapper.Map(request, agence);
             agence.ModifiePar = GetUserId();
             agence.ModifieLe = DateTime.Now;
-            uow.AgenceRepository.Add(agence);
 
             await uow.SaveAsync();
-            await signalrHub.Clients.All.SendAsync("AgenceUpdated", mapper.Map<AgenceDto>(agence));
+            // await signalrHub.Clients.All.SendAsync("AgenceUpdated", mapper.Map<AgenceDto>(agence));
             return StatusCode(201);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var agences = await uow.AgenceRepository.GetAllAsync();
+            var agences = await uow.AgenceRepository.FindAllAsync();
             if(agences is null) {
                 return NotFound("Aucune agence n'a été trouvé dans la bdd");
             }

@@ -22,6 +22,7 @@ import { CommonModule } from '@angular/common';
 export default class AddComponent implements OnInit {
   request!: FormGroup;
   agence$!: Observable<Agence>;
+  id!: number;
 
   constructor(
     private router: Router,
@@ -35,8 +36,8 @@ export default class AddComponent implements OnInit {
     this.agence$ = this.agenceService.agence$;
     this.agence$.subscribe({
       next: (agence: Agence) => {
+        this.id = agence.id as number;
         this.request.patchValue({
-          id: agence.id as number,
           nom: agence.nom as string,
         });
       },
@@ -45,32 +46,30 @@ export default class AddComponent implements OnInit {
 
   initForm(): void {
     this.request = this.fb.group({
-      id: [0],
       nom: ['', [Validators.required]],
     });
   }
 
   submitForm(): void {
     if (this.request.valid) {
-      this.agenceService
-        .addOrUpdateUser(this.request.controls['id'].value, this.request.value)
-        .subscribe({
-          next: () => {
-            this.toastr.success("L'enregistrement a réussie!", 'Succès');
-            this.agenceService.getAllAgenceFromServer();
-            this.onCancel();
-          },
-          error: (error) => {
-            if (error.status === 400) {
-              this.toastr.error(
-                this.afficheErreur(error.error),
-                'Erreur de validation'
-              );
-            } else {
-              this.toastr.error('Une erreur est survenue!', 'Erreur');
-            }
-          },
-        });
+      this.agenceService.addOrUpdate(this.id, this.request.value).subscribe({
+        next: () => {
+          this.toastr.success("L'enregistrement a réussie!", 'Succès');
+          this.agenceService.getAllAgenceFromServer();
+          this.onCancel();
+        },
+        error: (error) => {
+          console.log(error);
+          if (error.status === 400) {
+            this.toastr.error(
+              this.afficheErreur(error.error),
+              'Erreur de validation'
+            );
+          } else {
+            this.toastr.error('Une erreur est survenue!', 'Erreur');
+          }
+        },
+      });
     } else {
       this.toastr.error('Tous les champs doivent être renseignés.');
     }

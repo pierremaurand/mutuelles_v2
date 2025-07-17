@@ -15,10 +15,10 @@ namespace mutuelleApi.controllers
         private readonly IConfiguration configuration = configuration;
         private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
-        [HttpPost("add")]
-        public async Task<IActionResult> Add(MembreDto membreDto)
+        [HttpPost]
+        public async Task<IActionResult> Add(MembreRequest request)
         {
-            var membre = mapper.Map<Membre>(membreDto);
+            var membre = mapper.Map<Membre>(request);
             membre.ModifiePar = GetUserId();
             membre.ModifieLe = DateTime.Now;
             uow.MembreRepository.Add(membre);

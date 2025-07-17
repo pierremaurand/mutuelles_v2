@@ -9,7 +9,8 @@ namespace mutuelleApi.helpers
         public AutoMapperProfiles()
         {
             CreateMap<Agence, AgenceDto>().ReverseMap();
-            
+            CreateMap<Agence, AgenceRequest>().ReverseMap();
+
             CreateMap<Avance, AvanceDto>().ReverseMap();
             CreateMap<Compte, CompteDto>().ReverseMap();
             CreateMap<Cotisation, CotisationDto>().ReverseMap();
@@ -17,7 +18,10 @@ namespace mutuelleApi.helpers
             CreateMap<Echeance, EcheanceDto>().ReverseMap();
             CreateMap<Ecriture, EcritureDto>().ReverseMap();
             CreateMap<Gabarit, GabaritDto>().ReverseMap();
+
             CreateMap<Membre, MembreDto>().ReverseMap();
+            CreateMap<Membre, MembreRequest>().ReverseMap();
+
             CreateMap<Mouvement, MouvementDto>().ReverseMap();
             CreateMap<MouvementComptable, MouvementComptableDto>().ReverseMap();
             CreateMap<Operation, OperationDto>().ReverseMap();

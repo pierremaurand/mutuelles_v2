@@ -10,7 +10,8 @@ namespace mutuelleApi.data.repo
 
         public void Add(Agence agence)
         {
-            if(dc.Agences is not null && agence is not null) {
+            if (dc.Agences is not null && agence is not null)
+            {
                 dc.Agences.Add(agence);
             }
         }
@@ -20,17 +21,36 @@ namespace mutuelleApi.data.repo
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Agence>?> GetAllAsync()
+        public async Task<IEnumerable<Agence>?> FindAllAsync()
         {
-            if(dc.Agences is not null) {
+            if (dc.Agences is not null)
+            {
                 var agences = await dc.Agences
                 .ToListAsync();
-                if(agences is not null) {
+                if (agences is not null)
+                {
                     return agences;
                 }
             }
 
             return null;
         }
+
+        public async Task<Agence?> FindByIdAsync(int id)
+        {
+            if (dc.Agences is not null)
+            {
+                var agence = await dc.Agences
+                .Where(s => s.Id == id)
+                .FirstAsync();
+                if(agence is not null)
+                {
+                    return agence;
+                }
+            }
+
+            return null;
+        }
+
     }
 }

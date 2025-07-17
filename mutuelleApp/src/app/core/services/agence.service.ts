@@ -49,8 +49,8 @@ export class AgenceService {
     }
   }
 
-  addOrUpdateUser(id: number, request: AgenceRequest): Observable<any> {
-    if (id) {
+  addOrUpdate(id: number, request: AgenceRequest): Observable<any> {
+    if (id != 0) {
       return this.update(id, request);
     }
     return this.add(request);
