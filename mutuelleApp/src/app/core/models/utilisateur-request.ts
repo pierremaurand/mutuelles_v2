@@ -1,7 +1,8 @@
 import { Role } from './role';
 import { Sexe } from './sexe';
 
-export class UpdateUtilisateurRequest {
+export class UtilisateurRequest {
+  id!: number;
   login!: string;
   nom!: string;
   sexe?: Sexe;

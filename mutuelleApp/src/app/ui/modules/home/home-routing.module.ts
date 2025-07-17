@@ -9,6 +9,25 @@ const routes: Routes = [
   {
     path: 'profile',
     loadComponent: () => import('../../pages/home/profile/profile.component'),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import(
+            '../../composants/infos-utilisateur/infos-utilisateur.component'
+          ),
+      },
+      {
+        path: 'image',
+        loadComponent: () =>
+          import('../../composants/image-add/image-add.component'),
+      },
+      {
+        path: 'password',
+        loadComponent: () =>
+          import('../../pages/home/change-password/change-password.component'),
+      },
+    ],
   },
 ];
 

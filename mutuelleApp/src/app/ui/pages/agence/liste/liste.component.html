@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="d-flex justify-content-between">
+    <h1 class="h3">Les agences</h1>
+    <button class="btn btn-primary" type="button" (click)="add(0)">
+      Ajouter une agence
+    </button>
+  </div>
+  <hr />
+  <div class="row" *ngIf="agences$ | async as agences">
+    <div class="col-md-2 mb-3" *ngFor="let agence of agences">
+      <app-agence-card
+        [agence]="agence"
+        (edit)="edit($event)"
+        (view)="view($event)"
+      ></app-agence-card>
+    </div>
+    <div class="col" *ngIf="agences.length == 0">
+      <h2 class="text-center">Aucune agence n'a été trouvé dans la base</h2>
+    </div>
+  </div>
+</div>

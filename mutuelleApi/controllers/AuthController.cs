@@ -64,25 +64,26 @@ namespace mutuelleApi.controllers
         [HttpPut("password/{id}")]
         public async Task<IActionResult> Password(int id, ChangePasswordRequest request)
         {
-            if (id != GetUserId())
-            {
-                return Unauthorized("Changement de mot de passe non authorisé!");
-            }
             var utilisateur = await uow.UtilisateurRepository.FindByIdAsync(id);
             if (utilisateur is null)
             {
                 return NotFound("Utilisateur introuvable");
             }
-            if (string.IsNullOrEmpty(request.MotDePasse) || string.IsNullOrEmpty(request.ConfirmMotDePasse))
-            {
-                return BadRequest("Le mot de passe ne peut pas être vide");
-            }
-            if (utilisateur.ClesMotDePasse is not null && request.MotDePasse is not null)
+
+            
+            if (
+                utilisateur.MotDePasse is not null &&
+                utilisateur.ClesMotDePasse is not null &&
+                request.MotDePasse is not null &&
+                request.AncienMotDePasse is not null &&
+                MatchPasswordHash(request.AncienMotDePasse, utilisateur.MotDePasse, utilisateur.ClesMotDePasse)
+            )
             {
                 var hmac = new HMACSHA512(utilisateur.ClesMotDePasse);
                 var passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(request.MotDePasse));
                 utilisateur.MotDePasse = passwordHash;
             }
+
             await uow.SaveAsync();
             return Ok();
         }

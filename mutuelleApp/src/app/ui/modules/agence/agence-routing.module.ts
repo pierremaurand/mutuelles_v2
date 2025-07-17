@@ -1,10 +1,31 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'liste',
+    pathMatch: 'full',
+  },
+  {
+    path: 'liste',
+    loadComponent: () =>
+      import('../../pages/agence/liste/liste.component').then((m) => m.default),
+  },
+  {
+    path: 'add',
+    loadComponent: () =>
+      import('../../pages/agence/add/add.component').then((m) => m.default),
+  },
+  {
+    path: 'view',
+    loadComponent: () =>
+      import('../../pages/agence/view/view.component').then((m) => m.default),
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AgenceRoutingModule { }
+export class AgenceRoutingModule {}

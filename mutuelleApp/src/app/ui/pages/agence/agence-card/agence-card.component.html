@@ -1,0 +1,28 @@
+<div class="card shadow">
+  <div class="card-body">
+    <h5 class="card-title text-truncate text-center">
+      {{ agence.nom | uppercase }}
+    </h5>
+    <ul class="list-inline text-center action-icons animate">
+      <li class="list-inline-item">
+        <button
+          class="btn btn-warning form-control btn-sm"
+          type="button"
+          (click)="onEdit()"
+        >
+          <i class="fa-solid fa-pen-to-square"></i>
+        </button>
+      </li>
+
+      <li class="list-inline-item">
+        <button
+          class="btn btn-primary form-control btn-sm"
+          type="button"
+          (click)="onView()"
+        >
+          <i class="fa-solid fa-eye"></i>
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>

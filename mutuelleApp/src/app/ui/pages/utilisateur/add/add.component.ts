@@ -1,3 +1,4 @@
+import { AuthService } from './../../../../core/services/auth.service';
 import { UtilisateurService } from './../../../../core/services/utilisateur.service';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,7 +15,6 @@ import {
 import { SafeUrl } from '@angular/platform-browser';
 import { environment } from '../../../../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
-import { UpdateUtilisateurRequest } from '../../../../core/models/update-utilisateur-request';
 import { Observable } from 'rxjs';
 import { Sexe } from '../../../../core/models/sexe';
 import { Role } from '../../../../core/models/role';
@@ -28,7 +28,6 @@ import { Role } from '../../../../core/models/role';
 })
 export default class AddComponent implements OnInit {
   request!: FormGroup;
-  id!: number;
   utilisateur$!: Observable<UserInfos>;
 
   photo: SafeUrl = './assets/images/default_man.jpg';
@@ -37,6 +36,7 @@ export default class AddComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private authService: AuthService,
     private utilisateurService: UtilisateurService,
     private toastr: ToastrService,
     private fb: FormBuilder
@@ -49,8 +49,8 @@ export default class AddComponent implements OnInit {
     this.utilisateurService.getUtilisateur(id);
     this.utilisateur$.subscribe({
       next: (utilisateur: UserInfos) => {
-        this.id = utilisateur.id as number;
         this.request.patchValue({
+          id: utilisateur.id as number,
           login: utilisateur.login as string,
           nom: utilisateur.nom as string,
           sexe: utilisateur.sexe as Sexe,
@@ -65,6 +65,7 @@ export default class AddComponent implements OnInit {
 
   initForm(): void {
     this.request = this.fb.group({
+      id: [0],
       login: ['', [Validators.required]],
       nom: ['', [Validators.required]],
       sexe: ['', [Validators.required]],
@@ -75,21 +76,23 @@ export default class AddComponent implements OnInit {
   submitForm(): void {
     if (this.request.valid) {
       this.utilisateurService
-        .addOrUpdateUser(this.id, this.request.value)
+        .addOrUpdateUser(this.request.controls['id'].value, this.request.value)
         .subscribe({
           next: () => {
-            this.toastr.success(
-              "L'enregistrement des informations de l'utilisateur a réussie!"
-            );
+            this.toastr.success("L'enregistrement a réussie!", 'Succès');
+            this.authService.getUserInfosFromServer();
             this.utilisateurService.getAllUtilisateurFromServer();
             this.router.navigateByUrl('/utilisateur');
           },
           error: (error) => {
-            this.toastr.error(
-              "L'enregistrement des informations de l'utilisateur a échoué!",
-              error.message
-            );
-            console.log(error.message);
+            if (error.status === 400) {
+              this.toastr.error(
+                this.afficheErreur(error.error),
+                'Erreur de validation'
+              );
+            } else {
+              this.toastr.error('Une erreur est survenue!', 'Erreur');
+            }
           },
         });
     } else {
@@ -99,5 +102,14 @@ export default class AddComponent implements OnInit {
 
   onBack(): void {
     this.router.navigateByUrl('/utilisateur');
+  }
+
+  private afficheErreur(error: any): string {
+    console.log(error.errors[0]);
+    if (error.errors) {
+      return error.errors[0] || 'Une erreur est survenue!';
+    } else {
+      return 'Une erreur est survenue!';
+    }
   }
 }

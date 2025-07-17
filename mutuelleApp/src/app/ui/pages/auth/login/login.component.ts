@@ -36,6 +36,7 @@ export default class LoginComponent {
         this.toastr.success('Login successful!');
         this.tokenService.token = response.token as string;
         this.tokenService.refreshToken = response.refreshToken as string;
+        this.authService.getUserInfosFromServer();
         this.router.navigateByUrl('/home');
       },
       error: (error) => {

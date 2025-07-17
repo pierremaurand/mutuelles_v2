@@ -6,7 +6,7 @@ namespace mutuelleApi.models
 {
     public class Agence : BaseEntity
     {
-        [Required]
-        public string? Nom { get; set; }
+        [Required(ErrorMessage = "Le nom de l'agence est obligatoire!")]
+        public string Nom { get; set; } = string.Empty;
     }
 }

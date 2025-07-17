@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="d-flex justify-content-between">
+    <h1 class="h3">Infos agence</h1>
+  </div>
+  <hr />
+  <form [formGroup]="request" (ngSubmit)="submitForm()">
+    <input type="hidden" name="id" id="id" formControlName="id" />
+    <div class="row">
+      <div class="col mb-3">
+        <label for="nom" class="form-label">Nom de l'agence</label>
+        <input
+          type="text"
+          class="form-control"
+          name="nom"
+          id="nom"
+          placeholder="Nom de l'agence..."
+          formControlName="nom"
+        />
+        @if(request.controls['nom'].touched &&
+        request.controls['nom'].errors?.['required']) {
+        <div class="text-danger">Le nom est obligatoire.</div>
+        }
+      </div>
+      <div class="d-flex justify-content-end gap-1">
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="request.invalid"
+        >
+          <i class="fa-solid fa-floppy-disk"></i> Enregistrer
+        </button>
+        <button class="btn btn-danger" type="button" (click)="onCancel()">
+          <i class="fa-solid fa-xmark"></i> Annuler
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

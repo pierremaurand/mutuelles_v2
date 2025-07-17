@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+using System.Text;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -18,11 +20,17 @@ namespace mutuelleApi.controllers
         [HttpPost]
         public async Task<IActionResult> Add(UtilisateurRequestDto request)
         {
-            if (await uow.UtilisateurRepository.FindByLoginAsync(request.Login))
-            {
-                return BadRequest("Ce login est pris!");
+            byte[] passwordHash, passwordKey;
+
+            using(var hmac = new HMACSHA512()){
+                passwordKey = hmac.Key;
+                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("mutuelle"));
             }
+
             var utilisateur = mapper.Map<Utilisateur>(request);
+            utilisateur.MotDePasse = passwordHash;
+            utilisateur.ClesMotDePasse = passwordKey;
+            utilisateur.EstActif = true;
             utilisateur.ModifiePar = GetUserId();
             utilisateur.ModifieLe = DateTime.Now;
             uow.UtilisateurRepository.Add(utilisateur);
@@ -51,11 +59,6 @@ namespace mutuelleApi.controllers
             if (utilisateur is null)
             {
                 return NotFound("Cet utilisateur n'existe pas!");
-            }
-
-            if (utilisateur.Login is not null && !utilisateur.Login.Equals(request.Login) && await uow.UtilisateurRepository.FindByLoginAsync(request.Login))
-            {
-                return BadRequest("Ce login est pris!");
             }
 
             mapper.Map(request, utilisateur);

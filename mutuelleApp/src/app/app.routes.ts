@@ -24,6 +24,20 @@ export const routes: Routes = [
             (m) => m.UtilisateurModule
           ),
       },
+      {
+        path: 'agence',
+        loadChildren: () =>
+          import('./ui/modules/agence/agence.module').then(
+            (m) => m.AgenceModule
+          ),
+      },
+      {
+        path: 'membre',
+        loadChildren: () =>
+          import('./ui/modules/membre/membre.module').then(
+            (m) => m.MembreModule
+          ),
+      },
     ],
   },
   {

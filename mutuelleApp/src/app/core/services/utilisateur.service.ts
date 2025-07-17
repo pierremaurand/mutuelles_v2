@@ -4,7 +4,7 @@ import { environment } from '../../../environments/environment';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { UserInfos } from '../models/user-infos';
 import { UpdateUtilisateurActifRequest } from '../models/update-utilisateur-actif-request';
-import { UpdateUtilisateurRequest } from '../models/update-utilisateur-request';
+import { UtilisateurRequest } from '../models/utilisateur-request';
 
 @Injectable({
   providedIn: 'root',
@@ -50,20 +50,14 @@ export class UtilisateurService {
     }
   }
 
-  addOrUpdateUser(
-    id: number,
-    request: UpdateUtilisateurRequest
-  ): Observable<any> {
+  addOrUpdateUser(id: number, request: UtilisateurRequest): Observable<any> {
     if (id) {
       return this.updateUtilisateur(id, request);
     }
     return this.addUser(request);
   }
 
-  updateUtilisateur(
-    id: number,
-    request: UpdateUtilisateurRequest
-  ): Observable<any> {
+  updateUtilisateur(id: number, request: UtilisateurRequest): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/utilisateur/${id}`, request);
   }
 
@@ -77,7 +71,7 @@ export class UtilisateurService {
     );
   }
 
-  addUser(request: UpdateUtilisateurRequest): Observable<any> {
+  addUser(request: UtilisateurRequest): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/utilisateur`, request);
   }
 }

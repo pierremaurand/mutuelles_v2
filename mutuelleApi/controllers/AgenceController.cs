@@ -14,7 +14,7 @@ namespace mutuelleApi.controllers
         private readonly IMapper mapper = mapper;
         private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
-        [HttpPost("add")]
+        [HttpPost]
         public async Task<IActionResult> Add(AgenceDto agenceDto)
         {
             var agence = mapper.Map<Agence>(agenceDto);
@@ -64,6 +64,17 @@ namespace mutuelleApi.controllers
             }
             var agencesDto = mapper.Map<List<AgenceDto>>(agences);
             return Ok(agencesDto);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var agence = await uow.AgenceRepository.FindByIdAsync(id);
+            if(agence is null) {
+                return NotFound("Agence non trouvée!");
+            }
+            var agenceDto = mapper.Map<AgenceDto>(agence);
+            return Ok(agenceDto);
         }
     }
 }

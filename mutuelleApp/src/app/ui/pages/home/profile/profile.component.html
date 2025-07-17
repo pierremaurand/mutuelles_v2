@@ -1,62 +1,40 @@
 <div class="container" *ngIf="userInfos$ | async as user">
   <div class="row">
-    <h1 class="h3">Profile Utilisateur</h1>
+    <h1 class="h3">Profile utilisateur</h1>
   </div>
   <div class="row">
-    <div class="col-md-2">
-      <img
-        [src]="user.photo && !blob ? baseUrl + '/' + user.photo : photo"
-        class="card-img-top"
-        alt="image user"
-        data-bs-toggle="modal"
-        data-bs-target="#addPicture"
-        width="200"
-      />
+    <div class="col-md-3">
+      <div class="d-flex justify-content-center">
+        <img
+          [src]="user.photo && !blob ? baseUrl + '/' + user.photo : photo"
+          class="rounded-circle"
+          alt="image user"
+          width="200"
+        />
+      </div>
+      <div class="row">
+        <div class="col-12 text-center text-truncate">
+          <h5>{{ user.login }}</h5>
+        </div>
+        <div class="col-12 text-center text-truncate">
+          <h6>{{ user.nom }}</h6>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center gap-1">
+        <button
+          type="button"
+          class="btn btn-warning"
+          (click)="onChangePassword()"
+        >
+          <i class="fa-solid fa-lock"></i> Password
+        </button>
+        <button type="button" class="btn btn-primary" (click)="onChangeImage()">
+          <i class="fa-solid fa-floppy-disk"></i> Image
+        </button>
+      </div>
     </div>
-    <div class="col-md-10">
-      <table class="table">
-        <tbody>
-          <tr>
-            <th>Login</th>
-            <td>{{ user.login }}</td>
-          </tr>
-          <tr>
-            <th>Nom</th>
-            <td>{{ user.nom }}</td>
-          </tr>
-          <tr>
-            <th>Sexe</th>
-            <td>{{ user.sexe ? "M" : "F" }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <div class="row mt-2">
-    <div class="col d-flex flex-row gap-1">
-      <button
-        type="button"
-        class="btn btn-warning"
-        data-bs-toggle="modal"
-        data-bs-target="#changePassword"
-      >
-        <i class="fa-solid fa-lock"></i> Modifier le mot de passe
-      </button>
-      <button
-        type="button"
-        class="btn btn-primary"
-        *ngIf="blob"
-        (click)="saveChanges()"
-      >
-        <i class="fa-solid fa-floppy-disk"></i> Enregistrer les modifications
-      </button>
+    <div class="col-md-9">
+      <router-outlet />
     </div>
   </div>
-  <app-change-password
-    (changePassword)="changePassword($event)"
-  ></app-change-password>
-  <app-image-add
-    [photo]="photo"
-    (photoChange)="photoChange($event)"
-  ></app-image-add>
 </div>
