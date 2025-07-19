@@ -10,7 +10,8 @@ namespace mutuelleApi.data.repo
 
         public void Add(Cotisation cotisation)
         {
-            if(dc.Cotisations is not null && cotisation is not null) {
+            if (dc.Cotisations is not null && cotisation is not null)
+            {
                 dc.Cotisations.Add(cotisation);
             }
         }
@@ -22,11 +23,27 @@ namespace mutuelleApi.data.repo
 
         public async Task<IEnumerable<Cotisation>?> GetAllAsync()
         {
-            if(dc.Cotisations is not null) {
+            if (dc.Cotisations is not null)
+            {
                 var cotisations = await dc.Cotisations
                 .ToListAsync();
-                if(cotisations is not null) {
+                if (cotisations is not null)
+                {
                     return cotisations;
+                }
+            }
+
+            return null;
+        }
+        
+        public async Task<Cotisation?> GetByIdAsync(int id)
+        {
+            if(dc.Cotisations is not null) {
+                var cotisation = await dc.Cotisations
+                .Where(x => x.Id == id)
+                .FirstAsync();
+                if (cotisation is not null) {
+                    return cotisation;
                 }
             }
 

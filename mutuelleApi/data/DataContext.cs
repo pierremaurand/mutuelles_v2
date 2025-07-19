@@ -5,6 +5,7 @@ namespace mutuelleApi.data
 {
     public class DataContext(DbContextOptions<DataContext> options) : DbContext(options)
     {
+        public DbSet<Adhesion>? Adhesions { get; set; }
         public DbSet<Agence>? Agences { get; set; }
         public DbSet<Avance>? Avances { get; set; }
         public DbSet<Compte>? Comptes { get; set; }

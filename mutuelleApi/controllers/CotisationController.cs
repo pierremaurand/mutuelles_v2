@@ -15,12 +15,15 @@ namespace mutuelleApi.controllers
         private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
         [HttpPost("add")]
-        public async Task<IActionResult> Add(CotisationDto cotisationDto)
+        public async Task<IActionResult> Add(List<CotisationDto> request)
         {
-            var cotisation = mapper.Map<Cotisation>(cotisationDto);
-            cotisation.ModifiePar = GetUserId();
-            cotisation.ModifieLe = DateTime.Now;
-            uow.CotisationRepository.Add(cotisation);
+            var cotisations = mapper.Map<List<Cotisation>>(request);
+            foreach (var cotisation in cotisations)
+            {
+                cotisation.ModifiePar = GetUserId();
+                cotisation.ModifieLe = DateTime.Now;
+                uow.CotisationRepository.Add(cotisation);
+            }
 
             await uow.SaveAsync();
             return StatusCode(201);
@@ -37,16 +40,16 @@ namespace mutuelleApi.controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, CotisationDto cotisationDto)
+        public async Task<IActionResult> Update(int id, CotisationRequestDto request)
         {
-            if (id != cotisationDto.Id)
+            var cotisation = await uow.CotisationRepository.GetByIdAsync(id);
+            if (cotisation is null)
             {
-                return Unauthorized("Cette cotisation ne peut pas être modifier");
+                return NotFound("Cotisation non trouvée!");
             }
-            var cotisation = mapper.Map<Cotisation>(cotisationDto);
+            mapper.Map(request, cotisation);
             cotisation.ModifiePar = GetUserId();
             cotisation.ModifieLe = DateTime.Now;
-            uow.CotisationRepository.Add(cotisation);
 
             await uow.SaveAsync();
             return StatusCode(201);
@@ -56,11 +59,23 @@ namespace mutuelleApi.controllers
         public async Task<IActionResult> GetAll()
         {
             var cotisations = await uow.CotisationRepository.GetAllAsync();
-            if(cotisations is null) {
+            if (cotisations is null)
+            {
                 return NotFound("Aucune cotisation n'a été trouvé dans la bdd");
             }
             var cotisationsDto = mapper.Map<List<CotisationDto>>(cotisations);
             return Ok(cotisationsDto);
+        }
+        
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var cotisation = await uow.CotisationRepository.GetByIdAsync(id);
+            if(cotisation is null) {
+                return NotFound("Cotisation non trouvée!");
+            }
+            var cotisationDto = mapper.Map<CotisationDto>(cotisation);
+            return Ok(cotisationDto);
         }
     }
 }

@@ -4,7 +4,8 @@ namespace mutuelleApi.interfaces
 {
     public interface IUnitOfWork
     {
-        IAgenceRepository AgenceRepository { get; }
+        IAdhesionRepository AdhesionRepository { get; } 
+        IAgenceRepository AgenceRepository { get; } 
         IAvanceRepository AvanceRepository { get; }
         ICompteRepository CompteRepository { get; }
         ICotisationRepository CotisationRepository { get; }
