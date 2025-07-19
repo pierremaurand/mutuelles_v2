@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("mutuelleApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f351b3e280f1f9f959198bac66bdfd8941fb4957")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bccf4dc73893e446213bb02fc7cc88cc9aa46ccc")]
 [assembly: System.Reflection.AssemblyProductAttribute("mutuelleApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("mutuelleApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
