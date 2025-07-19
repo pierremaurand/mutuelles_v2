@@ -14,11 +14,13 @@ namespace mutuelleApi.dtos
         [Required(ErrorMessage = "Le login est obligatoire!")]
         [LoginUtilisateurUniqueAttribute(ErrorMessage = "Le login doit être unique!")]
         public string Login { get; set; } = string.Empty;
-        [Required(ErrorMessage ="Le nom est obligatoire!")]
+        [Required(ErrorMessage = "Le nom est obligatoire!")]
         public string Nom { get; set; } = string.Empty;
-        [Required(ErrorMessage ="Le sexe est obligatoire!")]
+        [Required(ErrorMessage = "Le sexe est obligatoire!")]
         public Sexe Sexe { get; set; }
-        [Required(ErrorMessage ="Le role est obligatoire!")]
+        [Required(ErrorMessage = "Le role est obligatoire!")]
         public Role Role { get; set; }
+        
+        public string Photo { get; set; } = string.Empty;
     }
 }

@@ -22,7 +22,7 @@ namespace mutuelleApi.dtos
         [Required(ErrorMessage = "L'adresse email est obligatoire!")]
         public string Email { get; set; } = string.Empty;
 
-        public string? Photo { get; set; }
+        public string Photo { get; set; } = string.Empty;
         public bool EstActif { get; set; } = true;
     }
 }

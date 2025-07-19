@@ -25,8 +25,7 @@ export default class ListeComponent implements OnInit {
   }
 
   add(id: number): void {
-    this.agenceService.getAgence(id);
-    this.router.navigateByUrl('/agence/add');
+    this.router.navigateByUrl('/agence/add/' + id);
   }
 
   edit(id: number): void {
@@ -34,7 +33,6 @@ export default class ListeComponent implements OnInit {
   }
 
   view(id: number): void {
-    this.agenceService.getAgence(id);
-    this.router.navigateByUrl('/agence/view');
+    this.router.navigateByUrl('/agence/view/' + id);
   }
 }

@@ -8,7 +8,7 @@ import {
 import { Observable } from 'rxjs';
 import { Agence } from '../../../../core/models/agence';
 import { AgenceService } from '../../../../core/services/agence.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 
@@ -26,6 +26,7 @@ export default class AddComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private agenceService: AgenceService,
     private toastr: ToastrService,
     private fb: FormBuilder
@@ -33,15 +34,19 @@ export default class AddComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.agence$ = this.agenceService.agence$;
-    this.agence$.subscribe({
-      next: (agence: Agence) => {
-        this.id = agence.id as number;
-        this.request.patchValue({
-          nom: agence.nom as string,
-        });
-      },
-    });
+    const id = this.route.snapshot.params['id'];
+    if (id) {
+      this.agence$ = this.agenceService.agence$;
+      this.agenceService.getAgence(id);
+      this.agence$.subscribe({
+        next: (agence: Agence) => {
+          this.id = agence.id as number;
+          this.request.patchValue({
+            nom: agence.nom as string,
+          });
+        },
+      });
+    }
   }
 
   initForm(): void {

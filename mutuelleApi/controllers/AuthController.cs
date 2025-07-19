@@ -61,7 +61,7 @@ namespace mutuelleApi.controllers
             return Ok(utilisateurDto);
         }
 
-        [HttpPut("password/{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Password(int id, ChangePasswordRequest request)
         {
             var utilisateur = await uow.UtilisateurRepository.FindByIdAsync(id);
@@ -88,22 +88,6 @@ namespace mutuelleApi.controllers
             return Ok();
         }
 
-        [HttpPut("photo/{id}")]
-        public async Task<IActionResult> Photo(int id, UpdateUtilisateurPhotoDto request)
-        {
-            if (id != GetUserId())
-            {
-                return Unauthorized("Changement de photo non authorisé!");
-            }
-            var utilisateur = await uow.UtilisateurRepository.FindByIdAsync(id);
-            if (utilisateur is null)
-            {
-                return NotFound("Utilisateur introuvable");
-            }
-            mapper.Map(request, utilisateur);
-            await uow.SaveAsync();
-            return Ok(utilisateur);
-        }
 
         private string CreateJWT(Utilisateur utilisateur, int expiration)
         {

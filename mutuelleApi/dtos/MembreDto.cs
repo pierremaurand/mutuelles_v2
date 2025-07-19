@@ -6,24 +6,15 @@ namespace mutuelleApi.dtos
     public class MembreDto
     {
         public int Id { get; set; }
-        [Required]
-        public string? Nom { get; set; }
-        [Required]
-        public Sexe? Sexe { get; set; }
-        [Required]
-        public string? DateNaissance { get; set; }
-        [Required]
-        public string? LieuNaissance { get; set; }
-        [Required]
-        public int? AgenceId { get; set; }
-        [Required]
-        public string? DateAdhesion { get; set; }
-        [Required]
-        public string? Telephone { get; set; }
-        [Required]
-        public string? Email { get; set; }
-
-        public string? Photo { get; set; }
-        public bool? EstActif { get; set; }
+        public string Nom { get; set; } = string.Empty;
+        public Sexe Sexe { get; set; } 
+        public string DateNaissance { get; set; } = string.Empty;
+        public string LieuNaissance { get; set; } = string.Empty;
+        public int AgenceId { get; set; }
+        public string DateAdhesion { get; set; } = string.Empty;
+        public string Telephone { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Photo { get; set; } = string.Empty;
+        public bool EstActif { get; set; } = true;
     }
 }

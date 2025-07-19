@@ -13,12 +13,12 @@ const routes: Routes = [
       import('../../pages/membre/liste/liste.component').then((m) => m.default),
   },
   {
-    path: 'add',
+    path: 'add/:id',
     loadComponent: () =>
       import('../../pages/membre/add/add.component').then((m) => m.default),
   },
   {
-    path: 'view',
+    path: 'view/:id',
     loadComponent: () =>
       import('../../pages/membre/view/view.component').then((m) => m.default),
     children: [
@@ -28,7 +28,7 @@ const routes: Routes = [
           import('../../pages/membre/membre-infos/membre-infos.component'),
       },
       {
-        path: 'image',
+        path: 'image:/id',
         loadComponent: () =>
           import('../../composants/image-add/image-add.component'),
         data: {

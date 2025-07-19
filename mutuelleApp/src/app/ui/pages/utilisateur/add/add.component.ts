@@ -45,22 +45,24 @@ export default class AddComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     const id = this.route.snapshot.params['id'];
-    this.utilisateur$ = this.utilisateurService.utilisateur$;
-    this.utilisateurService.getUtilisateur(id);
-    this.utilisateur$.subscribe({
-      next: (utilisateur: UserInfos) => {
-        this.request.patchValue({
-          id: utilisateur.id as number,
-          login: utilisateur.login as string,
-          nom: utilisateur.nom as string,
-          sexe: utilisateur.sexe as Sexe,
-          role: utilisateur.role as Role,
-        });
-        if (utilisateur.photo) {
-          this.photo = this.baseUrl + '/' + utilisateur.photo;
-        }
-      },
-    });
+    if (id) {
+      this.utilisateur$ = this.utilisateurService.utilisateur$;
+      this.utilisateurService.getUtilisateur(id);
+      this.utilisateur$.subscribe({
+        next: (utilisateur: UserInfos) => {
+          this.request.patchValue({
+            id: utilisateur.id as number,
+            login: utilisateur.login as string,
+            nom: utilisateur.nom as string,
+            sexe: utilisateur.sexe as Sexe,
+            role: utilisateur.role as Role,
+          });
+          if (utilisateur.photo) {
+            this.photo = this.baseUrl + '/' + utilisateur.photo;
+          }
+        },
+      });
+    }
   }
 
   initForm(): void {

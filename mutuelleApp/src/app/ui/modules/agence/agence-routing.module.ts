@@ -13,12 +13,12 @@ const routes: Routes = [
       import('../../pages/agence/liste/liste.component').then((m) => m.default),
   },
   {
-    path: 'add',
+    path: 'add/:id',
     loadComponent: () =>
       import('../../pages/agence/add/add.component').then((m) => m.default),
   },
   {
-    path: 'view',
+    path: 'view/:id',
     loadComponent: () =>
       import('../../pages/agence/view/view.component').then((m) => m.default),
   },

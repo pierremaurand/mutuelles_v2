@@ -8,7 +8,7 @@ import {
 import { Observable } from 'rxjs';
 import { Membre } from '../../../../core/models/membre';
 import { MembreService } from '../../../../core/services/membre.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { AgenceService } from '../../../../core/services/agence.service';
@@ -34,6 +34,7 @@ export default class AddComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private membreService: MembreService,
     private agenceService: AgenceService,
     private toastr: ToastrService,
@@ -41,32 +42,36 @@ export default class AddComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.agenceService.getAllAgenceFromServer();
     this.initForm();
-    this.membre$ = this.membreService.membre$;
-    this.membre$.subscribe({
-      next: (membre: Membre) => {
-        this.id = membre.id as number;
-        this.request.patchValue({
-          nom: membre.nom as string,
-          sexe: membre.sexe as Sexe,
-          dateNaissance: membre.dateNaissance as string,
-          lieuNaissance: membre.lieuNaissance as string,
-          agenceId: membre.agenceId as number,
-          dateAdhesion: membre.dateAdhesion as string,
-          telephone: membre.telephone as string,
-          email: membre.email as string,
-        });
-        if (membre.photo) {
-          this.photo = this.baseUrl + '/' + membre.photo;
-        }
-      },
-    });
-    this.agences$ = this.agenceService.agences$;
-    this.agences$.subscribe();
+    const id = this.route.snapshot.params['id'];
+    if (id) {
+      this.membre$ = this.membreService.membre$;
+      this.membre$.subscribe({
+        next: (membre: Membre) => {
+          this.id = membre.id as number;
+          this.request.patchValue({
+            nom: membre.nom as string,
+            sexe: membre.sexe as Sexe,
+            dateNaissance: membre.dateNaissance as string,
+            lieuNaissance: membre.lieuNaissance as string,
+            agenceId: membre.agenceId as number,
+            dateAdhesion: membre.dateAdhesion as string,
+            telephone: membre.telephone as string,
+            email: membre.email as string,
+          });
+          if (membre.photo) {
+            this.photo = this.baseUrl + '/' + membre.photo;
+          }
+        },
+      });
+    }
   }
 
   initForm(): void {
+    this.agences$ = this.agenceService.agences$;
+    this.agences$.subscribe();
+    this.agenceService.getAllAgenceFromServer();
+
     this.request = this.fb.group({
       nom: ['', [Validators.required]],
       sexe: ['', [Validators.required]],
