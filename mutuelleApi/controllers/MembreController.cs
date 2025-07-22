@@ -16,7 +16,7 @@ namespace mutuelleApi.controllers
         private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
         [HttpPost]
-        public async Task<IActionResult> Add(MembreRequest request)
+        public async Task<IActionResult> Add(MembreRequestDto request)
         {
             var membre = mapper.Map<Membre>(request);
             membre.ModifiePar = GetUserId();
@@ -30,17 +30,15 @@ namespace mutuelleApi.controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            // if (await uow.MembreRepository.MembreIsUse(id))
-            //     return Unauthorized("Cette membre ne peut pas être supprimer!");
-            // uow.MembreRepository.Delete(id);
+            uow.MembreRepository.Delete(id);
             await uow.SaveAsync();
             return Ok();
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, MembreRequest request)
+        public async Task<IActionResult> Update(int id, MembreRequestDto request)
         {
-            var membre = await uow.MembreRepository.FindByIdAsync(id);
+            var membre = await uow.MembreRepository.GetByIdAsync(id);
             if (membre is null)
             {
                 return NotFound("Membre non trouvé!");
@@ -56,7 +54,7 @@ namespace mutuelleApi.controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var membres = await uow.MembreRepository.FindAllAsync();
+            var membres = await uow.MembreRepository.GetAllAsync();
             if (membres is null)
             {
                 return NotFound("Aucune membre n'a été trouvé dans la bdd");
@@ -68,7 +66,7 @@ namespace mutuelleApi.controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var membre = await uow.MembreRepository.FindByIdAsync(id);
+            var membre = await uow.MembreRepository.GetByIdAsync(id);
             if (membre is null) {
                 return NotFound("Membre non trouvé!");
             }

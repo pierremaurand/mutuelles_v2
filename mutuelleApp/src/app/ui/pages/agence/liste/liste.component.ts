@@ -19,7 +19,6 @@ export default class ListeComponent implements OnInit {
   constructor(private agenceService: AgenceService, private router: Router) {}
 
   ngOnInit(): void {
-    this.agenceService.getAllAgenceFromServer();
     this.agences$ = this.agenceService.agences$;
     this.agences$.subscribe();
   }

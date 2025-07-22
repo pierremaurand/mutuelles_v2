@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Membre } from '../../../../core/models/membre';
 import { UpperCasePipe } from '@angular/common';
 import { environment } from '../../../../../environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-membre-card',
@@ -12,17 +13,15 @@ import { environment } from '../../../../../environments/environment';
 export class MembreCardComponent {
   @Input()
   membre!: Membre;
-  @Output()
-  edit = new EventEmitter<number>();
-  @Output()
-  view = new EventEmitter<number>();
   baseUrl: string = environment.imagesUrl;
 
+  constructor(private router: Router) {}
+
   onEdit(): void {
-    this.edit.emit(this.membre.id);
+    this.router.navigateByUrl('/membre/add/' + this.membre.id);
   }
 
   onView(): void {
-    this.view.emit(this.membre.id);
+    this.router.navigateByUrl('/membre/view/' + this.membre.id);
   }
 }

@@ -1,10 +1,25 @@
 <div class="container">
   <div class="d-flex justify-content-between">
     <h1 class="h3">Infos membre</h1>
-    <img [src]="photo" alt="photo profil" class="rounded-circle" width="50" />
+    <img
+      [src]="
+        photo !== '' ? baseUrl + '/' + photo : './assets/images/default_man.jpg'
+      "
+      alt="photo profil"
+      class="rounded-circle"
+      width="50"
+    />
   </div>
   <hr />
   <form [formGroup]="request" (ngSubmit)="submitForm()">
+    <input type="hidden" id="id" name="id" formControlName="id" />
+    <input type="hidden" id="photo" name="photo" formControlName="photo" />
+    <input
+      type="hidden"
+      id="estActif"
+      name="estActif"
+      formControlName="estActif"
+    />
     <div class="row">
       <div class="col-md-6 mb-3">
         <label for="nom" class="form-label">Nom du membre</label>

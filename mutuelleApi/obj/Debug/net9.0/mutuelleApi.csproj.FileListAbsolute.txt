@@ -19,12 +19,6 @@ D:\MesProjets\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\scopedcss\bundle\mutuell
 D:\MesProjets\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\staticwebassets.build.json
 D:\MesProjets\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\staticwebassets.development.json
 D:\MesProjets\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\staticwebassets.build.endpoints.json
-D:\MesProjets\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\staticwebassets\msbuild.mutuelleApi.Microsoft.AspNetCore.StaticWebAssets.props
-D:\MesProjets\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\staticwebassets\msbuild.mutuelleApi.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
-D:\MesProjets\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\staticwebassets\msbuild.build.mutuelleApi.props
-D:\MesProjets\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\staticwebassets\msbuild.buildMultiTargeting.mutuelleApi.props
-D:\MesProjets\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\staticwebassets\msbuild.buildTransitive.mutuelleApi.props
-D:\MesProjets\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\staticwebassets.pack.json
 D:\MesProjets\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\mutuelle.4BE0E4F9.Up2Date
 D:\MesProjets\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\mutuelleApi.dll
 D:\MesProjets\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\refint\mutuelleApi.dll
@@ -181,3 +175,8 @@ D:\MesProjets\mutuelles_v2\mutuelleApi\bin\Debug\net9.0\System.Net.WebSockets.We
 D:\MesProjets\mutuelles_v2\mutuelleApi\bin\Debug\net9.0\System.Private.Windows.Core.dll
 D:\MesProjets\mutuelles_v2\mutuelleApi\bin\Debug\net9.0\runtimes\win\lib\net9.0\Microsoft.Win32.SystemEvents.dll
 D:\MesProjets\mutuelles_v2\mutuelleApi\bin\Debug\net9.0\mutuelleApi.staticwebassets.runtime.json
+D:\MesProjets\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\rpswa.dswa.cache.json
+D:\MesProjets\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\rjimswa.dswa.cache.json
+D:\MesProjets\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
+D:\MesProjets\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
+D:\MesProjets\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\staticwebassets.build.json.cache

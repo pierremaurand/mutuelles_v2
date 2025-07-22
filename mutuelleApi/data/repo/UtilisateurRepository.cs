@@ -18,10 +18,16 @@ namespace mutuelleApi.data.repo
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            if (dc.Utilisateurs is not null)
+            {
+                var utilisateur = dc.Utilisateurs.Find(id);
+				if(utilisateur != null) {
+					dc.Utilisateurs.Remove(utilisateur);
+				}
+            }
         }
 
-        public async Task<Utilisateur?> FindByIdAsync(int id)
+        public async Task<Utilisateur?> GetByIdAsync(int id)
         {
             if (dc.Utilisateurs is not null)
             {
@@ -37,7 +43,7 @@ namespace mutuelleApi.data.repo
             return null;
         }
 
-        public async Task<Utilisateur?> FindByLoginAsync(string login)
+        public async Task<Utilisateur?> GetByLoginAsync(string login)
         {
             if(dc.Utilisateurs is not null) {
                 var utilisateur = await dc.Utilisateurs

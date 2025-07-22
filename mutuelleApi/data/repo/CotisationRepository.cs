@@ -18,7 +18,13 @@ namespace mutuelleApi.data.repo
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            if (dc.Cotisations is not null)
+            {
+                var cotisation = dc.Cotisations.Find(id); 
+				if(cotisation != null) {
+					dc.Cotisations.Remove(cotisation);
+				}
+            }
         }
 
         public async Task<IEnumerable<Cotisation>?> GetAllAsync()

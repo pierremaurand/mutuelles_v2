@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {
+  agenceResolver,
+  agencesResolver,
+} from '../../../core/resolvers/agence.resolver';
 
 const routes: Routes = [
   {
@@ -11,11 +15,13 @@ const routes: Routes = [
     path: 'liste',
     loadComponent: () =>
       import('../../pages/agence/liste/liste.component').then((m) => m.default),
+    resolve: [agencesResolver],
   },
   {
     path: 'add/:id',
     loadComponent: () =>
       import('../../pages/agence/add/add.component').then((m) => m.default),
+    resolve: [agenceResolver],
   },
   {
     path: 'view/:id',

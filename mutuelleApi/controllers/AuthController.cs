@@ -22,11 +22,11 @@ namespace mutuelleApi.controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(AuthRequestDto request)
         {
-            var utilisateur = await uow.UtilisateurRepository.FindByLoginAsync(request.Login??"");
+            var utilisateur = await uow.UtilisateurRepository.GetByLoginAsync(request.Login);
 
             if (utilisateur is null)
             {
-                throw new UnauthorizedAccessException("Cet utilisateur n'existe pas dans la base");
+                return NotFound("Utilisateur non trouvé!");
             }
 
             if (
@@ -36,7 +36,7 @@ namespace mutuelleApi.controllers
                 !MatchPasswordHash(request.Password, utilisateur.MotDePasse, utilisateur.ClesMotDePasse)
             )
             {
-                throw new UnauthorizedAccessException("Le mot de passe est invalide");
+                return BadRequest("Le mot de passe est invalide");
             }
 
 
@@ -50,7 +50,7 @@ namespace mutuelleApi.controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var utilisateur = await uow.UtilisateurRepository.FindByIdAsync(GetUserId());
+            var utilisateur = await uow.UtilisateurRepository.GetByIdAsync(GetUserId());
 
             if (utilisateur is null)
             {
@@ -64,7 +64,7 @@ namespace mutuelleApi.controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Password(int id, ChangePasswordRequest request)
         {
-            var utilisateur = await uow.UtilisateurRepository.FindByIdAsync(id);
+            var utilisateur = await uow.UtilisateurRepository.GetByIdAsync(id);
             if (utilisateur is null)
             {
                 return NotFound("Utilisateur introuvable");

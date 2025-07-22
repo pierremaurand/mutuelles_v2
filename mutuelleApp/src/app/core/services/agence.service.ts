@@ -23,7 +23,7 @@ export class AgenceService {
 
   constructor(private http: HttpClient) {}
 
-  getAllAgenceFromServer(): void {
+  getAllAgencesFromServer(): void {
     this.http
       .get<Agence[]>(`${this.baseUrl}`)
       .pipe(
@@ -34,7 +34,7 @@ export class AgenceService {
       .subscribe();
   }
 
-  getAgence(id: number): void {
+  getAgenceFromServer(id: number): void {
     if (id != 0) {
       this.http
         .get<Agence>(`${this.baseUrl}/${id}`)

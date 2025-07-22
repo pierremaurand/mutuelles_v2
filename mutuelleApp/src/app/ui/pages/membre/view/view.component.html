@@ -1,7 +1,6 @@
 <div class="container" *ngIf="membre$ | async as membre">
-  <div class="row">
-    <h1 class="h3">Infos membre</h1>
-  </div>
+  <h1 class="h3">Infos membre</h1>
+  <hr />
   <div class="row">
     <div class="col-md-3">
       <div class="d-flex justify-content-center">
@@ -20,23 +19,27 @@
       <div class="d-flex justify-content-center gap-1">
         @if(membre.estActif) {
         <button
-          class="btn btn-danger form-control btn-sm"
+          class="btn btn-danger"
           type="button"
-          (click)="onActivated()"
+          (click)="onActivated(membre)"
         >
-          <i class="fa-solid fa-user-xmark"></i>
+          <i class="fa-solid fa-xmark"></i>
         </button>
         } @else {
         <button
-          class="btn btn-success form-control btn-sm"
+          class="btn btn-success"
           type="button"
-          (click)="onActivated()"
+          (click)="onActivated(membre)"
         >
-          <i class="fa-solid fa-user-check"></i>
+          <i class="fa-solid fa-check"></i>
         </button>
         }
-        <button type="button" class="btn btn-primary" (click)="onChangeImage()">
-          <i class="fa-solid fa-floppy-disk"></i> Image
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="onChangeImage(membre.id)"
+        >
+          <i class="fa-solid fa-image"></i>
         </button>
       </div>
     </div>

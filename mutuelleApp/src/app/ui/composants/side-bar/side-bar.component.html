@@ -26,6 +26,18 @@
       </a>
     </li>
     <li>
+      <a routerLink="/adhesion" routerLinkActive="active" class="nav-link">
+        <i class="fa-solid fa-user-check"></i>
+        Adhésions
+      </a>
+    </li>
+    <li>
+      <a routerLink="/cotisation" routerLinkActive="active" class="nav-link">
+        <i class="fa-solid fa-coins"></i>
+        Cotisations
+      </a>
+    </li>
+    <li>
       <a routerLink="/avance" routerLinkActive="active" class="nav-link">
         <i class="fa-solid fa-users"></i>
         Avances
@@ -51,12 +63,12 @@
     </li>
     <li>
       <a routerLink="/agence" routerLinkActive="active" class="nav-link">
-        <i class="fa-solid fa-users"></i>
+        <i class="fa-solid fa-building"></i>
         Agences
       </a>
     </li>
     <li>
-      <a routerLink="/credit" routerLinkActive="active" class="nav-link">
+      <a routerLink="/compte" routerLinkActive="active" class="nav-link">
         <i class="fa-solid fa-users"></i>
         Plan comptable
       </a>
@@ -82,7 +94,7 @@
     </a>
     <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser1">
       <li>
-        <a class="dropdown-item" routerLink="/home/profile"
+        <a class="dropdown-item" routerLink="/home/profile/{{ user.id }}"
           ><i class="fa-solid fa-address-card"></i> Profile</a
         >
       </li>

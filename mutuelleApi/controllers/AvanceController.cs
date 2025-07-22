@@ -14,10 +14,10 @@ namespace mutuelleApi.controllers
         private readonly IMapper mapper = mapper;
         private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
-        [HttpPost("add")]
-        public async Task<IActionResult> Add(AvanceDto avanceDto)
+        [HttpPost]
+        public async Task<IActionResult> Add(AvanceRequestDto request)
         {
-            var avance = mapper.Map<Avance>(avanceDto);
+            var avance = mapper.Map<Avance>(request);
             avance.ModifiePar = GetUserId();
             avance.ModifieLe = DateTime.Now;
             uow.AvanceRepository.Add(avance);
@@ -29,24 +29,22 @@ namespace mutuelleApi.controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            // if (await uow.MembreRepository.AvanceIsUse(id))
-            //     return Unauthorized("Cette avance ne peut pas être supprimer!");
-            // uow.AvanceRepository.Delete(id);
+			uow.AvanceRepository.Delete(id);
             await uow.SaveAsync();
             return Ok();
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, AvanceDto avanceDto)
+        public async Task<IActionResult> Update(int id, AvanceRequestDto request)
         {
-            if (id != avanceDto.Id)
-            {
-                return Unauthorized("Cette avance ne peut pas être modifier");
-            }
-            var avance = mapper.Map<Avance>(avanceDto);
+            var avance = await uow.AvanceRepository.GetByIdAsync(id);
+			if(avance is null) {
+				return NotFound("Avance non trouvée");
+			}
+			
+			mapper.Map(request, avance);
             avance.ModifiePar = GetUserId();
             avance.ModifieLe = DateTime.Now;
-            uow.AvanceRepository.Add(avance);
 
             await uow.SaveAsync();
             return StatusCode(201);
@@ -57,10 +55,52 @@ namespace mutuelleApi.controllers
         {
             var avances = await uow.AvanceRepository.GetAllAsync();
             if(avances is null) {
-                return NotFound("Aucune avance n'a été trouvé dans la bdd");
+                return NotFound("Avances non trouvées!");
             }
             var avancesDto = mapper.Map<List<AvanceDto>>(avances);
             return Ok(avancesDto);
+        }
+		
+		[HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var avance = await uow.AvanceRepository.GetByIdAsync(id);
+            if(avance is null) {
+                return NotFound("Avance non trouvée");
+            }
+            var avanceDto = mapper.Map<AvanceDto>(avance);
+            return Ok(avanceDto);
+        }
+		
+		[HttpPost("echeance")]
+        public async Task<IActionResult> AddEcheances(List<EcheanceAvanceRequestDto> request)
+        {
+            var echeances = mapper.Map<List<Echeance>>(request);
+            foreach (var echeance in echeances)
+            {
+                echeance.ModifiePar = GetUserId();
+                echeance.ModifieLe = DateTime.Now;
+                uow.EcheanceRepository.Add(echeance);
+            }
+
+            await uow.SaveAsync();
+            return StatusCode(201);
+        }
+		
+		[HttpPut("echeance/{id}")]
+        public async Task<IActionResult> UpdateEcheance(int id, EcheanceAvanceRequestDto request)
+        {
+            var echeance = await uow.EcheanceRepository.GetByIdAsync(id);
+			if(echeance is null) {
+				return NotFound("Echeance avance non trouvée");
+			}
+			
+			mapper.Map(request, echeance);
+            echeance.ModifiePar = GetUserId();
+            echeance.ModifieLe = DateTime.Now;
+
+            await uow.SaveAsync();
+            return StatusCode(201);
         }
     }
 }

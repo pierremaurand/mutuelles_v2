@@ -15,7 +15,7 @@ namespace mutuelleApi.controllers
         private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
         [HttpPost]
-        public async Task<IActionResult> Add(List<AdhesionRequest> request)
+        public async Task<IActionResult> Add(List<AdhesionRequestDto> request)
         {
             var adhesions = mapper.Map<List<Adhesion>>(request);
             foreach (var adhesion in adhesions)
@@ -38,9 +38,9 @@ namespace mutuelleApi.controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, AdhesionRequest request)
+        public async Task<IActionResult> Update(int id, AdhesionRequestDto request)
         {
-            var adhesion = await uow.AdhesionRepository.FindByIdAsync(id);
+            var adhesion = await uow.AdhesionRepository.GetByIdAsync(id);
             if (adhesion is null)
             {
                 return NotFound("Adhesion non trouvée!");
@@ -56,9 +56,9 @@ namespace mutuelleApi.controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var adhesions = await uow.AdhesionRepository.FindAllAsync();
+            var adhesions = await uow.AdhesionRepository.GetAllAsync();
             if(adhesions is null) {
-                return NotFound("Aucune adhesion n'a été trouvé dans la bdd");
+                return NotFound("Adhesions non trouvées!");
             }
             var adhesionsDto = mapper.Map<List<AdhesionDto>>(adhesions);
             return Ok(adhesionsDto);
@@ -67,7 +67,7 @@ namespace mutuelleApi.controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var adhesion = await uow.AdhesionRepository.FindByIdAsync(id);
+            var adhesion = await uow.AdhesionRepository.GetByIdAsync(id);
             if(adhesion is null) {
                 return NotFound("Adhesion non trouvée!");
             }

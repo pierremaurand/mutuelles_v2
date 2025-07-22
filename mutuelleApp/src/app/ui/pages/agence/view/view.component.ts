@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { Agence } from '../../../../core/models/agence';
 import { AgenceService } from '../../../../core/services/agence.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-view',
@@ -16,16 +15,9 @@ export default class ViewComponent implements OnInit {
   agence$!: Observable<Agence>;
   id!: number;
 
-  constructor(
-    private agenceService: AgenceService,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private agenceService: AgenceService) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.params['id'];
-    if (id) {
-      this.agenceService.getAgence(id);
-    }
     this.agence$ = this.agenceService.agence$;
     this.agence$.subscribe();
   }

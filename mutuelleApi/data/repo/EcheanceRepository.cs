@@ -17,7 +17,12 @@ namespace mutuelleApi.data.repo
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            if(dc.Echeances is not null) {
+				var echeance = dc.Echeances.Find(id);
+				if(echeance is not null) {
+					dc.Echeances.Remove(echeance);
+				}
+            }
         }
 
         public async Task<IEnumerable<Echeance>?> GetAllAsync()
@@ -27,6 +32,20 @@ namespace mutuelleApi.data.repo
                 .ToListAsync();
                 if(echeances is not null) {
                     return echeances;
+                }
+            }
+
+            return null;
+        }
+		
+		public async Task<Echeance?> GetByIdAsync(int id)
+        {
+            if(dc.Echeances is not null) {
+                var echeance = await dc.Echeances
+                .Where(s => s.Id == id)
+                .FirstAsync();
+                if(echeance is not null) {
+                    return echeance;
                 }
             }
 

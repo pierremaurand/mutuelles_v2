@@ -28,6 +28,7 @@ import { Observable } from 'rxjs';
 import { MembreService } from '../../../core/services/membre.service';
 import { Membre } from '../../../core/models/membre';
 import { MembreRequest } from '../../../core/models/membre-request';
+import { UtilisateurRequest } from '../../../core/models/utilisateur-request';
 
 @Component({
   selector: 'app-image-add',
@@ -62,28 +63,25 @@ export default class ImageAddComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.id = this.route.snapshot.params['id'] as number;
     this.route.data.subscribe((data) => {
       this.origin = data['origin'];
-      this.backUrl = data['backUrl'];
     });
+
     if (this.origin === 'utilisateur') {
+      this.utilisateurService.getUtilisateur(this.id);
       this.utilisateur$ = this.utilisateurService.utilisateur$;
       this.utilisateur$.subscribe({
-        next: (infos: UserInfos) => {
-          if (infos.id) {
-            this.id = infos.id;
-            this.utilisateur = infos;
-          }
+        next: (utilisateur: UserInfos) => {
+          this.utilisateur = utilisateur;
         },
       });
     } else {
+      this.membreService.getMembreFromServer(this.id);
       this.membre$ = this.membreService.membre$;
       this.membre$.subscribe({
-        next: (infos: Membre) => {
-          if (infos.id) {
-            this.id = infos.id;
-            this.membre = infos;
-          }
+        next: (membre: Membre) => {
+          this.membre = membre;
         },
       });
     }
@@ -125,9 +123,7 @@ export default class ImageAddComponent implements OnInit {
               // console.log(response);
               if (this.id) {
                 if (this.origin === 'utilisateur') {
-                  this.updatePhotoRequest = {
-                    photo: response.fileName,
-                  };
+                  this.utilisateur.photo = response.fileName;
                   this.updateUtilisateur();
                 } else {
                   this.membre.photo = response.fileName;
@@ -136,36 +132,47 @@ export default class ImageAddComponent implements OnInit {
               }
             },
             error: (error) => {
-              this.toastr.error('Image upload failed. Please try again.');
+              this.toastr.error(
+                'Image upload failed. Please try again.',
+                'Erreur'
+              );
               console.error('Image upload error:', error);
             },
           });
         },
         (error) => {
           console.error('Error converting blob to base64:', error);
-          this.toastr.error('Failed to convert image. Please try again.');
+          this.toastr.error(
+            'Failed to convert image. Please try again.',
+            'Erreur'
+          );
         }
       );
     }
   }
 
   onCancel(): void {
-    this.router.navigateByUrl(this.backUrl);
+    if (this.origin === 'utilisateur') {
+      this.router.navigateByUrl('/home/profile/' + this.utilisateur.id);
+    } else {
+      this.router.navigateByUrl('/membre/view/' + this.membre.id);
+    }
   }
 
   updateUtilisateur(): void {
-    this.authService.updatePhoto(this.id, this.updatePhotoRequest).subscribe({
-      next: () => {
-        this.toastr.success('Image uploaded successfully!');
-        this.authService.getUserInfosFromServer();
-        this.utilisateurService.getAllUtilisateurFromServer();
-        this.onCancel();
-      },
-      error: (error) => {
-        this.toastr.error('Image upload failed. Please try again.');
-        console.error('Image upload error:', error);
-      },
-    });
+    this.utilisateurService
+      .addOrUpdateUser(this.id, this.utilisateur as UtilisateurRequest)
+      .subscribe({
+        next: () => {
+          this.toastr.success('Image uploaded successfully!', 'Succès');
+          this.authService.getUserInfosFromServer();
+          this.onCancel();
+        },
+        error: (error) => {
+          this.toastr.error('Image upload failed. Please try again.', 'Erreur');
+          console.error('Image upload error:', error);
+        },
+      });
   }
 
   updateMembre(): void {
@@ -173,13 +180,11 @@ export default class ImageAddComponent implements OnInit {
       .addOrUpdate(this.id, this.membre as MembreRequest)
       .subscribe({
         next: () => {
-          this.toastr.success('Image uploaded successfully!');
-          this.membreService.getAllMembreFromServer();
-          this.membreService.getMembre(this.id);
+          this.toastr.success('Image uploaded successfully!', 'Succès');
           this.onCancel();
         },
         error: (error) => {
-          this.toastr.error('Image upload failed. Please try again.');
+          this.toastr.error('Image upload failed. Please try again.', 'Erreur');
           console.error('Image upload error:', error);
         },
       });

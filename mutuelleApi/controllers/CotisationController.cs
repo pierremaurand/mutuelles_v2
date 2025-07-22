@@ -14,8 +14,8 @@ namespace mutuelleApi.controllers
         private readonly IMapper mapper = mapper;
         private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
-        [HttpPost("add")]
-        public async Task<IActionResult> Add(List<CotisationDto> request)
+        [HttpPost]
+        public async Task<IActionResult> Add(List<CotisationRequestDto> request)
         {
             var cotisations = mapper.Map<List<Cotisation>>(request);
             foreach (var cotisation in cotisations)
@@ -32,9 +32,7 @@ namespace mutuelleApi.controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            // if (await uow.MembreRepository.CotisationIsUse(id))
-            //     return Unauthorized("Cette cotisation ne peut pas être supprimer!");
-            // uow.CotisationRepository.Delete(id);
+            uow.CotisationRepository.Delete(id);
             await uow.SaveAsync();
             return Ok();
         }
@@ -59,14 +57,13 @@ namespace mutuelleApi.controllers
         public async Task<IActionResult> GetAll()
         {
             var cotisations = await uow.CotisationRepository.GetAllAsync();
-            if (cotisations is null)
-            {
-                return NotFound("Aucune cotisation n'a été trouvé dans la bdd");
+            if(cotisations is null) {
+                return NotFound("Cotisations non trouvées");
             }
             var cotisationsDto = mapper.Map<List<CotisationDto>>(cotisations);
             return Ok(cotisationsDto);
         }
-        
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -77,5 +74,6 @@ namespace mutuelleApi.controllers
             var cotisationDto = mapper.Map<CotisationDto>(cotisation);
             return Ok(cotisationDto);
         }
+        
     }
 }

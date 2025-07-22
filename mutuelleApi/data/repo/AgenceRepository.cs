@@ -18,10 +18,17 @@ namespace mutuelleApi.data.repo
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            if (dc.Agences is not null)
+            {
+				var agence = dc.Agences.Find(id);
+				if(agence != null) {
+					dc.Agences.Remove(agence);
+				}
+                
+            }
         }
 
-        public async Task<IEnumerable<Agence>?> FindAllAsync()
+        public async Task<IEnumerable<Agence>?> GetAllAsync()
         {
             if (dc.Agences is not null)
             {
@@ -36,7 +43,7 @@ namespace mutuelleApi.data.repo
             return null;
         }
 
-        public async Task<Agence?> FindByIdAsync(int id)
+        public async Task<Agence?> GetByIdAsync(int id)
         {
             if (dc.Agences is not null)
             {

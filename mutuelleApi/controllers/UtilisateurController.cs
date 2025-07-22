@@ -42,7 +42,7 @@ namespace mutuelleApi.controllers
         [HttpPut("activate/{id}")]
         public async Task<IActionResult> Activate(int id, UpdateUtilisateurActifRequestDto request)
         {
-            var utilisateur = await uow.UtilisateurRepository.FindByIdAsync(id);
+            var utilisateur = await uow.UtilisateurRepository.GetByIdAsync(id);
             if (utilisateur is null)
             {
                 return NotFound("Cet utilisateur n'existe pas!");
@@ -55,7 +55,7 @@ namespace mutuelleApi.controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, UtilisateurRequestDto request)
         {
-            var utilisateur = await uow.UtilisateurRepository.FindByIdAsync(id);
+            var utilisateur = await uow.UtilisateurRepository.GetByIdAsync(id);
             if (utilisateur is null)
             {
                 return NotFound("Cet utilisateur n'existe pas!");
@@ -84,7 +84,7 @@ namespace mutuelleApi.controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var utilisateur = await uow.UtilisateurRepository.FindByIdAsync(id);
+            var utilisateur = await uow.UtilisateurRepository.GetByIdAsync(id);
             if (utilisateur is null) {
                 return NotFound("Utilisateur non trouvé!");
             }

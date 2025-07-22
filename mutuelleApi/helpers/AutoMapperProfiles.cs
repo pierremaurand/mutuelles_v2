@@ -8,32 +8,44 @@ namespace mutuelleApi.helpers
     {
         public AutoMapperProfiles()
         {
-            CreateMap<Adhesion, AgenceDto>().ReverseMap();
-            CreateMap<Adhesion, AgenceRequest>().ReverseMap(); 
+            CreateMap<Adhesion, AdhesionDto>().ReverseMap();
+            CreateMap<Adhesion, AdhesionRequestDto>().ReverseMap(); 
 
             CreateMap<Agence, AgenceDto>().ReverseMap();
-            CreateMap<Agence, AgenceRequest>().ReverseMap();
+            CreateMap<Agence, AgenceRequestDto>().ReverseMap();
 
             CreateMap<Avance, AvanceDto>().ReverseMap();
-            CreateMap<Compte, CompteDto>().ReverseMap();
+            CreateMap<Avance, AvanceRequestDto>().ReverseMap();
 
             CreateMap<Cotisation, CotisationDto>().ReverseMap();
             CreateMap<Cotisation, CotisationRequestDto>().ReverseMap();
 
             CreateMap<Credit, CreditDto>().ReverseMap();
+            CreateMap<Credit, CreditRequestDto>().ReverseMap();
+			
+			CreateMap<Membre, MembreDto>().ReverseMap();
+            CreateMap<Membre, MembreRequestDto>().ReverseMap();
+			
+			CreateMap<Utilisateur, UtilisateurDto>().ReverseMap();
+            CreateMap<Utilisateur, UtilisateurRequestDto>().ReverseMap();
+			
             CreateMap<Echeance, EcheanceDto>().ReverseMap();
+			CreateMap<Echeance, EcheanceAvanceRequestDto>().ReverseMap();
+			CreateMap<Echeance, EcheanceCreditRequestDto>().ReverseMap();
+			
+			
             CreateMap<Ecriture, EcritureDto>().ReverseMap();
             CreateMap<Gabarit, GabaritDto>().ReverseMap();
 
-            CreateMap<Membre, MembreDto>().ReverseMap();
-            CreateMap<Membre, MembreRequest>().ReverseMap();
+           
 
             CreateMap<Mouvement, MouvementDto>().ReverseMap();
             CreateMap<MouvementComptable, MouvementComptableDto>().ReverseMap();
             CreateMap<Operation, OperationDto>().ReverseMap();
 
-            CreateMap<Utilisateur, UtilisateurDto>().ReverseMap();
-            CreateMap<Utilisateur, UtilisateurRequestDto>().ReverseMap();
+            
+			
+			CreateMap<Compte, CompteDto>().ReverseMap();
         }
     }
 }

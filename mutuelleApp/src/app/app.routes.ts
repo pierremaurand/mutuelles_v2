@@ -38,6 +38,34 @@ export const routes: Routes = [
             (m) => m.MembreModule
           ),
       },
+      {
+        path: 'adhesion',
+        loadChildren: () =>
+          import('./ui/modules/adhesion/adhesion.module').then(
+            (m) => m.AdhesionModule
+          ),
+      },
+      {
+        path: 'cotisation',
+        loadChildren: () =>
+          import('./ui/modules/cotisation/cotisation.module').then(
+            (m) => m.CotisationModule
+          ),
+      },
+      {
+        path: 'avance',
+        loadChildren: () =>
+          import('./ui/modules/avance/avance.module').then(
+            (m) => m.AvanceModule
+          ),
+      },
+      {
+        path: 'credit',
+        loadChildren: () =>
+          import('./ui/modules/credit/credit.module').then(
+            (m) => m.CreditModule
+          ),
+      },
     ],
   },
   {

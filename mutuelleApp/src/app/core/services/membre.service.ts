@@ -23,7 +23,7 @@ export class MembreService {
 
   constructor(private http: HttpClient) {}
 
-  getAllMembreFromServer(): void {
+  getAllMembresFromServer(): void {
     this.http
       .get<Membre[]>(`${this.baseUrl}`)
       .pipe(
@@ -34,8 +34,8 @@ export class MembreService {
       .subscribe();
   }
 
-  getMembre(id: number): void {
-    if (id != 0) {
+  getMembreFromServer(id: number): void {
+    if (id) {
       this.http
         .get<Membre>(`${this.baseUrl}/${id}`)
         .pipe(

@@ -20,7 +20,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ChangePasswordRequest } from '../../../../core/models/change-password-request';
 import { Observable } from 'rxjs';
 import { UserInfos } from '../../../../core/models/user-infos';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-change-password',
@@ -38,23 +38,18 @@ export default class ChangePasswordComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    this.id = this.route.snapshot.params['id'];
     this.userInfos$ = this.authService.userInfos$;
-    this.userInfos$.subscribe({
-      next: (infos: UserInfos) => {
-        if (infos.id) {
-          this.id = infos.id;
-        }
-      },
-    });
     this.initForm();
   }
 
   onCancel(): void {
-    this.router.navigateByUrl('/home/profile');
+    this.router.navigateByUrl('/home/profile/' + this.id);
   }
 
   submitForm(): void {
@@ -67,14 +62,14 @@ export default class ChangePasswordComponent implements OnInit {
     if (this.id) {
       this.authService.changePassword(this.id, request).subscribe({
         next: () => {
-          this.toastr.success('Password change successful!');
+          this.toastr.success('Password change successful!', 'Succès');
           this.onCancel(); // Redirect to profile page after successful change
         },
-        error: (error) => {
+        error: () => {
           this.toastr.error(
-            'Change password failed. Please check your credentials.'
+            'Change password failed. Please check your credentials.',
+            'Erreur'
           );
-          console.log(error);
         },
       });
     }

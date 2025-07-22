@@ -19,22 +19,11 @@ export default class ListeComponent implements OnInit {
   constructor(private membreService: MembreService, private router: Router) {}
 
   ngOnInit(): void {
-    this.membreService.getAllMembreFromServer();
     this.membres$ = this.membreService.membres$;
     this.membres$.subscribe();
   }
 
-  add(id: number): void {
-    this.membreService.getMembre(id);
-    this.router.navigateByUrl('/membre/add');
-  }
-
-  edit(id: number): void {
-    this.add(id);
-  }
-
-  view(id: number): void {
-    this.membreService.getMembre(id);
-    this.router.navigateByUrl('/membre/view');
+  add(): void {
+    this.router.navigateByUrl('/membre/add/0');
   }
 }

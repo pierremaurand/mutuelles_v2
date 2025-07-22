@@ -18,10 +18,15 @@ namespace mutuelleApi.data.repo
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            if(dc.Adhesions is not null) {
+				var adhesion = dc.Adhesions.Find(id);
+				if(adhesion != null) {
+					dc.Adhesions.Remove(adhesion);
+				}
+            }
         }
 
-        public async Task<IEnumerable<Adhesion>?> FindAllAsync()
+        public async Task<IEnumerable<Adhesion>?> GetAllAsync()
         {
             if (dc.Adhesions is not null)
             {
@@ -36,7 +41,7 @@ namespace mutuelleApi.data.repo
             return null;
         }
 
-        public async Task<Adhesion?> FindByIdAsync(int id)
+        public async Task<Adhesion?> GetByIdAsync(int id)
         {
             if (dc.Adhesions is not null)
             {

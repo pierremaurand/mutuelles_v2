@@ -1,3 +1,33 @@
 <header>
-  <nav class="navbar">Search</nav>
+  <nav class="navbar">
+    <div class="container">
+      <div class="row g-3 align-items-center">
+        <div class="col-auto">
+          <label for="search" class="col-form-label">Recherche</label>
+        </div>
+        <div class="col-auto">
+          <input
+            type="search"
+            class="form-control"
+            placeholder="Rechercher..."
+            [formControl]="searchCtrl"
+            id="search"
+            name="search"
+          />
+        </div>
+        <div class="col-auto">
+          <label for="date" class="col-form-label">Date</label>
+        </div>
+        <div class="col-auto">
+          <input
+            type="date"
+            class="form-control"
+            [formControl]="dateCtrl"
+            id="date"
+            name="date"
+          />
+        </div>
+      </div>
+    </div>
+  </nav>
 </header>

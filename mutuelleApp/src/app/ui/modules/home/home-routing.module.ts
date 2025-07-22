@@ -7,7 +7,7 @@ const routes: Routes = [
     loadComponent: () => import('../../pages/home/home/home.component'),
   },
   {
-    path: 'profile',
+    path: 'profile/:id',
     loadComponent: () => import('../../pages/home/profile/profile.component'),
     children: [
       {
@@ -18,12 +18,11 @@ const routes: Routes = [
           ),
       },
       {
-        path: 'image',
+        path: 'image/:id',
         loadComponent: () =>
           import('../../composants/image-add/image-add.component'),
         data: {
           origin: 'utilisateur',
-          backUrl: 'home/profile',
         },
       },
       {

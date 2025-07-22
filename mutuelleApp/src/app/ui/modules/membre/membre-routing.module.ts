@@ -1,5 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {
+  membreResolver,
+  membresResolver,
+} from '../../../core/resolvers/membre.resolver';
+import { agencesResolver } from '../../../core/resolvers/agence.resolver';
 
 const routes: Routes = [
   {
@@ -11,11 +16,13 @@ const routes: Routes = [
     path: 'liste',
     loadComponent: () =>
       import('../../pages/membre/liste/liste.component').then((m) => m.default),
+    resolve: [membresResolver],
   },
   {
     path: 'add/:id',
     loadComponent: () =>
       import('../../pages/membre/add/add.component').then((m) => m.default),
+    resolve: [membreResolver, agencesResolver],
   },
   {
     path: 'view/:id',
@@ -26,14 +33,15 @@ const routes: Routes = [
         path: '',
         loadComponent: () =>
           import('../../pages/membre/membre-infos/membre-infos.component'),
+        resolve: [membreResolver],
       },
       {
-        path: 'image:/id',
+        path: 'image/:id',
         loadComponent: () =>
           import('../../composants/image-add/image-add.component'),
+        resolve: [membreResolver],
         data: {
           origin: 'membre',
-          backUrl: 'membre/view',
         },
       },
     ],

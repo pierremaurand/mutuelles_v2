@@ -14,42 +14,13 @@ namespace mutuelleApi.controllers
         private readonly IMapper mapper = mapper;
         private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
-        [HttpPost("add")]
-        public async Task<IActionResult> Add(EcheanceDto echeanceDto)
-        {
-            var echeance = mapper.Map<Echeance>(echeanceDto);
-            echeance.ModifiePar = GetUserId();
-            echeance.ModifieLe = DateTime.Now;
-            uow.EcheanceRepository.Add(echeance);
-
-            await uow.SaveAsync();
-            return StatusCode(201);
-        }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            // if (await uow.MembreRepository.EcheanceIsUse(id))
-            //     return Unauthorized("Cette echeance ne peut pas être supprimer!");
-            // uow.EcheanceRepository.Delete(id);
+            uow.EcheanceRepository.Delete(id);
             await uow.SaveAsync();
             return Ok();
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, EcheanceDto echeanceDto)
-        {
-            if (id != echeanceDto.Id)
-            {
-                return Unauthorized("Cette echeance ne peut pas être modifier");
-            }
-            var echeance = mapper.Map<Echeance>(echeanceDto);
-            echeance.ModifiePar = GetUserId();
-            echeance.ModifieLe = DateTime.Now;
-            uow.EcheanceRepository.Add(echeance);
-
-            await uow.SaveAsync();
-            return StatusCode(201);
         }
 
         [HttpGet]
@@ -57,10 +28,21 @@ namespace mutuelleApi.controllers
         {
             var echeances = await uow.EcheanceRepository.GetAllAsync();
             if(echeances is null) {
-                return NotFound("Aucune echeance n'a été trouvé dans la bdd");
+                return NotFound("Echéances non trouvées");
             }
             var echeancesDto = mapper.Map<List<EcheanceDto>>(echeances);
             return Ok(echeancesDto);
+        }
+		
+		[HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var echeance = await uow.EcheanceRepository.GetByIdAsync(id);
+            if(echeance is null) {
+                return NotFound("Echéance non trouvée");
+            }
+            var echeanceDto = mapper.Map<EcheanceDto>(echeance);
+            return Ok(echeanceDto);
         }
     }
 }

@@ -34,19 +34,7 @@ export default class AddComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    const id = this.route.snapshot.params['id'];
-    if (id) {
-      this.agence$ = this.agenceService.agence$;
-      this.agenceService.getAgence(id);
-      this.agence$.subscribe({
-        next: (agence: Agence) => {
-          this.id = agence.id as number;
-          this.request.patchValue({
-            nom: agence.nom as string,
-          });
-        },
-      });
-    }
+    this.initObservables();
   }
 
   initForm(): void {
@@ -55,12 +43,24 @@ export default class AddComponent implements OnInit {
     });
   }
 
+  initObservables(): void {
+    this.agence$ = this.agenceService.agence$;
+    this.agence$.subscribe({
+      next: (agence: Agence) => {
+        this.id = agence.id as number;
+        this.request.patchValue({
+          nom: agence.nom as string,
+        });
+      },
+    });
+  }
+
   submitForm(): void {
     if (this.request.valid) {
       this.agenceService.addOrUpdate(this.id, this.request.value).subscribe({
         next: () => {
           this.toastr.success("L'enregistrement a réussie!", 'Succès');
-          this.agenceService.getAllAgenceFromServer();
+          this.agenceService.getAllAgencesFromServer();
           this.onCancel();
         },
         error: (error) => {

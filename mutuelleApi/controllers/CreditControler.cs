@@ -14,10 +14,10 @@ namespace mutuelleApi.controllers
         private readonly IMapper mapper = mapper;
         private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
-        [HttpPost("add")]
-        public async Task<IActionResult> Add(CreditDto creditDto)
+        [HttpPost]
+        public async Task<IActionResult> Add(CreditRequestDto request)
         {
-            var credit = mapper.Map<Credit>(creditDto);
+            var credit = mapper.Map<Credit>(request);
             credit.ModifiePar = GetUserId();
             credit.ModifieLe = DateTime.Now;
             uow.CreditRepository.Add(credit);
@@ -29,24 +29,22 @@ namespace mutuelleApi.controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            // if (await uow.MembreRepository.CreditIsUse(id))
-            //     return Unauthorized("Cette credit ne peut pas être supprimer!");
-            // uow.CreditRepository.Delete(id);
+            uow.CreditRepository.Delete(id);
             await uow.SaveAsync();
             return Ok();
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, CreditDto creditDto)
+        public async Task<IActionResult> Update(int id, CreditRequestDto request)
         {
-            if (id != creditDto.Id)
-            {
-                return Unauthorized("Cette credit ne peut pas être modifier");
-            }
-            var credit = mapper.Map<Credit>(creditDto);
+            var credit = await uow.CreditRepository.GetByIdAsync(id);
+			if(credit is null) {
+				return NotFound("Credit non trouvé");
+			}
+			
+			mapper.Map(request, credit);
             credit.ModifiePar = GetUserId();
             credit.ModifieLe = DateTime.Now;
-            uow.CreditRepository.Add(credit);
 
             await uow.SaveAsync();
             return StatusCode(201);
@@ -61,6 +59,48 @@ namespace mutuelleApi.controllers
             }
             var creditsDto = mapper.Map<List<CreditDto>>(credits);
             return Ok(creditsDto);
+        }
+		
+		[HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var credit = await uow.CreditRepository.GetByIdAsync(id);
+            if(credit is null) {
+                return NotFound("Credit non trouvé");
+            }
+            var creditDto = mapper.Map<CreditDto>(credit);
+            return Ok(creditDto);
+        }
+		
+		[HttpPost("echeance")]
+        public async Task<IActionResult> AddEcheances(List<EcheanceCreditRequestDto> request)
+        {
+            var echeances = mapper.Map<List<Echeance>>(request);
+            foreach (var echeance in echeances)
+            {
+                echeance.ModifiePar = GetUserId();
+                echeance.ModifieLe = DateTime.Now;
+                uow.EcheanceRepository.Add(echeance);
+            }
+
+            await uow.SaveAsync();
+            return StatusCode(201);
+        }
+		
+		[HttpPut("echeance/{id}")]
+        public async Task<IActionResult> UpdateEcheance(int id, EcheanceCreditRequestDto request)
+        {
+            var echeance = await uow.EcheanceRepository.GetByIdAsync(id);
+			if(echeance is null) {
+				return NotFound("Echeance credit non trouvée");
+			}
+			
+			mapper.Map(request, echeance);
+            echeance.ModifiePar = GetUserId();
+            echeance.ModifieLe = DateTime.Now;
+
+            await uow.SaveAsync();
+            return StatusCode(201);
         }
     }
 }

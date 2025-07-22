@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="d-flex justify-content-between">
+    <h1 class="h3">Les cotisations</h1>
+    <button class="btn btn-primary" type="button" (click)="add()">
+      Ajouter une cotisation
+    </button>
+  </div>
+  <hr />
+  <div class="row" *ngIf="cotisations$ | async as cotisations">
+    <div class="col-md-2 mb-3" *ngFor="let cotisation of cotisations">
+      <app-card
+        [cotisation]="cotisation"
+        [membre]="getMembreById(cotisation.membreId)"
+      ></app-card>
+    </div>
+    <div class="col" *ngIf="cotisations.length == 0">
+      <h2 class="text-center">Aucune cotisation n'a été trouvé dans la base</h2>
+    </div>
+  </div>
+</div>

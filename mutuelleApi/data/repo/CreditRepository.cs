@@ -17,7 +17,12 @@ namespace mutuelleApi.data.repo
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            if(dc.Credits is not null) {
+                var credit = dc.Credits.Find(id);
+				if(credit != null) {
+					dc.Credits.Remove(credit);
+				}
+            }
         }
 
         public async Task<IEnumerable<Credit>?> GetAllAsync()
@@ -27,6 +32,20 @@ namespace mutuelleApi.data.repo
                 .ToListAsync();
                 if(credits is not null) {
                     return credits;
+                }
+            }
+
+            return null;
+        }
+		
+		public async Task<Credit?> GetByIdAsync(int id)
+        {
+            if(dc.Credits is not null) {
+                var credit = await dc.Credits
+                .Where(x => x.Id == id)
+                .FirstAsync();
+                if (credit is not null) {
+                    return credit;
                 }
             }
 

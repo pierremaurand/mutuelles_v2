@@ -10,6 +10,6 @@ export class Membre {
   dateAdhesion: string = '';
   telephone: string = '';
   email: string = '';
-  photo?: string;
+  photo: string = '';
   estActif: boolean = true;
 }
