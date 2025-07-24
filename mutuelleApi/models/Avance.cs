@@ -4,13 +4,10 @@ namespace mutuelleApi.models
 {
     public class Avance : BaseEntity
     {
-        [Required]
         public int MembreId { get; set; }
-        [Required]
         public int Duree { get; set; }
-        [Required]
         public float MontantCapital { get; set; }
-        [Required]
-        public string DateEnregistrement { get; set; } = string.Empty;
+        public string DateDemande { get; set; } = string.Empty;
+        public string DateDecaissement { get; set; } = string.Empty;
     }
 }

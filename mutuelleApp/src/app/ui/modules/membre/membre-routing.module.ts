@@ -5,6 +5,10 @@ import {
   membresResolver,
 } from '../../../core/resolvers/membre.resolver';
 import { agencesResolver } from '../../../core/resolvers/agence.resolver';
+import { cotisationsResolver } from '../../../core/resolvers/cotisation.resolver';
+import { creditsResolver } from '../../../core/resolvers/credit.resolver';
+import { avancesResolver } from '../../../core/resolvers/avance.resolver';
+import { echeancesResolver } from '../../../core/resolvers/echeance.resolver';
 
 const routes: Routes = [
   {
@@ -33,7 +37,14 @@ const routes: Routes = [
         path: '',
         loadComponent: () =>
           import('../../pages/membre/membre-infos/membre-infos.component'),
-        resolve: [membreResolver],
+        resolve: [
+          membreResolver,
+          agencesResolver,
+          cotisationsResolver,
+          creditsResolver,
+          avancesResolver,
+          echeancesResolver,
+        ],
       },
       {
         path: 'image/:id',
@@ -45,6 +56,7 @@ const routes: Routes = [
         },
       },
     ],
+    resolve: [membreResolver],
   },
 ];
 

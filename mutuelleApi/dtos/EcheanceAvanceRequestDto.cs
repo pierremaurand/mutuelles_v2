@@ -10,5 +10,6 @@ namespace mutuelleApi.dtos
         public float MontantCapital { get; set; }
 		[Required(ErrorMessage = "L'avance est obligatoire.")]
         public int AvanceId { get; set; }
+		public bool EstPaye { get; set; } = false;
     }
 }

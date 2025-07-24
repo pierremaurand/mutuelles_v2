@@ -12,6 +12,8 @@ namespace mutuelleApi.dtos
         [Required]
         public float MontantCapital { get; set; }
         [Required]
-        public string DateEnregistrement { get; set; } = string.Empty;
+        public string DateDemande { get; set; } = string.Empty;
+		[Required]
+        public string DateDecaissement { get; set; } = string.Empty;
     }
 }

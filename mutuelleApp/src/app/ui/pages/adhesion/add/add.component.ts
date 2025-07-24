@@ -69,6 +69,7 @@ export default class AddComponent implements OnInit {
       },
     });
   }
+
   addAdhesion(membre: Membre) {
     var adhesionForm = this.fb.group({
       membreId: [membre.id, [Validators.required]],

@@ -13,9 +13,13 @@ namespace mutuelleApi.dtos
         public int Duree { get; set; }
         [Required]
         public float MontantCapital { get; set; }
+		[Required]
+        public float MontantCommission { get; set; }
         [Required]
         public float MontantInterets { get; set; }
         [Required]
-        public string DateEnregistrement { get; set; } = string.Empty;
+        public string DateDemande { get; set; } = string.Empty;
+		[Required]
+        public string DateDecaissement { get; set; } = string.Empty;
     }
 }

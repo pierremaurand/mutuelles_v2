@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="col">
+    <table class="table table-striped table-sm table-bordered">
+      <thead>
+        <tr>
+          <th class="text-center">N°</th>
+          <th class="text-center">Date</th>
+          <th class="text-center" *ngIf="echeancierCredit">Capital</th>
+          <th class="text-center" *ngIf="echeancierCredit">Intérets</th>
+          <th class="text-center">Montant échéance</th>
+          <th class="text-center" *ngIf="echeancierView">Etat</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let echeance of echeancier; let i = index">
+          <td class="text-center">{{ 1 + i }}</td>
+          <td class="text-center">
+            {{ echeance.dateEcheance | date : "dd/MM/yyyy" }}
+          </td>
+          <td class="text-end" *ngIf="echeancierCredit">
+            {{ echeance.montantCapital | number }} FCFA
+          </td>
+          <td class="text-end" *ngIf="echeancierCredit">
+            {{ echeance.montantInterets | number }} FCFA
+          </td>
+          <td class="text-end">
+            {{ echeance.montantInterets + echeance.montantCapital | number }}
+            FCFA
+          </td>
+          <td
+            class="text-center text-{{
+              echeance.estPaye ? 'success' : 'danger'
+            }}"
+            *ngIf="echeancierView"
+          >
+            {{ echeance.estPaye ? "Payée" : "Impayée" }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

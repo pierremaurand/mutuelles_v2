@@ -14,13 +14,52 @@ namespace mutuelleApi.controllers
         private readonly IMapper mapper = mapper;
         private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
-        [HttpPost]
-        public async Task<IActionResult> Add(AvanceRequestDto request)
+		[HttpPut("anticipation/{id}")]
+        public async Task<IActionResult> Anticipation(int id,List<EcheanceDto> request)
         {
-            var avance = mapper.Map<Avance>(request);
+			var avance = await uow.AvanceRepository.GetByIdAsync(id);
+			
+			if(avance is null) {
+				return NotFound("Avance non trouvée");
+			}
+			
+			foreach (var echeanceDto in request)
+            {
+				 var echeance = await uow.EcheanceRepository.GetByIdAsync(echeanceDto.Id);
+				 if(echeance is null) {
+					 return NotFound("Echeance non trouvée");
+				 }
+				 
+				 if(echeance.AvanceId != avance.Id) {
+					 return BadRequest("Echeance non valide");
+				 }
+				 
+				 mapper.Map(echeanceDto,echeance);
+                echeance.ModifiePar = GetUserId();
+                echeance.ModifieLe = DateTime.Now;
+            }
+
+            await uow.SaveAsync();
+            return StatusCode(201);
+        }
+		
+        [HttpPost]
+        public async Task<IActionResult> Add(InfosAvanceDto request)
+        {
+            var avance = mapper.Map<Avance>(request.Avance);
             avance.ModifiePar = GetUserId();
             avance.ModifieLe = DateTime.Now;
             uow.AvanceRepository.Add(avance);
+			await uow.SaveAsync();
+			
+			foreach (var echeanceDto in request.Echeancier)
+            {
+				 var echeance = mapper.Map<Echeance>(echeanceDto);
+				 echeance.AvanceId = avance.Id;
+                echeance.ModifiePar = GetUserId();
+                echeance.ModifieLe = DateTime.Now;
+                uow.EcheanceRepository.Add(echeance);
+            }
 
             await uow.SaveAsync();
             return StatusCode(201);
@@ -29,7 +68,7 @@ namespace mutuelleApi.controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-			uow.AvanceRepository.Delete(id);
+            uow.AvanceRepository.Delete(id);
             await uow.SaveAsync();
             return Ok();
         }
@@ -55,7 +94,7 @@ namespace mutuelleApi.controllers
         {
             var avances = await uow.AvanceRepository.GetAllAsync();
             if(avances is null) {
-                return NotFound("Avances non trouvées!");
+                return NotFound("Avances non trouvées");
             }
             var avancesDto = mapper.Map<List<AvanceDto>>(avances);
             return Ok(avancesDto);

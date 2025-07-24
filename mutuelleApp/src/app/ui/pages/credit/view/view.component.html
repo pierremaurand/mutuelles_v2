@@ -1,1 +1,30 @@
-<p>view works!</p>
+<div class="container" *ngIf="credit$ | async as credit">
+  <div class="d-flex justify-content-between">
+    <h1 class="h3">Infos credit</h1>
+    <div class="d-flex justify-content-end gap-1">
+      <button
+        type="button"
+        class="btn btn-success"
+        (click)="onAnticipePaiement(credit.id)"
+        *ngIf="!creditSolder"
+      >
+        <i class="fa-solid fa-list-check"></i>
+      </button>
+    </div>
+  </div>
+  <hr />
+  <div class="row" *ngIf="membre$ | async as membre">
+    <div class="col-md-3" *ngIf="credit$ | async as credit">
+      <app-infos-pret
+        [membre]="membre"
+        [montant]="credit.montantCapital"
+        [commission]="credit.montantCommission"
+        [interets]="credit.montantInterets"
+        [duree]="credit.duree"
+      ></app-infos-pret>
+    </div>
+    <div class="col-md-9">
+      <router-outlet />
+    </div>
+  </div>
+</div>

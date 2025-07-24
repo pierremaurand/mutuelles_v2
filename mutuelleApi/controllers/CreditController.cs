@@ -8,19 +8,57 @@ using mutuelleApi.models;
 
 namespace mutuelleApi.controllers
 {
-    public class CreditControler(IMapper mapper, IUnitOfWork uow, IHubContext<SignalrServer> signalrHub) : BaseController
+    public class CreditController(IMapper mapper, IUnitOfWork uow, IHubContext<SignalrServer> signalrHub) : BaseController
     {
         private readonly IUnitOfWork uow = uow;
         private readonly IMapper mapper = mapper;
         private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
-        [HttpPost]
-        public async Task<IActionResult> Add(CreditRequestDto request)
+		[HttpPut("anticipation/{id}")]
+        public async Task<IActionResult> Anticipation(int id,List<EcheanceDto> request)
         {
-            var credit = mapper.Map<Credit>(request);
+			var credit = await uow.CreditRepository.GetByIdAsync(id);
+			if(credit is null) {
+				return NotFound("Credit non trouvé");
+			}
+			
+			foreach (var echeanceDto in request)
+            {
+				 var echeance = await uow.EcheanceRepository.GetByIdAsync(echeanceDto.Id);
+				 if(echeance is null) {
+					 return NotFound("Echeance non trouvée");
+				 }
+				 
+				 if(echeance.CreditId != credit.Id) {
+					return BadRequest("Echeance non valide"); 
+				 }
+				 mapper.Map(echeanceDto,echeance);
+				 echeance.estPaye = true;
+                echeance.ModifiePar = GetUserId();
+                echeance.ModifieLe = DateTime.Now;
+            }
+
+            await uow.SaveAsync();
+            return StatusCode(201);
+        }
+		
+        [HttpPost]
+        public async Task<IActionResult> Add(InfosCreditDto request)
+        {
+            var credit = mapper.Map<Credit>(request.Credit);
             credit.ModifiePar = GetUserId();
             credit.ModifieLe = DateTime.Now;
             uow.CreditRepository.Add(credit);
+			await uow.SaveAsync();
+			
+			foreach (var echeanceDto in request.Echeancier)
+            {
+				 var echeance = mapper.Map<Echeance>(echeanceDto);
+				 echeance.CreditId = credit.Id;
+                echeance.ModifiePar = GetUserId();
+                echeance.ModifieLe = DateTime.Now;
+                uow.EcheanceRepository.Add(echeance);
+            }
 
             await uow.SaveAsync();
             return StatusCode(201);

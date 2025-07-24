@@ -1,0 +1,46 @@
+<div class="card shadow mb-3">
+  <div class="card-body">
+    <table
+      class="table table-bordered table-striped"
+      *ngIf="echeancier$ | async as echeances"
+    >
+      <tbody>
+        <tr>
+          <th>Solde avance</th>
+          <td class="text-end">
+            {{ calculSoldeAvance(echeances) | number }} FCFA
+          </td>
+        </tr>
+        <tr>
+          <th>Nombre d'échéances payées</th>
+          <td class="text-end">
+            {{ calculNombreEcheancesPayees(echeances) | number }}
+          </td>
+        </tr>
+        <tr>
+          <th>Nombre d'échéances impayées</th>
+          <td class="text-end">
+            {{ calculNombreEcheancesNonPayees(echeances) | number }}
+          </td>
+        </tr>
+        <tr>
+          <th>Date dernière échéance</th>
+          <td class="text-end">
+            {{ echeances[echeances.length - 1].dateEcheance | date }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card shadow" *ngIf="echeancier$ | async as echeancier">
+  <div class="card-body echeancier">
+    <app-echeancier-pret
+      [echeancier]="echeancier"
+      [nbrEcheances]="echeancier.length"
+      [echeancierView]="true"
+      [echeancierCredit]="false"
+    ></app-echeancier-pret>
+  </div>
+</div>

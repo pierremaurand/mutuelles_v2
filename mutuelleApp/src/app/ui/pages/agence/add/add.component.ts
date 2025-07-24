@@ -26,7 +26,6 @@ export default class AddComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
     private agenceService: AgenceService,
     private toastr: ToastrService,
     private fb: FormBuilder

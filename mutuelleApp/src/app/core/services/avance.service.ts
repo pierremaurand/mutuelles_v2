@@ -2,21 +2,24 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { Avance } from '../models/avance';
 import { AvanceRequest } from '../models/avance-request';
+import { Avance } from '../models/avance';
+import { Membre } from '../models/membre';
+import { Echeance } from '../models/echeance';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AvanceService {
   baseUrl: string = environment.baseUrl + '/avance';
+  private membres: Membre[] = [];
 
   private _avances$ = new BehaviorSubject<Avance[]>([]);
   get avances$(): Observable<Avance[]> {
     return this._avances$.asObservable();
   }
 
-  private _avance$ = new BehaviorSubject<Avance>({ id: 0, nom: '' });
+  private _avance$ = new BehaviorSubject<Avance>(new Avance());
   get avance$(): Observable<Avance> {
     return this._avance$.asObservable();
   }
@@ -45,22 +48,31 @@ export class AvanceService {
         )
         .subscribe();
     } else {
-      this._avance$.next({ id: 0, nom: '' });
+      this._avance$.next(new Avance());
     }
-  }
-
-  addOrUpdate(id: number, request: AvanceRequest): Observable<any> {
-    if (id != 0) {
-      return this.update(id, request);
-    }
-    return this.add(request);
   }
 
   update(id: number, request: AvanceRequest): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/${id}`, request);
   }
 
-  add(request: AvanceRequest): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}`, request);
+  add(avance: AvanceRequest, echeancier: Echeance[]): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}`, {
+      avance: avance,
+      echeancier: echeancier,
+    });
+  }
+
+  anticipationPaiement(id: number, echeancier: Echeance[]): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/anticipation/${id}`, echeancier);
+  }
+
+  setMembres(membres: Membre[]): void {
+    this.membres = membres;
+  }
+
+  getMembreById(id: number): Membre {
+    const membre = this.membres.find((m) => m.id === id);
+    return membre ? membre : new Membre();
   }
 }

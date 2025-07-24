@@ -78,7 +78,11 @@ namespace mutuelleApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("DateEnregistrement")
+                    b.Property<string>("DateDecaissement")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DateDemande")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -166,7 +170,11 @@ namespace mutuelleApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("DateEnregistrement")
+                    b.Property<string>("DateDecaissement")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DateDemande")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -185,6 +193,9 @@ namespace mutuelleApi.Migrations
                     b.Property<float>("MontantCapital")
                         .HasColumnType("real");
 
+                    b.Property<float>("MontantCommission")
+                        .HasColumnType("real");
+
                     b.Property<float>("MontantInterets")
                         .HasColumnType("real");
 
@@ -201,15 +212,18 @@ namespace mutuelleApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AvanceId")
+                    b.Property<int>("AvanceId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("CreditId")
+                    b.Property<int>("CreditId")
                         .HasColumnType("int");
 
                     b.Property<string>("DateEcheance")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EstPaye")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("ModifieLe")
                         .HasColumnType("datetime2");
@@ -218,6 +232,9 @@ namespace mutuelleApi.Migrations
                         .HasColumnType("int");
 
                     b.Property<float>("MontantCapital")
+                        .HasColumnType("real");
+
+                    b.Property<float>("MontantCommission")
                         .HasColumnType("real");
 
                     b.Property<float>("MontantInterets")

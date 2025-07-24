@@ -10,6 +10,7 @@ import { MembreRequest } from '../models/membre-request';
 })
 export class MembreService {
   baseUrl: string = environment.baseUrl + '/membre';
+  private membres: Membre[] = [];
 
   private _membres$ = new BehaviorSubject<Membre[]>([]);
   get membres$(): Observable<Membre[]> {
@@ -28,6 +29,7 @@ export class MembreService {
       .get<Membre[]>(`${this.baseUrl}`)
       .pipe(
         tap((membres) => {
+          this.membres = membres;
           this._membres$.next(membres);
         })
       )
@@ -62,5 +64,9 @@ export class MembreService {
 
   add(request: MembreRequest): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}`, request);
+  }
+
+  getMembreById(id: number): Membre {
+    return this.membres.find((membre) => membre.id === id) || new Membre();
   }
 }

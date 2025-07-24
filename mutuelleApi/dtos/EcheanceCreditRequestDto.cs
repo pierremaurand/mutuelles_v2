@@ -8,9 +8,12 @@ namespace mutuelleApi.dtos
         public string DateEcheance { get; set; } = string.Empty;
         [Required(ErrorMessage = "Le montant du capital est obligatoire")]
         public float MontantCapital { get; set; }
+		[Required(ErrorMessage = "Le montant de la commission est obligatoire.")]
+        public float MontantCommission { get; set; }
 		[Required(ErrorMessage = "Le montant des intérêts est obligatoire.")]
         public float MontantInterets { get; set; }
 		[Required(ErrorMessage = "Le crédit est obligatoire.")]
         public int CreditId { get; set; }
+		public bool EstPaye { get; set; } = false;
     }
 }
