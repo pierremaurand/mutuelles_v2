@@ -9,8 +9,12 @@ namespace mutuelleApi.models
         [Required]
         public int MembreId { get; set; }
         [Required]
-        public string? DateCotisation { get; set; }
+        public string DateCotisation { get; set; } = string.Empty;
+		[Required]
+        public float Salaire { get; set; }
         [Required]
-        public float Montant { get; set; }
+        public float Retenue { get{
+			return Round(Salaire*0.05);
+			}
     }
 }

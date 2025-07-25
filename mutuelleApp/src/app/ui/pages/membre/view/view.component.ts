@@ -8,6 +8,7 @@ import { MembreService } from '../../../../core/services/membre.service';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { MembreRequest } from '../../../../core/models/membre-request';
+import { Sexe } from '../../../../core/models/sexe';
 
 @Component({
   selector: 'app-view',
@@ -49,5 +50,16 @@ export default class ViewComponent implements OnInit {
 
   onChangeImage(id: number): void {
     this.router.navigateByUrl('/membre/view/' + id + '/image/' + id);
+  }
+
+  afficheSexe(sexe: Sexe): string {
+    switch (sexe) {
+      case Sexe.Masculin:
+        return 'Homme';
+      case Sexe.Feminin:
+        return 'Femme';
+      default:
+        return 'Non spécifié';
+    }
   }
 }
