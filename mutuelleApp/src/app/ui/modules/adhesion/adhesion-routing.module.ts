@@ -18,7 +18,7 @@ const routes: Routes = [
       import('../../pages/adhesion/liste/liste.component').then(
         (m) => m.default
       ),
-    resolve: [adhesionsResolver, membresResolver],
+    resolve: [adhesionsResolver],
   },
   {
     path: 'add',

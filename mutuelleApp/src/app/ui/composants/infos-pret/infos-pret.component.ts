@@ -11,7 +11,9 @@ import { CommonModule, DecimalPipe, UpperCasePipe } from '@angular/common';
 })
 export class InfosPretComponent {
   @Input()
-  membre!: Membre;
+  nom!: string;
+  @Input()
+  photo!: string;
   @Input()
   montant!: number;
   @Input()

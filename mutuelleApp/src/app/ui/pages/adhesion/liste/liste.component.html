@@ -8,10 +8,7 @@
   <hr />
   <div class="row" *ngIf="adhesions$ | async as adhesions">
     <div class="col-md-2 mb-3" *ngFor="let adhesion of adhesions">
-      <app-card
-        [adhesion]="adhesion"
-        [membre]="getMembreById(adhesion.membreId)"
-      ></app-card>
+      <app-card [adhesion]="adhesion"></app-card>
     </div>
     <div class="col" *ngIf="adhesions.length == 0">
       <h2 class="text-center">Aucune adhesion n'a été trouvé dans la base</h2>

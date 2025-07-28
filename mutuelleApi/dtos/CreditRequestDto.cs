@@ -6,6 +6,7 @@ namespace mutuelleApi.dtos
 {
     public class CreditRequestDto
     {
+        public int Id { get; set; }
         [Required(ErrorMessage = "Le membre est obligatoire!")]
         public int MembreId { get; set; }
         [Required(ErrorMessage = "La durée est obligatoire!")]

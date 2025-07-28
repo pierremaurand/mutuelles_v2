@@ -19,7 +19,7 @@ const routes: Routes = [
       import('../../pages/cotisation/liste/liste.component').then(
         (m) => m.default
       ),
-    resolve: [cotisationsResolver, membresResolver],
+    resolve: [cotisationsResolver],
   },
   {
     path: 'add',
@@ -33,7 +33,7 @@ const routes: Routes = [
       import('../../pages/cotisation/view/view.component').then(
         (m) => m.default
       ),
-    resolve: [cotisationResolver, membresResolver],
+    resolve: [cotisationResolver],
   },
 ];
 

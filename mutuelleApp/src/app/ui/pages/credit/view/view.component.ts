@@ -47,7 +47,7 @@ export default class ViewComponent implements OnInit {
       .pipe(
         map(([credit, echeances]) => {
           const totalEcheances = echeances.filter(
-            (e) => e.creditId === credit.id && !e.estPaye
+            (e) => e.creditId === credit.id && !e.montantRestant
           );
           return totalEcheances.length === 0;
         })

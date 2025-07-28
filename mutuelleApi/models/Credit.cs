@@ -6,19 +6,41 @@ namespace mutuelleApi.models
 {
     public class Credit : BaseEntity
     {
-        [Required]
         public int MembreId { get; set; }
-        [Required]
         public int Duree { get; set; }
-        [Required]
-        public float MontantCapital { get; set; }
-		[Required]
-        public float MontantCommission { get; set; }
-        [Required]
-        public float MontantInterets { get; set; }
-        [Required]
+        public double MontantCapital { get; set; }
+        public double MontantCommission { get; set; }
+        public double MontantInterets { get; set; }
         public string DateDemande { get; set; } = string.Empty;
-		[Required]
         public string DateDecaissement { get; set; } = string.Empty;
+
+        public List<Echeance>? Echeancier { get; set; }
+        public List<Mouvement>? Mouvements { get; set; }
+        public Membre? Membre { get; set; }
+		
+
+        public double MontantTotal => (MontantCapital + MontantCommission + MontantInterets);
+
+        public double MontantRestant => (Echeancier?.Sum(m => m.MontantRestant) ?? 0);
+
+        public string Status => MontantRestant == 0 ? "Soldé" : "En cour";
+
+        public void Decaisser(int modificateur)
+        {
+            if (!string.IsNullOrEmpty(DateDecaissement) && Mouvements is null)
+            {
+				Mouvements = new List<Mouvement>();
+                var mouvement = new Mouvement();
+                mouvement.DateMouvement = DateDecaissement;
+                mouvement.Libelle = "Décaissement " + Libelle;
+                mouvement.MontantDebit = MontantCapital;
+                mouvement.MembreId = MembreId;
+                mouvement.ModifiePar = modificateur;
+                mouvement.ModifieLe = DateTime.Now;
+                Mouvements.Add(mouvement);
+            }
+        }
+
+        public string Libelle => "crédit de " + MontantCapital + " du membre " + Membre?.Nom + " du " + DateDemande + " remboursable en " + Duree + " mois";
     }
 }

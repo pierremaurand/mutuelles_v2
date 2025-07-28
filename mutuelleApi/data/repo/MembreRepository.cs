@@ -33,6 +33,8 @@ namespace mutuelleApi.data.repo
             if (dc.Membres is not null)
             {
                 var membres = await dc.Membres
+				.Include(c => c.Agence)
+				.Include(c => c.Mouvements)
                 .ToListAsync();
                 if (membres is not null)
                 {
@@ -48,6 +50,8 @@ namespace mutuelleApi.data.repo
             if (dc.Membres is not null)
             {
                 var membre = await dc.Membres
+				.Include(c => c.Agence)
+				.Include(c => c.Mouvements)
                 .Where(s => s.Id == id)
                 .FirstAsync();
                 if (membre is not null)

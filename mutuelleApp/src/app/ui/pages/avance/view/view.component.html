@@ -1,22 +1,32 @@
 <div class="container" *ngIf="avance$ | async as avance">
   <div class="d-flex justify-content-between">
-    <h1 class="h3">Infos avance</h1>
+    <div class="d-flex justify-content-start gap-2">
+      <button
+        class="btn btn-primary rounded-circle shadow-sm"
+        (click)="onBack()"
+      >
+        <i class="fa fa-arrow-left"></i>
+      </button>
+      <h3>Infos avance</h3>
+    </div>
+
     <div class="d-flex justify-content-end gap-1">
       <button
         type="button"
         class="btn btn-success"
         (click)="onAnticipePaiement(avance.id)"
-        *ngIf="!avanceSolder"
+        *ngIf="avance.nombreEcheanceImpaye"
       >
         <i class="fa-solid fa-list-check"></i>
       </button>
     </div>
   </div>
   <hr />
-  <div class="row" *ngIf="membre$ | async as membre">
-    <div class="col-md-3" *ngIf="avance$ | async as avance">
+  <div class="row" *ngIf="avance$ | async as avance">
+    <div class="col-md-3">
       <app-infos-pret
-        [membre]="membre"
+        [nom]="avance.nomMembre"
+        [photo]="avance.photoMembre"
         [montant]="avance.montantCapital"
         [duree]="avance.duree"
       ></app-infos-pret>

@@ -2,8 +2,8 @@
   <div class="card-img-wrapper">
     <img
       [src]="
-        membre.photo
-          ? baseUrl + '/' + membre.photo
+        avance.photoMembre
+          ? baseUrl + '/' + avance.photoMembre
           : './assets/images/default_man.jpg'
       "
       class="card-img-top"
@@ -33,12 +33,17 @@
   </div>
 
   <div class="card-body">
-    <h2 class="card-title text-truncate h6">{{ membre.nom | uppercase }}</h2>
+    <h2 class="card-title text-truncate h6">
+      {{ avance.nomMembre | uppercase }}
+    </h2>
     <h3 class="card-title text-center text-truncate h6">
       {{ avance.dateDemande | date }}
     </h3>
     <h3 class="card-title text-center text-truncate h6">
-      {{ avance.montantCapital | number }} FCFA
+      {{ avance.montantRestant | number }} FCFA
+    </h3>
+    <h3 class="card-title text-center text-truncate h6">
+      {{ avance.status | uppercase }}
     </h3>
   </div>
 </div>

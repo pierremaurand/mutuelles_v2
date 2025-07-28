@@ -17,12 +17,21 @@ namespace mutuelleApi.controllers
         [HttpPost]
         public async Task<IActionResult> Add(List<AdhesionRequestDto> request)
         {
+			
             var adhesions = mapper.Map<List<Adhesion>>(request);
             foreach (var adhesion in adhesions)
             {
+				var membre = await uow.MembreRepository.GetByIdAsync(adhesion.MembreId);
+				if(membre is null) {
+					return NotFound("Membre non trouvé");
+				}
+				
+				adhesion.Membre = membre;
                 adhesion.ModifiePar = GetUserId();
                 adhesion.ModifieLe = DateTime.Now;
+				adhesion.Payer(GetUserId());
                 uow.AdhesionRepository.Add(adhesion);
+				
             }
 
             await uow.SaveAsync();

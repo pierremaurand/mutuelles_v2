@@ -26,12 +26,6 @@ export default class ListeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.membres$ = this.membreService.membres$;
-    this.membres$.subscribe({
-      next: (membres) => {
-        this.adhesionService.setMembres(membres);
-      },
-    });
     this.adhesions$ = this.adhesionService.adhesions$;
     this.adhesions$.subscribe();
   }

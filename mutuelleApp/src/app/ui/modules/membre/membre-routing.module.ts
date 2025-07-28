@@ -37,14 +37,7 @@ const routes: Routes = [
         path: '',
         loadComponent: () =>
           import('../../pages/membre/membre-infos/membre-infos.component'),
-        resolve: [
-          membreResolver,
-          agencesResolver,
-          cotisationsResolver,
-          creditsResolver,
-          avancesResolver,
-          echeancesResolver,
-        ],
+        resolve: [membreResolver],
       },
       {
         path: 'image/:id',

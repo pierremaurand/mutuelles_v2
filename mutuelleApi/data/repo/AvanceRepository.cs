@@ -29,6 +29,9 @@ namespace mutuelleApi.data.repo
         {
              if(dc.Avances is not null) {
                 var avances = await dc.Avances
+				.Include(c => c.Membre)
+				.Include(c => c.Mouvements)
+				.Include(c => c.Echeancier)
                 .ToListAsync();
                 if(avances is not null) {
                     return avances;
@@ -42,6 +45,9 @@ namespace mutuelleApi.data.repo
         {
              if(dc.Avances is not null) {
                 var avance = await dc.Avances
+				.Include(c => c.Membre)
+				.Include(c => c.Mouvements)
+				.Include(c => c.Echeancier)
                 .Where(s => s.Id == id)
                 .FirstAsync();
                 if(avance is not null) {

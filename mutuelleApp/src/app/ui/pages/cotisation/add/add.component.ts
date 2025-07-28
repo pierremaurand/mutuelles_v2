@@ -110,13 +110,12 @@ export default class AddComponent implements OnInit {
     var cotisationForm = this.fb.group({
       membreId: [membre.id, [Validators.required]],
       dateCotisation: this.dateCotisationCtrl,
-      montant: ['', [Validators.required]],
+      salaire: ['', [Validators.required]],
     });
     this.lines.push(cotisationForm);
   }
 
   submitForm(): void {
-    console.log(this.request.value);
     if (this.request.valid) {
       this.cotisationService
         .add(this.lines.value as CotisationRequest[])
@@ -148,7 +147,6 @@ export default class AddComponent implements OnInit {
   }
 
   private afficheErreur(error: any): string {
-    console.log(error.errors[0]);
     if (error.errors) {
       return error.errors[0] || 'Une erreur est survenue!';
     } else {

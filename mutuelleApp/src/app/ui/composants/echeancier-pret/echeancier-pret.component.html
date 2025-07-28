@@ -29,11 +29,11 @@
           </td>
           <td
             class="text-center text-{{
-              echeance.estPaye ? 'success' : 'danger'
+              echeance.status !== 'Impayée' ? 'success' : 'danger'
             }}"
             *ngIf="echeancierView"
           >
-            {{ echeance.estPaye ? "Payée" : "Impayée" }}
+            {{ echeance.status }}
           </td>
         </tr>
       </tbody>

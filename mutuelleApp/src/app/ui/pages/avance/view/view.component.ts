@@ -25,37 +25,17 @@ export default class ViewComponent implements OnInit {
   photo: SafeUrl = './assets/images/default_man.jpg';
   baseUrl: string = environment.imagesUrl;
 
-  constructor(
-    private avanceService: AvanceService,
-    private membreService: MembreService,
-    private echeanceService: EcheanceService,
-    private router: Router
-  ) {}
+  constructor(private avanceService: AvanceService, private router: Router) {}
 
   ngOnInit(): void {
     this.avance$ = this.avanceService.avance$;
-    this.membre$ = combineLatest([
-      this.avanceService.avance$,
-      this.membreService.membres$,
-    ]).pipe(
-      map(([avance, membres]) => {
-        return membres.find((m) => m.id === avance.membreId) || new Membre();
-      })
-    );
-
-    combineLatest([this.avanceService.avance$, this.echeanceService.echeances$])
-      .pipe(
-        map(([avance, echeances]) => {
-          const totalEcheances = echeances.filter(
-            (e) => e.avanceId === avance.id && !e.estPaye
-          );
-          return totalEcheances.length === 0;
-        })
-      )
-      .subscribe((soldered) => (this.avanceSolder = soldered));
   }
 
   onAnticipePaiement(id: number): void {
     this.router.navigateByUrl('/avance/view/' + id + '/paiement/' + id);
+  }
+
+  onBack(): void {
+    this.router.navigateByUrl('/avance');
   }
 }

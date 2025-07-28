@@ -7,19 +7,17 @@ namespace mutuelleApi.dtos
     public class CreditDto
     {
         public int Id { get; set; }
-        [Required]
         public int MembreId { get; set; }
-        [Required]
         public int Duree { get; set; }
-        [Required]
-        public float MontantCapital { get; set; }
-		[Required]
-        public float MontantCommission { get; set; }
-        [Required]
-        public float MontantInterets { get; set; }
-        [Required]
+        public double MontantCapital { get; set; }
+        public double MontantCommission { get; set; }
+        public double MontantInterets { get; set; }
         public string DateDemande { get; set; } = string.Empty;
-		[Required]
         public string DateDecaissement { get; set; } = string.Empty;
+        public double MontantTotal { get; set; } = 0;
+        public double MontantRestant { get; set; } = 0;
+        public string Status { get; set; }  = string.Empty;
+		public string NomMembre { get; set; } = string.Empty;
+		public string PhotoMembre { get; set; } = string.Empty;
     }
 }

@@ -62,4 +62,8 @@ export default class ViewComponent implements OnInit {
         return 'Non spécifié';
     }
   }
+
+  onBack(): void {
+    this.router.navigateByUrl('/membre');
+  }
 }

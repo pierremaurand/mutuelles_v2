@@ -8,7 +8,7 @@ namespace mutuelleApi.dtos
         public int MembreId { get; set; }
         [Required(ErrorMessage = "La date de la cotisation est obligatoire!")]
         public string DateCotisation { get; set; } = string.Empty;
-        [Required(ErrorMessage = "Le montant de la cotisation est obligatoire!")]
-        public float Montant { get; set; }
+        [Required(ErrorMessage = "Le salaire du mois est obligatoire!")]
+        public double Salaire { get; set; }
     }
 }

@@ -2,8 +2,8 @@
   <div class="card-img-wrapper">
     <img
       [src]="
-        membre.photo
-          ? baseUrl + '/' + membre.photo
+        adhesion.photoMembre
+          ? baseUrl + '/' + adhesion.photoMembre
           : './assets/images/default_man.jpg'
       "
       class="card-img-top"
@@ -33,9 +33,14 @@
   </div>
 
   <div class="card-body">
-    <h2 class="card-title text-truncate h6">{{ membre.nom | uppercase }}</h2>
-    <h3 class="card-title text-center text-truncate h6">
+    <h6 class="text-truncate text-center h6">
+      {{ adhesion.nomMembre | uppercase }}
+    </h6>
+    <h6 class="text-truncate text-center h6">
+      {{ adhesion.dateAdhesion | date }}
+    </h6>
+    <h6 class="text-center text-primary text-truncate h6">
       {{ adhesion.montant | number }} FCFA
-    </h3>
+    </h6>
   </div>
 </div>

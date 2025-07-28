@@ -29,28 +29,16 @@ export default class ListeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.membres$ = this.membreService.membres$;
-    this.membres$.subscribe({
-      next: (membres) => {
-        this.cotisationService.setMembres(membres);
-      },
-    });
-
     this.search$ = this.searchService.search$;
     this.search$.subscribe();
 
     this.cotisations$ = combineLatest([
       this.searchService.search$,
       this.cotisationService.cotisations$,
-      this.membreService.membres$,
     ]).pipe(
-      map(([search, cotisations, membres]) =>
+      map(([search, cotisations]) =>
         cotisations.filter((cotisation: Cotisation) =>
-          membres.find(
-            (m) =>
-              m.id === cotisation.membreId &&
-              m.nom.toLowerCase().includes(search)
-          )
+          cotisation.nomMembre.toLowerCase().includes(search)
         )
       )
     );
@@ -59,9 +47,5 @@ export default class ListeComponent implements OnInit {
 
   add(): void {
     this.router.navigateByUrl('/cotisation/add');
-  }
-
-  getMembreById(id: number): Membre {
-    return this.cotisationService.getMembreById(id);
   }
 }

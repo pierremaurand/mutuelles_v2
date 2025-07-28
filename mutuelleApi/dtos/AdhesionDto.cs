@@ -4,6 +4,9 @@ namespace mutuelleApi.dtos
     {
         public int Id { get;  set; }
         public int MembreId { get; set; } 
-        public float Montant { get; set; } 
+        public double Montant { get; set; } 
+		public string DateAdhesion { get; set; } = string.Empty;
+		public string NomMembre { get; set;} = string.Empty;
+		public string PhotoMembre { get; set;} = string.Empty;
     }
 }

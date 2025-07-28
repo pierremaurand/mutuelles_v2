@@ -23,11 +23,27 @@ namespace mutuelleApi.data.repo
 
         public async Task<IEnumerable<Mouvement>?> GetAllAsync()
         {
-            if(dc.Mouvements is not null) {
+            if (dc.Mouvements is not null)
+            {
                 var mouvements = await dc.Mouvements
                 .ToListAsync();
-                if(mouvements is not null) {
+                if (mouvements is not null)
+                {
                     return mouvements;
+                }
+            }
+
+            return null;
+        }
+
+        public async Task<Mouvement?> GetByIdAsync(int id)
+        {
+            if(dc.Mouvements is not null) {
+                var mouvement = await dc.Mouvements
+                .Where(x => x.Id == id)
+                .FirstAsync();
+                if(mouvement is not null) {
+                    return mouvement;
                 }
             }
 

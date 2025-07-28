@@ -2,31 +2,29 @@
   <div class="card-body">
     <table
       class="table table-bordered table-striped"
-      *ngIf="echeancier$ | async as echeances"
+      *ngIf="avance$ | async as avance"
     >
       <tbody>
         <tr>
           <th>Solde avance</th>
-          <td class="text-end">
-            {{ calculSoldeAvance(echeances) | number }} FCFA
-          </td>
+          <td class="text-end">{{ avance.montantRestant | number }} FCFA</td>
         </tr>
         <tr>
           <th>Nombre d'échéances payées</th>
           <td class="text-end">
-            {{ calculNombreEcheancesPayees(echeances) | number }}
+            {{ avance.nombreEcheancePaye | number }}
           </td>
         </tr>
         <tr>
           <th>Nombre d'échéances impayées</th>
           <td class="text-end">
-            {{ calculNombreEcheancesNonPayees(echeances) | number }}
+            {{ avance.nombreEcheanceImpaye | number }}
           </td>
         </tr>
         <tr>
           <th>Date dernière échéance</th>
           <td class="text-end">
-            {{ echeances[echeances.length - 1].dateEcheance | date }}
+            {{ avance.dateDerniereEcheance | date }}
           </td>
         </tr>
       </tbody>

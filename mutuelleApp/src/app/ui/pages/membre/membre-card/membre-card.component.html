@@ -1,4 +1,4 @@
-<div class="card shadow">
+<div class="card shadow border-{{ membre.estActif ? 'success' : 'danger' }}">
   <div class="card-img-wrapper">
     <img
       [src]="
@@ -52,6 +52,15 @@
   </div>
 
   <div class="card-body">
-    <h2 class="card-title text-truncate h6">{{ membre.nom | uppercase }}</h2>
+    <h6 class="text-center text-truncate">{{ membre.nom | uppercase }}</h6>
+    <h6 class="text-center text-truncate">
+      {{ membre.nomAgence | uppercase }}
+    </h6>
+    <h6 class="text-center text-success text-truncate">
+      {{ membre.montantCotise | number }} FCFA
+    </h6>
+    <h6 class="text-center text-primary text-truncate">
+      {{ membre.solde | number }} FCFA
+    </h6>
   </div>
 </div>

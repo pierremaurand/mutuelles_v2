@@ -20,8 +20,14 @@ namespace mutuelleApi.controllers
             var cotisations = mapper.Map<List<Cotisation>>(request);
             foreach (var cotisation in cotisations)
             {
+				var membre = await uow.MembreRepository.GetByIdAsync(cotisation.MembreId);
+				if(membre is null) {
+					return NotFound("Membre non trouvé");
+				}
+				cotisation.Membre = membre;
                 cotisation.ModifiePar = GetUserId();
                 cotisation.ModifieLe = DateTime.Now;
+				cotisation.Payer(GetUserId());
                 uow.CotisationRepository.Add(cotisation);
             }
 

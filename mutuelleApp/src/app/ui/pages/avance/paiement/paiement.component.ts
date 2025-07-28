@@ -10,6 +10,7 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
@@ -27,6 +28,7 @@ export default class PaiementComponent implements OnInit {
   avance$!: Observable<Avance>;
   echeancier$!: Observable<Echeance[]>;
   request!: FormGroup;
+  datePaiementCtrl!: FormControl;
   items: any[] = [];
 
   constructor(
@@ -43,6 +45,7 @@ export default class PaiementComponent implements OnInit {
   }
 
   initForm(): void {
+    this.datePaiementCtrl = this.fb.control('', Validators.required);
     this.request = this.fb.group({
       lines: this.fb.array([]),
     });
@@ -63,7 +66,7 @@ export default class PaiementComponent implements OnInit {
     ]).pipe(
       map(([avance, echeances]) => {
         return echeances.filter(
-          (e) => e.avanceId === avance.id && e.estPaye === false
+          (e) => e.avanceId === avance.id && e.montantRestant > 0
         );
       })
     );
@@ -74,7 +77,7 @@ export default class PaiementComponent implements OnInit {
   }
 
   submitForm(): void {
-    if (this.lines.length > 0) {
+    if (this.request.valid && this.lines.length > 0) {
       this.avanceService
         .anticipationPaiement(this.id, this.lines.value as Echeance[])
         .subscribe({
@@ -115,12 +118,12 @@ export default class PaiementComponent implements OnInit {
     );
     if (existingIndex === -1) {
       const echeanceForm = this.fb.group({
-        id: [echeance.id],
-        avanceId: [echeance.avanceId],
-        dateEcheance: [echeance.dateEcheance],
-        montantCapital: [echeance.montantCapital],
-        montantInterets: [echeance.montantInterets],
-        estPaye: [true],
+        id: [echeance.id, Validators.required],
+        avanceId: [echeance.avanceId, Validators.required],
+        dateEcheance: [echeance.dateEcheance, Validators.required],
+        montantCapital: [echeance.montantCapital, Validators.required],
+        montantInterets: [echeance.montantInterets, Validators.required],
+        datePaiement: this.datePaiementCtrl,
       });
       this.lines.push(echeanceForm);
     }

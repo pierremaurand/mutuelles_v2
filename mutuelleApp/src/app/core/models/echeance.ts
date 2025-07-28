@@ -6,5 +6,8 @@ export class Echeance {
   montantCapital: number = 0;
   montantCommission: number = 0;
   montantInterets: number = 0;
-  estPaye: boolean = false;
+  datePaiement: string = '';
+  montantTotal: number = 0;
+  montantRestant: number = 0;
+  status: string = '';
 }

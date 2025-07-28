@@ -50,15 +50,8 @@ export default class ListeComponent implements OnInit {
       this.echeanceService.echeances$,
     ]).pipe(
       map(([search, avances, membres, echeances]) =>
-        avances.filter(
-          (avance: Avance) =>
-            membres.find(
-              (m) =>
-                m.id === avance.membreId && m.nom.toLowerCase().includes(search)
-            ) &&
-            echeances.find(
-              (e) => e.avanceId === avance.id && e.estPaye === false
-            )
+        avances.filter((avance: Avance) =>
+          avance.nomMembre.toLowerCase().includes(search)
         )
       )
     );

@@ -30,6 +30,10 @@ namespace mutuelleApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("DateAdhesion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("MembreId")
                         .HasColumnType("int");
 
@@ -39,10 +43,12 @@ namespace mutuelleApi.Migrations
                     b.Property<int?>("ModifiePar")
                         .HasColumnType("int");
 
-                    b.Property<float>("Montant")
-                        .HasColumnType("real");
+                    b.Property<double>("Montant")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MembreId");
 
                     b.ToTable("Adhesions");
                 });
@@ -98,39 +104,14 @@ namespace mutuelleApi.Migrations
                     b.Property<int?>("ModifiePar")
                         .HasColumnType("int");
 
-                    b.Property<float>("MontantCapital")
-                        .HasColumnType("real");
+                    b.Property<double>("MontantCapital")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MembreId");
 
                     b.ToTable("Avances");
-                });
-
-            modelBuilder.Entity("mutuelleApi.models.Compte", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Libelle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ModifieLe")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("ModifiePar")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Numero")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Comptes");
                 });
 
             modelBuilder.Entity("mutuelleApi.models.Cotisation", b =>
@@ -154,10 +135,12 @@ namespace mutuelleApi.Migrations
                     b.Property<int?>("ModifiePar")
                         .HasColumnType("int");
 
-                    b.Property<float>("Montant")
-                        .HasColumnType("real");
+                    b.Property<double>("Salaire")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MembreId");
 
                     b.ToTable("Cotisations");
                 });
@@ -190,16 +173,18 @@ namespace mutuelleApi.Migrations
                     b.Property<int?>("ModifiePar")
                         .HasColumnType("int");
 
-                    b.Property<float>("MontantCapital")
-                        .HasColumnType("real");
+                    b.Property<double>("MontantCapital")
+                        .HasColumnType("float");
 
-                    b.Property<float>("MontantCommission")
-                        .HasColumnType("real");
+                    b.Property<double>("MontantCommission")
+                        .HasColumnType("float");
 
-                    b.Property<float>("MontantInterets")
-                        .HasColumnType("real");
+                    b.Property<double>("MontantInterets")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MembreId");
 
                     b.ToTable("Credits");
                 });
@@ -212,18 +197,23 @@ namespace mutuelleApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("AvanceId")
+                    b.Property<int?>("AvanceId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CreditId")
+                    b.Property<int?>("CreditId")
                         .HasColumnType("int");
+
+                    b.Property<string>("DateAnticipation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DateEcheance")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("EstPaye")
-                        .HasColumnType("bit");
+                    b.Property<string>("DatePaiement")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("ModifieLe")
                         .HasColumnType("datetime2");
@@ -231,74 +221,22 @@ namespace mutuelleApi.Migrations
                     b.Property<int?>("ModifiePar")
                         .HasColumnType("int");
 
-                    b.Property<float>("MontantCapital")
-                        .HasColumnType("real");
+                    b.Property<double>("MontantCapital")
+                        .HasColumnType("float");
 
-                    b.Property<float>("MontantCommission")
-                        .HasColumnType("real");
+                    b.Property<double>("MontantCommission")
+                        .HasColumnType("float");
 
-                    b.Property<float>("MontantInterets")
-                        .HasColumnType("real");
+                    b.Property<double>("MontantInterets")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AvanceId");
+
+                    b.HasIndex("CreditId");
 
                     b.ToTable("Echeances");
-                });
-
-            modelBuilder.Entity("mutuelleApi.models.Ecriture", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("DateEnregistrement")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Libelle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ModifieLe")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("ModifiePar")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MouvementId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Ecritures");
-                });
-
-            modelBuilder.Entity("mutuelleApi.models.Gabarit", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool?>("EstActif")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Libelle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ModifieLe")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("ModifiePar")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Gabarits");
                 });
 
             modelBuilder.Entity("mutuelleApi.models.Membre", b =>
@@ -324,7 +262,7 @@ namespace mutuelleApi.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("EstActif")
+                    b.Property<bool>("EstActif")
                         .HasColumnType("bit");
 
                     b.Property<string>("LieuNaissance")
@@ -342,6 +280,7 @@ namespace mutuelleApi.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Photo")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Sexe")
@@ -353,6 +292,8 @@ namespace mutuelleApi.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AgenceId");
+
                     b.ToTable("Membres");
                 });
 
@@ -363,6 +304,9 @@ namespace mutuelleApi.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AdhesionId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("AvanceId")
                         .HasColumnType("int");
@@ -393,80 +337,31 @@ namespace mutuelleApi.Migrations
                     b.Property<int?>("ModifiePar")
                         .HasColumnType("int");
 
-                    b.Property<float>("MontantCredit")
-                        .HasColumnType("real");
+                    b.Property<double>("MontantCredit")
+                        .HasColumnType("float");
 
-                    b.Property<float>("MontantDebit")
-                        .HasColumnType("real");
+                    b.Property<double>("MontantDebit")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AdhesionId")
+                        .IsUnique()
+                        .HasFilter("[AdhesionId] IS NOT NULL");
+
+                    b.HasIndex("AvanceId");
+
+                    b.HasIndex("CotisationId")
+                        .IsUnique()
+                        .HasFilter("[CotisationId] IS NOT NULL");
+
+                    b.HasIndex("CreditId");
+
+                    b.HasIndex("EcheanceId");
+
+                    b.HasIndex("MembreId");
 
                     b.ToTable("Mouvements");
-                });
-
-            modelBuilder.Entity("mutuelleApi.models.MouvementComptable", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CompteId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EcritureId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ModifieLe")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("ModifiePar")
-                        .HasColumnType("int");
-
-                    b.Property<float>("MontantCredit")
-                        .HasColumnType("real");
-
-                    b.Property<float>("MontantDebit")
-                        .HasColumnType("real");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MouvementComptables");
-                });
-
-            modelBuilder.Entity("mutuelleApi.models.Operation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CompteId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GabaritId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("ModifieLe")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("ModifiePar")
-                        .HasColumnType("int");
-
-                    b.Property<float>("MontantCredit")
-                        .HasColumnType("real");
-
-                    b.Property<float>("MontantDebit")
-                        .HasColumnType("real");
-
-                    b.Property<bool>("MontantFixe")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Operations");
                 });
 
             modelBuilder.Entity("mutuelleApi.models.Utilisateur", b =>
@@ -514,6 +409,137 @@ namespace mutuelleApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Utilisateurs");
+                });
+
+            modelBuilder.Entity("mutuelleApi.models.Adhesion", b =>
+                {
+                    b.HasOne("mutuelleApi.models.Membre", "Membre")
+                        .WithMany()
+                        .HasForeignKey("MembreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Membre");
+                });
+
+            modelBuilder.Entity("mutuelleApi.models.Avance", b =>
+                {
+                    b.HasOne("mutuelleApi.models.Membre", "Membre")
+                        .WithMany()
+                        .HasForeignKey("MembreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Membre");
+                });
+
+            modelBuilder.Entity("mutuelleApi.models.Cotisation", b =>
+                {
+                    b.HasOne("mutuelleApi.models.Membre", "Membre")
+                        .WithMany()
+                        .HasForeignKey("MembreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Membre");
+                });
+
+            modelBuilder.Entity("mutuelleApi.models.Credit", b =>
+                {
+                    b.HasOne("mutuelleApi.models.Membre", "Membre")
+                        .WithMany()
+                        .HasForeignKey("MembreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Membre");
+                });
+
+            modelBuilder.Entity("mutuelleApi.models.Echeance", b =>
+                {
+                    b.HasOne("mutuelleApi.models.Avance", "Avance")
+                        .WithMany("Echeancier")
+                        .HasForeignKey("AvanceId");
+
+                    b.HasOne("mutuelleApi.models.Credit", "Credit")
+                        .WithMany("Echeancier")
+                        .HasForeignKey("CreditId");
+
+                    b.Navigation("Avance");
+
+                    b.Navigation("Credit");
+                });
+
+            modelBuilder.Entity("mutuelleApi.models.Membre", b =>
+                {
+                    b.HasOne("mutuelleApi.models.Agence", "Agence")
+                        .WithMany()
+                        .HasForeignKey("AgenceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Agence");
+                });
+
+            modelBuilder.Entity("mutuelleApi.models.Mouvement", b =>
+                {
+                    b.HasOne("mutuelleApi.models.Adhesion", null)
+                        .WithOne("Mouvement")
+                        .HasForeignKey("mutuelleApi.models.Mouvement", "AdhesionId");
+
+                    b.HasOne("mutuelleApi.models.Avance", null)
+                        .WithMany("Mouvements")
+                        .HasForeignKey("AvanceId");
+
+                    b.HasOne("mutuelleApi.models.Cotisation", null)
+                        .WithOne("Mouvement")
+                        .HasForeignKey("mutuelleApi.models.Mouvement", "CotisationId");
+
+                    b.HasOne("mutuelleApi.models.Credit", null)
+                        .WithMany("Mouvements")
+                        .HasForeignKey("CreditId");
+
+                    b.HasOne("mutuelleApi.models.Echeance", null)
+                        .WithMany("Mouvements")
+                        .HasForeignKey("EcheanceId");
+
+                    b.HasOne("mutuelleApi.models.Membre", null)
+                        .WithMany("Mouvements")
+                        .HasForeignKey("MembreId");
+                });
+
+            modelBuilder.Entity("mutuelleApi.models.Adhesion", b =>
+                {
+                    b.Navigation("Mouvement");
+                });
+
+            modelBuilder.Entity("mutuelleApi.models.Avance", b =>
+                {
+                    b.Navigation("Echeancier");
+
+                    b.Navigation("Mouvements");
+                });
+
+            modelBuilder.Entity("mutuelleApi.models.Cotisation", b =>
+                {
+                    b.Navigation("Mouvement");
+                });
+
+            modelBuilder.Entity("mutuelleApi.models.Credit", b =>
+                {
+                    b.Navigation("Echeancier");
+
+                    b.Navigation("Mouvements");
+                });
+
+            modelBuilder.Entity("mutuelleApi.models.Echeance", b =>
+                {
+                    b.Navigation("Mouvements");
+                });
+
+            modelBuilder.Entity("mutuelleApi.models.Membre", b =>
+                {
+                    b.Navigation("Mouvements");
                 });
 #pragma warning restore 612, 618
         }

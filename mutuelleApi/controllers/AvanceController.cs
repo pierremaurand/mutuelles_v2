@@ -15,7 +15,7 @@ namespace mutuelleApi.controllers
         private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
 		[HttpPut("anticipation/{id}")]
-        public async Task<IActionResult> Anticipation(int id,List<EcheanceDto> request)
+        public async Task<IActionResult> Anticipation(int id,List<EcheanceAvanceRequestDto> request)
         {
 			var avance = await uow.AvanceRepository.GetByIdAsync(id);
 			
@@ -23,21 +23,21 @@ namespace mutuelleApi.controllers
 				return NotFound("Avance non trouvée");
 			}
 			
-			foreach (var echeanceDto in request)
+            if (avance.Membre is null)
             {
-				 var echeance = await uow.EcheanceRepository.GetByIdAsync(echeanceDto.Id);
-				 if(echeance is null) {
-					 return NotFound("Echeance non trouvée");
-				 }
-				 
-				 if(echeance.AvanceId != avance.Id) {
-					 return BadRequest("Echeance non valide");
-				 }
-				 
-				 mapper.Map(echeanceDto,echeance);
-                echeance.ModifiePar = GetUserId();
-                echeance.ModifieLe = DateTime.Now;
+                return NotFound("Membre non trouvé");
             }
+			
+			foreach(var echeanceRequest in request) {
+				var echeance = avance.Echeancier.Find(x => x.Id == echeanceRequest.Id); 
+				if(echeance is null) {
+					return NotFound("Echance non trouvée");
+				}
+				mapper.Map(echeanceRequest,echeance);
+				echeance.ModifiePar = GetUserId();
+                echeance.ModifieLe = DateTime.Now;
+                echeance.Rembourser(GetUserId());
+			}
 
             await uow.SaveAsync();
             return StatusCode(201);
@@ -46,21 +46,29 @@ namespace mutuelleApi.controllers
         [HttpPost]
         public async Task<IActionResult> Add(InfosAvanceDto request)
         {
-            var avance = mapper.Map<Avance>(request.Avance);
-            avance.ModifiePar = GetUserId();
-            avance.ModifieLe = DateTime.Now;
-            uow.AvanceRepository.Add(avance);
-			await uow.SaveAsync();
-			
-			foreach (var echeanceDto in request.Echeancier)
+            var membre = await uow.MembreRepository.GetByIdAsync(request.Avance.MembreId);
+            if (membre is null)
             {
-				 var echeance = mapper.Map<Echeance>(echeanceDto);
-				 echeance.AvanceId = avance.Id;
+                return NotFound("Membre non trouvé");
+            }
+            var avance = mapper.Map<Avance>(request.Avance);
+			var echeancier = mapper.Map<List<Echeance>>(request.Echeancier);
+			
+			avance.Echeancier = new List<Echeance>();
+			
+			foreach (var echeance in echeancier)
+            {
                 echeance.ModifiePar = GetUserId();
                 echeance.ModifieLe = DateTime.Now;
-                uow.EcheanceRepository.Add(echeance);
-            }
-
+				avance.Echeancier.Add(echeance);
+            } 
+			
+			avance.Membre = membre;
+            avance.ModifiePar = GetUserId();
+            avance.ModifieLe = DateTime.Now;
+            avance.Decaisser(GetUserId());
+            uow.AvanceRepository.Add(avance);
+			
             await uow.SaveAsync();
             return StatusCode(201);
         }
@@ -126,20 +134,5 @@ namespace mutuelleApi.controllers
             return StatusCode(201);
         }
 		
-		[HttpPut("echeance/{id}")]
-        public async Task<IActionResult> UpdateEcheance(int id, EcheanceAvanceRequestDto request)
-        {
-            var echeance = await uow.EcheanceRepository.GetByIdAsync(id);
-			if(echeance is null) {
-				return NotFound("Echeance avance non trouvée");
-			}
-			
-			mapper.Map(request, echeance);
-            echeance.ModifiePar = GetUserId();
-            echeance.ModifieLe = DateTime.Now;
-
-            await uow.SaveAsync();
-            return StatusCode(201);
-        }
     }
 }

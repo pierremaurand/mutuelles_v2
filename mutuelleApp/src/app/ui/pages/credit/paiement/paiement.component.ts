@@ -63,7 +63,7 @@ export default class PaiementComponent implements OnInit {
     ]).pipe(
       map(([credit, echeances]) => {
         return echeances.filter(
-          (e) => e.creditId === credit.id && e.estPaye === false
+          (e) => e.creditId === credit.id && e.montantRestant > 0
         );
       })
     );

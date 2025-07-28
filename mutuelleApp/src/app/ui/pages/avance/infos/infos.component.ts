@@ -24,6 +24,7 @@ export default class InfosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.avance$ = this.avanceService.avance$;
     this.echeancier$ = combineLatest([
       this.avanceService.avance$,
       this.echeanceService.echeances$,
@@ -32,19 +33,5 @@ export default class InfosComponent implements OnInit {
         return echeances.filter((e) => e.avanceId === avance.id);
       })
     );
-  }
-
-  calculSoldeAvance(echeances: Echeance[]): number {
-    return echeances
-      .filter((e) => !e.estPaye)
-      .reduce((acc, e) => acc + e.montantCapital, 0);
-  }
-
-  calculNombreEcheancesPayees(echeances: Echeance[]): number {
-    return echeances.filter((e) => e.estPaye).reduce((acc, e) => acc + 1, 0);
-  }
-
-  calculNombreEcheancesNonPayees(echeances: Echeance[]): number {
-    return echeances.filter((e) => !e.estPaye).reduce((acc, e) => acc + 1, 0);
   }
 }

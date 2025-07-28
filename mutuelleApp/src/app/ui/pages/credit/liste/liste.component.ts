@@ -55,10 +55,7 @@ export default class ListeComponent implements OnInit {
             membres.find(
               (m) =>
                 m.id === credit.membreId && m.nom.toLowerCase().includes(search)
-            ) &&
-            echeances.find(
-              (e) => e.creditId === credit.id && e.estPaye === false
-            )
+            ) && echeances.find((e) => e.creditId === credit.id)
         )
       )
     );

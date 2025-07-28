@@ -1,8 +1,31 @@
 namespace mutuelleApi.models
 {
-    public class Adhesion: BaseEntity
+    public class Adhesion : BaseEntity
     {
-        public int MembreId { get; set; } 
-        public float Montant { get; set; } 
+        public int MembreId { get; set; }
+        public double Montant { get; set; }
+        public string DateAdhesion { get; set; } = string.Empty;
+
+        public Membre? Membre { get; set; }
+        public Mouvement? Mouvement { get; set; }
+
+        public string Libelle => "adhésion du membre " + Membre?.Nom;
+        
+        public void Payer(int modificateur)
+        {
+            if (!string.IsNullOrEmpty(DateAdhesion) && Mouvement is null)
+            {
+                var mouvement = new Mouvement();
+                mouvement.DateMouvement = DateAdhesion;
+                mouvement.Libelle = "Paiement " + Libelle;
+                mouvement.MontantCredit = Montant;
+                mouvement.ModifiePar = modificateur;
+                mouvement.ModifieLe = DateTime.Now;
+                Mouvement = mouvement;
+            }
+        }
+		
+		public string NomMembre => Membre?.Nom ?? "";
+		public string PhotoMembre => Membre?.Photo ?? "";
     }
 }

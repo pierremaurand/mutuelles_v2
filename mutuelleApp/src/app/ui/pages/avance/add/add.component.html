@@ -5,7 +5,6 @@
     <div class="row">
       <div class="col-md-3">
         <app-infos-pret
-          [membre]="membre"
           [montant]="montantCapitalCtrl.value"
           [duree]="dureeCtrl.value"
         ></app-infos-pret>
@@ -62,7 +61,7 @@
                   formControlName="duree"
                 />
               </div>
-              <div class="col-md-6 mb-3">
+              <div class="col-md-4 mb-3">
                 <label for="dateDemande" class="form-label"
                   >Date de la demande</label
                 >
@@ -74,16 +73,26 @@
                   formControlName="dateDemande"
                 />
               </div>
-              <div class="col-md-6 mb-3">
-                <label for="dateDebutPaiement" class="form-label"
+              <div class="col-md-4 mb-3">
+                <label for="dateDecaissement" class="form-label"
                   >Date décaissement</label
                 >
                 <input
                   type="date"
-                  name="dateDebutPaiement"
-                  id="dateDebutPaiement"
+                  name="dateDecaissement"
+                  id="dateDecaissement"
                   class="form-control"
                   formControlName="dateDecaissement"
+                />
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="differe" class="form-label">Différer de</label>
+                <input
+                  type="number"
+                  name="differe"
+                  id="differe"
+                  class="form-control"
+                  [formControl]="differeCtrl"
                 />
               </div>
             </div>

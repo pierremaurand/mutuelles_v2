@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Membre } from '../../../../core/models/membre';
-import { UpperCasePipe } from '@angular/common';
+import { DecimalPipe, JsonPipe, UpperCasePipe } from '@angular/common';
 import { environment } from '../../../../../environments/environment';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-membre-card',
-  imports: [UpperCasePipe],
+  imports: [UpperCasePipe, DecimalPipe],
   templateUrl: './membre-card.component.html',
   styleUrl: './membre-card.component.scss',
 })

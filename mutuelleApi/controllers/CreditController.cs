@@ -15,27 +15,40 @@ namespace mutuelleApi.controllers
         private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
 		[HttpPut("anticipation/{id}")]
-        public async Task<IActionResult> Anticipation(int id,List<EcheanceDto> request)
+        public async Task<IActionResult> Anticipation(int id,List<EcheanceCreditRequestDto> request)
         {
 			var credit = await uow.CreditRepository.GetByIdAsync(id);
+			
 			if(credit is null) {
 				return NotFound("Credit non trouvé");
 			}
-			
-			foreach (var echeanceDto in request)
+
+            var membre = await uow.MembreRepository.GetByIdAsync(credit.MembreId);
+            if (membre is null)
             {
-				 var echeance = await uow.EcheanceRepository.GetByIdAsync(echeanceDto.Id);
-				 if(echeance is null) {
-					 return NotFound("Echeance non trouvée");
-				 }
-				 
-				 if(echeance.CreditId != credit.Id) {
-					return BadRequest("Echeance non valide"); 
-				 }
-				 mapper.Map(echeanceDto,echeance);
-				 echeance.estPaye = true;
+                return NotFound("Membre non trouvé");
+            }
+			
+			credit.Membre = membre;
+
+            foreach (var echeanceDto in request)
+            {
+                var echeance = await uow.EcheanceRepository.GetByIdAsync(echeanceDto.Id);
+                if (echeance is null)
+                {
+                    return NotFound("Echeance non trouvée");
+                }
+
+                if (echeance.CreditId != credit.Id)
+                {
+                    return BadRequest("Echeance non valide");
+                }
+
+                mapper.Map(echeanceDto, echeance);
+				echeance.Credit = credit;
                 echeance.ModifiePar = GetUserId();
                 echeance.ModifieLe = DateTime.Now;
+                echeance.Rembourser(GetUserId());
             }
 
             await uow.SaveAsync();
@@ -45,19 +58,24 @@ namespace mutuelleApi.controllers
         [HttpPost]
         public async Task<IActionResult> Add(InfosCreditDto request)
         {
+            var membre = await uow.MembreRepository.GetByIdAsync(request.Credit.MembreId);
+            if (membre is null)
+            {
+                return NotFound("Membre non trouvé");
+            }
             var credit = mapper.Map<Credit>(request.Credit);
+			credit.Membre = membre;
             credit.ModifiePar = GetUserId();
             credit.ModifieLe = DateTime.Now;
+            credit.Decaisser(GetUserId());
             uow.CreditRepository.Add(credit);
-			await uow.SaveAsync();
 			
 			foreach (var echeanceDto in request.Echeancier)
             {
-				 var echeance = mapper.Map<Echeance>(echeanceDto);
-				 echeance.CreditId = credit.Id;
+                var echeance = mapper.Map<Echeance>(echeanceDto);
                 echeance.ModifiePar = GetUserId();
                 echeance.ModifieLe = DateTime.Now;
-                uow.EcheanceRepository.Add(echeance);
+                credit.Echeancier?.Add(echeance);
             }
 
             await uow.SaveAsync();

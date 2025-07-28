@@ -14,8 +14,6 @@ import { Membre } from '../../../../core/models/membre';
 export class CardComponent {
   @Input()
   avance!: Avance;
-  @Input()
-  membre!: Membre;
   baseUrl: string = environment.imagesUrl;
 
   constructor(private router: Router) {}

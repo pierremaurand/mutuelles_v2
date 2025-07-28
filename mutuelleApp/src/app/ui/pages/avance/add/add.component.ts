@@ -43,6 +43,7 @@ export default class AddComponent implements OnInit {
   dureeCtrl!: FormControl;
   dateDemandeCtrl!: FormControl;
   dateDecaissementCtrl!: FormControl;
+  differeCtrl!: FormControl;
 
   agenceCtrl!: FormControl;
 
@@ -76,6 +77,10 @@ export default class AddComponent implements OnInit {
   }
 
   initControls(): void {
+    this.differeCtrl = this.fb.control(0, [
+      Validators.min(0),
+      Validators.max(11),
+    ]);
     this.membreIdCtrl = this.fb.control(0, Validators.required);
     this.montantCapitalCtrl = this.fb.control('', Validators.required);
     this.montantCommissionCtrl = this.fb.control('', Validators.required);
@@ -83,7 +88,7 @@ export default class AddComponent implements OnInit {
     this.dureeCtrl = this.fb.control('', [
       Validators.required,
       Validators.min(1),
-      Validators.max(24),
+      Validators.max(9),
     ]); // Duree in months
     this.dateDemandeCtrl = this.fb.control('', Validators.required);
     this.dateDecaissementCtrl = this.fb.control('', Validators.required);
@@ -134,11 +139,18 @@ export default class AddComponent implements OnInit {
     });
 
     this.dateDecaissementCtrl.valueChanges.subscribe({
-      next: (value: number) => {
+      next: () => {
         this.genererEcheancier();
-        console.log(this.echeancier);
       },
     });
+
+    this.differeCtrl.valueChanges
+      .pipe(startWith(this.differeCtrl.value))
+      .subscribe({
+        next: () => {
+          this.genererEcheancier();
+        },
+      });
 
     this.membres$ = combineLatest([agence$, this.membreService.membres$]).pipe(
       map(([agence, membres]) =>
@@ -172,6 +184,9 @@ export default class AddComponent implements OnInit {
     let montantCapital: number | undefined = 0;
     let nbrEcheances: number | undefined = 0;
     let resteCapital: number | undefined = 0;
+    let differe: number = 0;
+
+    differe = this.differeCtrl.value;
 
     dateDebut = new Date(this.dateDecaissementCtrl.value);
     if (dateDebut.getDate() < 10) {
@@ -193,9 +208,9 @@ export default class AddComponent implements OnInit {
         for (let i = 1; i <= nbrEcheances; i++) {
           if (curDate.getMonth() == 11) {
             curDate.setFullYear(curDate.getFullYear() + 1);
-            curDate.setMonth(0);
+            curDate.setMonth(differe);
           } else {
-            curDate.setMonth(curDate.getMonth() + 1);
+            curDate.setMonth(curDate.getMonth() + differe + 1);
           }
           let echeance: Echeance = new Echeance();
           echeance.dateEcheance =

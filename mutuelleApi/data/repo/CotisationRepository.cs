@@ -32,6 +32,8 @@ namespace mutuelleApi.data.repo
             if (dc.Cotisations is not null)
             {
                 var cotisations = await dc.Cotisations
+				.Include(c => c.Membre)
+				.Include(c => c.Mouvement)
                 .ToListAsync();
                 if (cotisations is not null)
                 {
@@ -46,6 +48,8 @@ namespace mutuelleApi.data.repo
         {
             if(dc.Cotisations is not null) {
                 var cotisation = await dc.Cotisations
+				.Include(c => c.Membre)
+				.Include(c => c.Mouvement)
                 .Where(x => x.Id == id)
                 .FirstAsync();
                 if (cotisation is not null) {

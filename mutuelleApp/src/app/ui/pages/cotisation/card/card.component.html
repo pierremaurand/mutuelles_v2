@@ -2,8 +2,8 @@
   <div class="card-img-wrapper">
     <img
       [src]="
-        membre.photo
-          ? baseUrl + '/' + membre.photo
+        cotisation.photoMembre
+          ? baseUrl + '/' + cotisation.photoMembre
           : './assets/images/default_man.jpg'
       "
       class="card-img-top"
@@ -33,12 +33,14 @@
   </div>
 
   <div class="card-body">
-    <h2 class="card-title text-truncate h6">{{ membre.nom | uppercase }}</h2>
-    <h3 class="card-title text-center text-truncate h6">
+    <h6 class="card-title text-truncate h6">
+      {{ cotisation.nomMembre | uppercase }}
+    </h6>
+    <h6 class="card-title text-center text-truncate h6">
       {{ cotisation.dateCotisation | date }}
-    </h3>
-    <h3 class="card-title text-center text-truncate h6">
-      {{ cotisation.montant | number }} FCFA
-    </h3>
+    </h6>
+    <h6 class="card-title text-danger text-center text-truncate h6">
+      {{ cotisation.retenue | number }} FCFA
+    </h6>
   </div>
 </div>

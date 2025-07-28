@@ -16,7 +16,6 @@
   <div class="row" *ngIf="membre$ | async as membre">
     <div class="col-md-3" *ngIf="credit$ | async as credit">
       <app-infos-pret
-        [membre]="membre"
         [montant]="credit.montantCapital"
         [commission]="credit.montantCommission"
         [interets]="credit.montantInterets"

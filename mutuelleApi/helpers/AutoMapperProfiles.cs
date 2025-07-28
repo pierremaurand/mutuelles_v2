@@ -32,18 +32,22 @@ namespace mutuelleApi.helpers
             CreateMap<Echeance, EcheanceDto>().ReverseMap();
 			CreateMap<Echeance, EcheanceAvanceRequestDto>().ReverseMap();
 			CreateMap<Echeance, EcheanceCreditRequestDto>().ReverseMap();
+
+            CreateMap<Mouvement, MouvementDto>().ReverseMap();
+            CreateMap<Mouvement, MouvementCreditDto>().ReverseMap();
+            CreateMap<Mouvement, MouvementAvanceDto>().ReverseMap();
+            CreateMap<Mouvement, MouvementEcheanceDto>().ReverseMap();
+            CreateMap<Mouvement, MouvementMembreDebitDto>().ReverseMap();
+            CreateMap<Mouvement, MouvementMembreCreditDto>().ReverseMap();
+            CreateMap<Mouvement, MouvementEntreCaisseDto>().ReverseMap();
+            CreateMap<Mouvement, MouvementSortieCaisseDto>().ReverseMap();
 			
 			
             CreateMap<Ecriture, EcritureDto>().ReverseMap();
             CreateMap<Gabarit, GabaritDto>().ReverseMap();
-
-           
-
-            CreateMap<Mouvement, MouvementDto>().ReverseMap();
+            
             CreateMap<MouvementComptable, MouvementComptableDto>().ReverseMap();
             CreateMap<Operation, OperationDto>().ReverseMap();
-
-            
 			
 			CreateMap<Compte, CompteDto>().ReverseMap();
         }
