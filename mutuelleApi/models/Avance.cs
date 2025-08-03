@@ -14,8 +14,10 @@ namespace mutuelleApi.models
         public List<Mouvement>? Mouvements { get; set; }
         public Membre? Membre { get; set; }
 		
-		public string NomMembre => Membre?.Nom??"";
-		public string PhotoMembre => Membre?.Photo??"";
+		public string NomMembre => Membre?.Nom ?? "";
+		public string SexeMembre => Membre?.NomSexe ?? "";
+		public string PhotoMembre => Membre?.Photo ?? "";
+		public int AgenceId => Membre?.AgenceId ?? 0;
 
         public double MontantTotal => (MontantCapital);
 

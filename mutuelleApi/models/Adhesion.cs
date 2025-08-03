@@ -26,6 +26,8 @@ namespace mutuelleApi.models
         }
 		
 		public string NomMembre => Membre?.Nom ?? "";
+		public string SexeMembre => Membre?.NomSexe ?? "";
 		public string PhotoMembre => Membre?.Photo ?? "";
+		public int AgenceId => Membre?.AgenceId ?? 0;
     }
 }

@@ -16,9 +16,14 @@
     </div>
   </div>
   <hr />
-  <div class="row">
+  <div class="row mb-3">
     <div class="col-md-3" *ngIf="membres$">
       <div class="card shadow">
+        <div class="card-header">
+          <h5 class="card-title text-center">
+            <i class="fa fa-users"></i> Membres
+          </h5>
+        </div>
         <div class="card-body">
           <div class="d-flex justify-content-between text-primary">
             <span class="h5 y"><i class="fa-solid fa-person"></i> Hommes</span>
@@ -50,6 +55,11 @@
     </div>
     <div class="col-md-3" *ngIf="cotisations$">
       <div class="card shadow">
+        <div class="card-header">
+          <h5 class="card-title text-center">
+            <i class="fa fa-coins"></i> Cotisation
+          </h5>
+        </div>
         <div class="card-body">
           <div class="d-flex justify-content-between text-primary">
             <span class="h5"><i class="fa fa-info-circle"></i> 90%</span>
@@ -60,9 +70,99 @@
             <span class="h5">{{ montant10PourCent | number }} FCFA</span>
           </div>
           <div class="d-flex justify-content-between text-success border-top">
-            <span class="h5"><i class="fa fa-info-circle"></i> Total</span>
+            <span class="h5"><i class="fa fa-info-circle"></i> Encours</span>
             <span class="h5">{{ montantTotalCotisation | number }} FCFA</span>
           </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3" *ngIf="avances$">
+      <div class="card shadow">
+        <div class="card-header">
+          <h5 class="card-title text-center">
+            <i class="fa fa-hand-holding-dollar"></i> Avance
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between text-danger">
+            <span class="h5"><i class="fa-solid fa-arrow-up"></i> Sorties</span>
+            <span class="h5">{{ montantAvanceDecaisse | number }} FCFA</span>
+          </div>
+          <div class="d-flex justify-content-between text-success">
+            <span class="h5"
+              ><i class="fa-solid fa-arrow-down"></i> Entrées</span
+            >
+            <span class="h5">{{ montantAvanceRembourse | number }} FCFA</span>
+          </div>
+          <div class="d-flex justify-content-between text-primary border-top">
+            <span class="h5"><i class="fa fa-info-circle"></i> Encours</span>
+            <span class="h5">{{ encoursAvance | number }} FCFA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3" *ngIf="credits$">
+      <div class="card shadow">
+        <div class="card-header">
+          <h5 class="card-title text-center">
+            <i class="fa fa-money-bill-wave"></i> Crédit
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between text-danger">
+            <span class="h5"><i class="fa-solid fa-arrow-up"></i> Sorties</span>
+            <span class="h5">{{ montantCreditDecaisse | number }} FCFA</span>
+          </div>
+          <div class="d-flex justify-content-between text-success">
+            <span class="h5"
+              ><i class="fa-solid fa-arrow-down"></i> Entrées</span
+            >
+            <span class="h5">{{ montantCreditRembourse | number }} FCFA</span>
+          </div>
+          <div class="d-flex justify-content-between text-primary border-top">
+            <span class="h5"><i class="fa fa-info-circle"></i> Encours</span>
+            <span class="h5">{{ encoursCredit | number }} FCFA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row content">
+    <div class="col-md-9">
+      <div class="card shadow">
+        <div class="card-header">
+          <h5 class="card-title text-center">
+            <i class="fa fa-chart-line"></i> Evolutions des encours
+          </h5>
+        </div>
+        <div class="card-body">
+          <app-line-chart [chartData]="dataGraph1"></app-line-chart>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card shadow mb-3">
+        <div class="card-header">
+          <h5><i class="fa fa-chart-pie"></i> Proportion des cotisations</h5>
+        </div>
+        <div class="card-body">
+          <app-pie-chart [chartData]="dataGraph2"></app-pie-chart>
+        </div>
+      </div>
+      <div class="card shadow mb-3">
+        <div class="card-header">
+          <h5><i class="fa fa-chart-pie"></i> Proportion des avances</h5>
+        </div>
+        <div class="card-body">
+          <app-pie-chart [chartData]="dataGraph3"></app-pie-chart>
+        </div>
+      </div>
+      <div class="card shadow mb-3">
+        <div class="card-header">
+          <h5><i class="fa fa-chart-pie"></i> Proportion des crédits</h5>
+        </div>
+        <div class="card-body">
+          <app-pie-chart [chartData]="dataGraph4"></app-pie-chart>
         </div>
       </div>
     </div>

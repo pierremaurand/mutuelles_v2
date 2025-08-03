@@ -18,6 +18,8 @@ namespace mutuelleApi.models
         public List<Mouvement>? Mouvements { get; set; }
         public Membre? Membre { get; set; }
 		
+		
+		
 
         public double MontantTotal => (MontantCapital + MontantCommission + MontantInterets);
 
@@ -42,5 +44,10 @@ namespace mutuelleApi.models
         }
 
         public string Libelle => "crédit de " + MontantCapital + " du membre " + Membre?.Nom + " du " + DateDemande + " remboursable en " + Duree + " mois";
+		
+		public string NomMembre => Membre?.Nom ?? "";
+		public string SexeMembre => Membre?.NomSexe ?? "";
+		public string PhotoMembre => Membre?.Photo ?? "";
+		public int AgenceId => Membre?.AgenceId ?? 0;
     }
 }

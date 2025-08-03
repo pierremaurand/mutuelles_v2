@@ -15,6 +15,7 @@ import { provideToastr } from 'ngx-toastr';
 import { httpTokenInterceptor } from './core/interceptors/http-token.interceptor';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { DatePipe } from '@angular/common';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,6 +25,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([httpTokenInterceptor]), withFetch()),
     provideToastr({ closeButton: true }),
     provideAnimations(),
-    DatePipe,
+    DatePipe, provideCharts(withDefaultRegisterables()),
   ],
 };

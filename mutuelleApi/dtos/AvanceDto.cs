@@ -12,8 +12,12 @@ namespace mutuelleApi.dtos
         public double MontantTotal { get; set; } = 0;
         public double MontantRestant { get; set; } = 0;
         public string Status { get; set; }  = string.Empty;
+		
 		public string NomMembre { get; set; } = string.Empty;
+		public string SexeMembre { get; set; } = string.Empty;
 		public string PhotoMembre { get; set; } = string.Empty;
+		public int AgenceId { get; set; } 
+		
 		public int MembreId { get; set; }
 		
 		public int NombreEcheancePaye { get; set; }

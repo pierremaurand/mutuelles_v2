@@ -7,7 +7,13 @@ export class Echeance {
   montantCommission: number = 0;
   montantInterets: number = 0;
   datePaiement: string = '';
+
   montantTotal: number = 0;
   montantRestant: number = 0;
   status: string = '';
+
+  nomMembre: string = '';
+  photoMembre: string = '';
+  sexeMembre: string = '';
+  agenceId: number = 0;
 }

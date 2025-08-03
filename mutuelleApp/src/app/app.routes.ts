@@ -66,6 +66,13 @@ export const routes: Routes = [
             (m) => m.CreditModule
           ),
       },
+      {
+        path: 'caisse',
+        loadChildren: () =>
+          import('./ui/modules/caisse/caisse-module').then(
+            (m) => m.CaisseModule
+          ),
+      },
     ],
   },
   {

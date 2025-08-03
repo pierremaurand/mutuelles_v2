@@ -56,5 +56,9 @@ namespace mutuelleApi.models
 
         private string Libelle => (Avance is null ? (Credit is null ? "": Credit.Libelle) : Avance.Libelle);
         
+		public string NomMembre => Avance?.Membre?.Nom ?? Credit?.Membre?.Nom ?? "";
+		public string SexeMembre => Avance?.Membre?.NomSexe ?? Credit?.Membre?.NomSexe ?? "";
+		public string PhotoMembre => Avance?.Membre?.Photo ?? Credit?.Membre?.Photo ?? "";
+		public int AgenceId => Avance?.Membre?.AgenceId ?? Credit?.Membre?.AgenceId ?? 0;
     }
 }
