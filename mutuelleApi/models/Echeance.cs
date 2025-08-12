@@ -10,17 +10,16 @@ namespace mutuelleApi.models
         public double MontantCommission { get; set; }
         public double MontantInterets { get; set; }
 
-        public int CreditId { get; set; }
-        public int AvanceId { get; set; }
+        public int? CreditId { get; set; }
+		public Credit? Credit { get; set; }
+        public int? AvanceId { get; set; }
+		public Avance? Avance { get; set; }
 		
         public string? DatePaiement { get; set; } 
         public string? DateAnticipation { get; set; }
 
-        public List<Mouvement>? Mouvements { get; set; } // Navigation property for movements
-		[ForeignKey("CreditId")]
-        public Credit? Credit { get; set; }
-		[ForeignKey("AvanceId")]
-        public Avance? Avance { get; set; }
+        public List<Mouvement>? Mouvements { get; set; }
+        
 
         public double MontantTotal => (MontantCapital + MontantCommission + MontantInterets);
 
