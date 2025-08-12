@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using mutuelleApi.data;
 
 namespace mutuelleApi.validators

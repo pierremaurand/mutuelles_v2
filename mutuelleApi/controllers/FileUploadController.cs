@@ -1,7 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Drawing;
-using System.Drawing.Imaging;
 using mutuelleApi.dtos;
 
 namespace mutuelleApi.controllers

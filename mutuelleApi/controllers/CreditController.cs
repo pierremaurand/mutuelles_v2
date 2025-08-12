@@ -1,6 +1,3 @@
-using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using mutuelleApi.dtos;
 using mutuelleApi.hubConfig;
 using mutuelleApi.interfaces;

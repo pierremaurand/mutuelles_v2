@@ -1,7 +1,3 @@
-
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
 namespace mutuelleApi.models
 {
     public class Agence : BaseEntity

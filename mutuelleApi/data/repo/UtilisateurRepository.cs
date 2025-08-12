@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using mutuelleApi.interfaces;
 using mutuelleApi.models;
 
