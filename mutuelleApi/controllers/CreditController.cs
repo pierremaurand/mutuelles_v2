@@ -1,15 +1,15 @@
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using mutuelleApi.dtos;
-using mutuelleApi.hubConfig;
 using mutuelleApi.interfaces;
 using mutuelleApi.models;
 
 namespace mutuelleApi.controllers
 {
-    public class CreditController(IMapper mapper, IUnitOfWork uow, IHubContext<SignalrServer> signalrHub) : BaseController
+    public class CreditController(IMapper mapper, IUnitOfWork uow) : BaseController
     {
         private readonly IUnitOfWork uow = uow;
         private readonly IMapper mapper = mapper;
-        private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
 		[HttpPut("anticipation/{id}")]
         public async Task<IActionResult> Anticipation(int id,List<EcheanceCreditRequestDto> request)
@@ -45,23 +45,19 @@ namespace mutuelleApi.controllers
         }
 		
         [HttpPost]
-        public async Task<IActionResult> Add(InfosCreditDto request)
+        public async Task<IActionResult> Add(CreditRequestDto request)
         {
-            var membre = await uow.MembreRepository.GetByIdAsync(request.Credit.MembreId);
+            var membre = await uow.MembreRepository.GetByIdAsync(request.MembreId);
             if (membre is null)
             {
                 return NotFound("Membre non trouvé");
             }
-            var credit = mapper.Map<Credit>(request.Credit);
-			var echeancier = mapper.Map<List<Echeance>>(request.Echeancier);
+            var credit = mapper.Map<Credit>(request);
 			
-			credit.Echeances = new List<Echeance>();
-			
-			foreach (var echeance in echeancier)
+			foreach (var echeance in credit.Echeances)
             {
                 echeance.ModifiePar = GetUserId();
                 echeance.ModifieLe = DateTime.Now;
-				credit.Echeances.Add(echeance);
             } 
 			
 			credit.Membre = membre;

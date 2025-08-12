@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using mutuelleApi.models;
 
 namespace mutuelleApi.data

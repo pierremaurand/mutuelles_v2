@@ -1,16 +1,17 @@
+using System.Security.Cryptography;
+using System.Text;
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using mutuelleApi.dtos;
-using mutuelleApi.hubConfig;
 using mutuelleApi.interfaces;
 using mutuelleApi.models;
 
 namespace mutuelleApi.controllers
 {
-    public class UtilisateurController(IMapper mapper, IUnitOfWork uow, IConfiguration configuration, IHubContext<SignalrServer> signalrHub) : BaseController
+    public class UtilisateurController(IMapper mapper, IUnitOfWork uow) : BaseController
     {
         private readonly IUnitOfWork uow = uow;
         private readonly IMapper mapper = mapper;
-        private readonly IConfiguration configuration = configuration;
-        private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
         [HttpPost]
         public async Task<IActionResult> Add(UtilisateurRequestDto request)

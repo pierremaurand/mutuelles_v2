@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace mutuelleApi.dtos
 {
     public class CotisationRequestDto

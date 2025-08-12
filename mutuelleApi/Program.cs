@@ -1,6 +1,10 @@
+using System.Security.Cryptography;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using mutuelleApi.data;
 using mutuelleApi.helpers;
-using mutuelleApi.hubConfig;
 using mutuelleApi.interfaces;
 using mutuelleApi.models;
 
@@ -17,7 +21,6 @@ var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddControllers().AddNewtonsoftJson();;
 builder.Services.AddOpenApi();
-builder.Services.AddSignalR();
 
 builder.Services.AddCors(options =>
 {
@@ -115,6 +118,5 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 
 app.MapControllers();
-app.MapHub<SignalrServer>("/signalrServer");
 
 app.Run();

@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace mutuelleApi.models
 {
     public class Cotisation : BaseEntity

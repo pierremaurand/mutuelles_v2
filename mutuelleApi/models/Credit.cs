@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace mutuelleApi.models
 {
     public class Credit : BaseEntity
@@ -10,7 +12,7 @@ namespace mutuelleApi.models
         public string DateDemande { get; set; } = string.Empty;
         public string DateDecaissement { get; set; } = string.Empty;
 
-        public List<Echeance>? Echeances { get; set; }
+        public List<Echeance> Echeances { get; set; } = new List<Echeance>();
         public List<Mouvement>? Mouvements { get; set; }
         public Membre? Membre { get; set; }
 

@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace mutuelleApi.dtos
 {
     public class CreditRequestDto
@@ -17,5 +19,7 @@ namespace mutuelleApi.dtos
         public string DateDemande { get; set; } = string.Empty;
 		[Required(ErrorMessage = "La date de décaissement est obligatoire!")]
         public string DateDecaissement { get; set; } = string.Empty;
+        [Required(ErrorMessage = "L'échéancier est obligatoire!")]
+        public List<EcheanceCreditRequestDto> Echeances { get; set; } = new List<EcheanceCreditRequestDto>();
     }
 }

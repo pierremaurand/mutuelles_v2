@@ -1,4 +1,5 @@
 using mutuelleApi.enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace mutuelleApi.models
 {

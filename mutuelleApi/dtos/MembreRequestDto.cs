@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using mutuelleApi.enums;
 
 namespace mutuelleApi.dtos

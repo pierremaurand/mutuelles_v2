@@ -1,17 +1,16 @@
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using mutuelleApi.dtos;
-using mutuelleApi.hubConfig;
 using mutuelleApi.interfaces;
 
 namespace mutuelleApi.controllers
 {
-    public class EcheanceController(IMapper mapper, IUnitOfWork uow, IHubContext<SignalrServer> signalrHub) : BaseController
+    public class EcheanceController(IMapper mapper, IUnitOfWork uow) : BaseController
     {
         private readonly IUnitOfWork uow = uow;
         private readonly IMapper mapper = mapper;
-        private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
         [HttpGet]
-		[AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var echeances = await uow.EcheanceRepository.GetAllAsync();

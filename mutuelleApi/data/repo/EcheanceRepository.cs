@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using mutuelleApi.interfaces;
 using mutuelleApi.models;
 
@@ -29,9 +30,9 @@ namespace mutuelleApi.data.repo
             if(dc.Echeances is not null) {
                 var echeances = await dc.Echeances
 				.Include(e => e.Avance)
-				.ThenInclude(a => a.Membre)
+				.ThenInclude(a => a != null ? a.Membre: null)
 				.Include(e => e.Credit)
-				.ThenInclude(c => c.Membre)
+				.ThenInclude(c => c != null ? c.Membre: null)
 				.Include(e => e.Mouvements)
 				.Include(e => e.Utilisateur)
                 .ToListAsync();
@@ -48,9 +49,9 @@ namespace mutuelleApi.data.repo
             if(dc.Echeances is not null) {
                 var echeance = await dc.Echeances
 				.Include(e => e.Avance)
-				.ThenInclude(a => a.Membre)
+				.ThenInclude(a => a != null ? a.Membre: null)
 				.Include(e => e.Credit)
-				.ThenInclude(c => c.Membre)
+				.ThenInclude(c => c != null ? c.Membre: null)
 				.Include(e => e.Mouvements)
 				.Include(e => e.Utilisateur)
                 .Where(e => e.Id == id)
