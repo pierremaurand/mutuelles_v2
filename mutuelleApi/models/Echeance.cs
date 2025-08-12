@@ -20,11 +20,29 @@ namespace mutuelleApi.models
 
         public List<Mouvement>? Mouvements { get; set; }
 
-        public double MontantTotal => (MontantCapital + MontantCommission + MontantInterets);
+        public double MontantTotal
+        {
+            get
+            {
+                return MontantCapital + MontantCommission + MontantInterets;
+            }
+        }
 
-        public double MontantRestant => MontantTotal - (Mouvements?.Sum(m => m.MontantCredit) ?? 0);
+        public double MontantRestant
+        {
+            get
+            {
+                return MontantTotal - (Mouvements?.Sum(m => m.MontantCredit) ?? 0);
+            }
+        }
 
-        public string Status => MontantRestant > 0 ? "Impayée": (!string.IsNullOrEmpty(DatePaiement) ? "Payée" : "Anticipée");
+        public string Status
+        {
+            get
+            {
+                return MontantRestant > 0 ? "Impayée" : (!string.IsNullOrEmpty(DatePaiement) ? "Payée" : "Anticipée");
+            }
+        }
 
         public void Rembourser(int modificateur)
         {
@@ -78,16 +96,55 @@ namespace mutuelleApi.models
 			Mouvements.Add(mouvement);
 		}
 
-        private string Libelle => (Avance is null ? (Credit is null ? "": Credit.Libelle) : Avance.Libelle);
-        
-		public string NomMembre => (Avance is null ? (Credit is null ? "": Credit.NomMembre): Avance.NomMembre);
-		public string SexeMembre => Avance?.SexeMembre ?? Credit?.SexeMembre ?? "";
-		public string PhotoMembre => Avance?.PhotoMembre ?? Credit?.PhotoMembre ?? "";
-		public string NomAgence => Avance?.NomAgence ?? Credit?.NomAgence ?? "";
-		
-		[ForeignKey("ModifiePar")]
+        private string Libelle
+        {
+            get
+            {
+                return Avance?.Libelle ?? Credit?.Libelle ?? "";
+            }
+        }
+
+        public string NomMembre
+        {
+            get
+            {
+                return Avance?.NomMembre ?? Credit?.NomMembre ?? "";
+            }
+        }
+
+        public string SexeMembre
+        {
+            get
+            {
+                return Avance?.SexeMembre ?? Credit?.SexeMembre ?? "";
+            }
+        }
+
+        public string PhotoMembre
+        {
+            get
+            {
+                return Avance?.PhotoMembre ?? Credit?.PhotoMembre ?? "";
+            }
+        }
+
+        public int Agence
+        {
+            get
+            {
+                return Avance?.AgenceId ?? Credit?.AgenceId ?? 0;
+            }
+        }
+
+        [ForeignKey("ModifiePar")]
 		public Utilisateur? Utilisateur { get; set; }
-		
-		public string UtilisateurLogin => Utilisateur?.Login ?? "";
+
+        public string UtilisateurLogin
+        {
+            get
+            {
+                return Utilisateur?.Login ?? "";
+            }
+        }
     }
 }

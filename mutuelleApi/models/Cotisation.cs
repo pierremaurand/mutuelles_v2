@@ -1,6 +1,3 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
 namespace mutuelleApi.models
 {
     public class Cotisation : BaseEntity
@@ -13,9 +10,15 @@ namespace mutuelleApi.models
         public Membre? Membre { get; set; }
         public Mouvement? Mouvement { get; set; }
 
-        
-        public string Libelle => "cotisation du membre " + Membre?.Nom + " du " + DateCotisation;
-        
+
+        public string Libelle
+        {
+            get
+            {
+                return "cotisation du membre " + Membre?.Nom + " du " + DateCotisation;
+            }
+        }
+
         public void Payer(int modificateur)
         {
             if (!string.IsNullOrEmpty(DateCotisation) && Mouvement is null)
@@ -30,15 +33,48 @@ namespace mutuelleApi.models
                 Mouvement = mouvement;
             }
         }
-		
-		public string NomMembre => Membre?.Nom ?? "";
-		public string SexeMembre => Membre?.NomSexe ?? "";
-		public string PhotoMembre => Membre?.Photo ?? "";
-		public int AgenceId => Membre?.AgenceId ?? 0;
-		
-		[ForeignKey("ModifiePar")]
+
+        public string NomMembre
+        {
+            get
+            {
+                return Membre?.Nom ?? "";
+            }
+        }
+
+        public string SexeMembre
+        {
+            get
+            {
+                return Membre?.NomSexe ?? "";
+            }
+        }
+
+        public string PhotoMembre
+        {
+            get
+            {
+                return Membre?.Photo ?? "";
+            }
+        }
+
+        public int AgenceId
+        {
+            get
+            {
+                return Membre?.AgenceId ?? 0;
+            }
+        }
+
+        [ForeignKey("ModifiePar")]
 		public Utilisateur? Utilisateur { get; set; }
-		
-		public string UtilisateurLogin => Utilisateur?.Login ?? "";
+
+        public string UtilisateurLogin
+        {
+            get
+            {
+                return Utilisateur?.Login ?? "";
+            }
+        }
     }
 }

@@ -16,17 +16,23 @@ namespace mutuelleApi.models
         public List<Echeance>? Echeances { get; set; }
         public List<Mouvement>? Mouvements { get; set; }
         public Membre? Membre { get; set; }
-		
-		
-        public double MontantTotal => (MontantCapital + MontantCommission + MontantInterets);
-		
-		public int NombreEcheancePaye => (Echeances?.Count(e => e.MontantRestant == 0)??0);
-		
-		public int NombreEcheanceImpaye => (Echeances?.Count(e => e.MontantRestant > 0)??0);
-		
-		public string DateDerniereEcheance => (Echeances?.Max(e => e.DateEcheance)??"");
 
-        public double MontantRestant => (Echeances?.Sum(m => m.MontantRestant) ?? 0);
+
+        public double MontantTotal
+        {
+            get
+            {
+                return MontantCapital + MontantCommission + MontantInterets;
+            }
+        }
+
+        public int NombreEcheancePaye => Echeances?.Count(e => e.MontantRestant == 0)??0;
+		
+		public int NombreEcheanceImpaye => Echeances?.Count(e => e.MontantRestant > 0)??0;
+		
+		public string DateDerniereEcheance => Echeances?.Max(e => e.DateEcheance)??"";
+
+        public double MontantRestant => Echeances?.Sum(m => m.MontantRestant) ?? 0;
 
         public string Status => MontantRestant == 0 ? "Soldé" : "En cour";
 
@@ -46,17 +52,63 @@ namespace mutuelleApi.models
             }
         }
 
-        public string Libelle => "crédit de " + MontantCapital + " du membre " + Membre?.Nom + " du " + DateDemande + " remboursable en " + Duree + " mois";
-		
-		public string NomMembre => Membre?.Nom ?? "";
-		public string SexeMembre => Membre?.NomSexe ?? "";
-		public string PhotoMembre => Membre?.Photo ?? "";
-		public string NomAgence => Membre?.NomAgence ?? "";
-		public int AgenceId => Membre?.AgenceId ?? 0;
-		
-		[ForeignKey("ModifiePar")]
+        public string Libelle
+        {
+            get
+            {
+                return "crédit de " + MontantCapital + " du membre " + Membre?.Nom + " du " + DateDemande + " remboursable en " + Duree + " mois";
+            }
+        }
+
+        public string NomMembre
+        {
+            get
+            {
+                return Membre?.Nom ?? "";
+            }
+        }
+
+        public string SexeMembre
+        {
+            get
+            {
+                return Membre?.NomSexe ?? "";
+            }
+        }
+
+        public string PhotoMembre
+        {
+            get
+            {
+                return Membre?.Photo ?? "";
+            }
+        }
+
+        public string NomAgence
+        {
+            get
+            {
+                return Membre?.NomAgence ?? "";
+            }
+        }
+
+        public int AgenceId
+        {
+            get
+            {
+                return Membre?.AgenceId ?? 0;
+            }
+        }
+
+        [ForeignKey("ModifiePar")]
 		public Utilisateur? Utilisateur { get; set; }
-		
-		public string UtilisateurLogin => Utilisateur?.Login ?? "";
+
+        public string UtilisateurLogin
+        {
+            get
+            {
+                return Utilisateur?.Login ?? "";
+            }
+        }
     }
 }
