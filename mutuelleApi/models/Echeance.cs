@@ -19,7 +19,6 @@ namespace mutuelleApi.models
         public string? DateAnticipation { get; set; }
 
         public List<Mouvement>? Mouvements { get; set; }
-        
 
         public double MontantTotal => (MontantCapital + MontantCommission + MontantInterets);
 
