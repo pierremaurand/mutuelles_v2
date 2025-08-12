@@ -1,0 +1,97 @@
+<div class="container">
+  <h5>Infos mouvement</h5>
+  <hr />
+  <form [formGroup]="request" (ngSubmit)="submitForm()">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="card shadow">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label for="typeMouvement" class="form-label"
+                  >Type de mouvement</label
+                >
+                <select
+                  name="typeMouvement"
+                  id="typeMouvement"
+                  class="form-select"
+                  [formControl]="typeMouvementCtrl"
+                  [ngClass]="{
+                  'is-valid': typeMouvementCtrl.valid,
+                  'is-invalid': !typeMouvementCtrl.valid
+                }"
+                >
+                  <option value=""></option>
+                  <option value="1">Entrée</option>
+                  <option value="2">Sortie</option>
+                </select>
+                <div class="invalid-feedback">
+                  Le type de mouvement est requis!
+                </div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="dateMouvement" class="form-label"
+                  >Date du mouvement</label
+                >
+                <input
+                  type="date"
+                  name="dateMouvement"
+                  id="dateMouvement"
+                  class="form-control"
+                  formControlName="dateMouvement"
+                  [ngClass]="{
+                  'is-valid': dateMouvementCtrl.valid,
+                  'is-invalid': !dateMouvementCtrl.valid
+                }"
+                />
+                <div class="invalid-feedback">La date est requis!</div>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="montant" class="form-label">Montant</label>
+                <input
+                  type="number"
+                  name="montant"
+                  id="montant"
+                  class="form-control"
+                  [formControl]="montantCtrl"
+                  [ngClass]="{
+                  'is-valid': montantCtrl.valid,
+                  'is-invalid': !montantCtrl.valid
+                }"
+                />
+                <div class="invalid-feedback">Le montant est requis!</div>
+              </div>
+              <div class="col mb-3">
+                <label for="libelle" class="form-label">Libellé</label>
+                <textarea
+                  name="libelle"
+                  id="libelle"
+                  rows="5"
+                  class="form-control"
+                  formControlName="libelle"
+                  [ngClass]="{
+                  'is-valid': libelleCtrl.valid,
+                  'is-invalid': !libelleCtrl.valid
+                }"
+                ></textarea>
+                <div class="invalid-feedback">Le libellé est requis!</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <app-infos [mouvement]="request.value" />
+      </div>
+    </div>
+    <hr />
+    <div class="d-flex justify-content-end gap-1">
+      <button class="btn btn-primary" type="submit" [disabled]="!request.valid">
+        <i class="fa-solid fa-floppy-disk"></i> Enregistrer
+      </button>
+      <button class="btn btn-danger" type="button" (click)="onCancel()">
+        <i class="fa-solid fa-xmark"></i> Annuler
+      </button>
+    </div>
+  </form>
+</div>

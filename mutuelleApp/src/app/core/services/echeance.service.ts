@@ -10,7 +10,6 @@ import { Membre } from '../models/membre';
 })
 export class EcheanceService {
   baseUrl: string = environment.baseUrl + '/echeance';
-  private membres: Membre[] = [];
 
   private _echeances$ = new BehaviorSubject<Echeance[]>([]);
   get echeances$(): Observable<Echeance[]> {
@@ -49,14 +48,5 @@ export class EcheanceService {
     } else {
       this._echeance$.next(new Echeance());
     }
-  }
-
-  setMembres(membres: Membre[]): void {
-    this.membres = membres;
-  }
-
-  getMembreById(id: number): Membre {
-    const membre = this.membres.find((m) => m.id === id);
-    return membre ? membre : new Membre();
   }
 }

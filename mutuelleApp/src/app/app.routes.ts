@@ -69,7 +69,7 @@ export const routes: Routes = [
       {
         path: 'caisse',
         loadChildren: () =>
-          import('./ui/modules/caisse/caisse-module').then(
+          import('./ui/modules/caisse/caisse.module').then(
             (m) => m.CaisseModule
           ),
       },

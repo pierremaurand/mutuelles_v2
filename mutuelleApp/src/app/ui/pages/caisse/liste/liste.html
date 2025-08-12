@@ -1,1 +1,29 @@
-<p>liste works!</p>
+<div class="container">
+  <div class="d-flex justify-content-between">
+    <h1 class="h3">Journal de caisse</h1>
+    <button class="btn btn-primary" type="button" (click)="add()">
+      Ajouter un mouvement
+    </button>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-md-9">
+      <div
+        class="d-flex flex-column gap-2 mb-3 liste"
+        *ngIf="mouvements$ | async as mouvements"
+      >
+        <app-ligne-mouvement
+          *ngFor="let mouvement of mouvements | sort : ['id', 'desc']| sort : ['dateMouvement', 'desc']"
+          [mouvement]="mouvement"
+          (onSelectedEvent)="onSelected($event)"
+        ></app-ligne-mouvement>
+        <h2 *ngIf="mouvements.length == 0" class="text-center">
+          Aucun mouvement n'a été trouvé dans la base
+        </h2>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <app-infos [mouvement]="mouvement" />
+    </div>
+  </div>
+</div>

@@ -29,7 +29,11 @@ namespace mutuelleApi.controllers
             }
 			
 			foreach(var echeanceRequest in request) {
-				var echeance = avance.Echeancier.Find(x => x.Id == echeanceRequest.Id); 
+				if(avance.Echeances is null) {
+					return BadRequest("Avance sans echeancier");
+				}
+				
+				var echeance = avance.Echeances.Find(x => x.Id == echeanceRequest.Id); 
 				if(echeance is null) {
 					return NotFound("Echance non trouvée");
 				}
@@ -54,13 +58,13 @@ namespace mutuelleApi.controllers
             var avance = mapper.Map<Avance>(request.Avance);
 			var echeancier = mapper.Map<List<Echeance>>(request.Echeancier);
 			
-			avance.Echeancier = new List<Echeance>();
+			avance.Echeances = new List<Echeance>();
 			
 			foreach (var echeance in echeancier)
             {
                 echeance.ModifiePar = GetUserId();
                 echeance.ModifieLe = DateTime.Now;
-				avance.Echeancier.Add(echeance);
+				avance.Echeances.Add(echeance);
             } 
 			
 			avance.Membre = membre;

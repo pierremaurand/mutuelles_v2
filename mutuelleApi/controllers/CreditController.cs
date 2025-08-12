@@ -20,36 +20,28 @@ namespace mutuelleApi.controllers
 			var credit = await uow.CreditRepository.GetByIdAsync(id);
 			
 			if(credit is null) {
-				return NotFound("Credit non trouvé");
+				return NotFound("Credit non trouvée");
 			}
-
-            var membre = await uow.MembreRepository.GetByIdAsync(credit.MembreId);
-            if (membre is null)
+			
+            if (credit.Membre is null)
             {
                 return NotFound("Membre non trouvé");
             }
 			
-			credit.Membre = membre;
-
-            foreach (var echeanceDto in request)
-            {
-                var echeance = await uow.EcheanceRepository.GetByIdAsync(echeanceDto.Id);
-                if (echeance is null)
-                {
-                    return NotFound("Echeance non trouvée");
-                }
-
-                if (echeance.CreditId != credit.Id)
-                {
-                    return BadRequest("Echeance non valide");
-                }
-
-                mapper.Map(echeanceDto, echeance);
-				echeance.Credit = credit;
-                echeance.ModifiePar = GetUserId();
+			foreach(var echeanceRequest in request) {
+				if(credit.Echeances is null) {
+					return BadRequest("Credit sans echeancier");
+				}
+				
+				var echeance = credit.Echeances.Find(x => x.Id == echeanceRequest.Id); 
+				if(echeance is null) {
+					return NotFound("Echance non trouvée");
+				}
+				mapper.Map(echeanceRequest,echeance);
+				echeance.ModifiePar = GetUserId();
                 echeance.ModifieLe = DateTime.Now;
                 echeance.Rembourser(GetUserId());
-            }
+			}
 
             await uow.SaveAsync();
             return StatusCode(201);
@@ -64,20 +56,23 @@ namespace mutuelleApi.controllers
                 return NotFound("Membre non trouvé");
             }
             var credit = mapper.Map<Credit>(request.Credit);
+			var echeancier = mapper.Map<List<Echeance>>(request.Echeancier);
+			
+			credit.Echeances = new List<Echeance>();
+			
+			foreach (var echeance in echeancier)
+            {
+                echeance.ModifiePar = GetUserId();
+                echeance.ModifieLe = DateTime.Now;
+				credit.Echeances.Add(echeance);
+            } 
+			
 			credit.Membre = membre;
             credit.ModifiePar = GetUserId();
             credit.ModifieLe = DateTime.Now;
             credit.Decaisser(GetUserId());
             uow.CreditRepository.Add(credit);
 			
-			foreach (var echeanceDto in request.Echeancier)
-            {
-                var echeance = mapper.Map<Echeance>(echeanceDto);
-                echeance.ModifiePar = GetUserId();
-                echeance.ModifieLe = DateTime.Now;
-                credit.Echeancier?.Add(echeance);
-            }
-
             await uow.SaveAsync();
             return StatusCode(201);
         }
@@ -95,7 +90,7 @@ namespace mutuelleApi.controllers
         {
             var credit = await uow.CreditRepository.GetByIdAsync(id);
 			if(credit is null) {
-				return NotFound("Credit non trouvé");
+				return NotFound("Credit non trouvée");
 			}
 			
 			mapper.Map(request, credit);
@@ -111,7 +106,7 @@ namespace mutuelleApi.controllers
         {
             var credits = await uow.CreditRepository.GetAllAsync();
             if(credits is null) {
-                return NotFound("Aucune credit n'a été trouvé dans la bdd");
+                return NotFound("Credits non trouvées");
             }
             var creditsDto = mapper.Map<List<CreditDto>>(credits);
             return Ok(creditsDto);
@@ -122,7 +117,7 @@ namespace mutuelleApi.controllers
         {
             var credit = await uow.CreditRepository.GetByIdAsync(id);
             if(credit is null) {
-                return NotFound("Credit non trouvé");
+                return NotFound("Credit non trouvée");
             }
             var creditDto = mapper.Map<CreditDto>(credit);
             return Ok(creditDto);
@@ -143,20 +138,5 @@ namespace mutuelleApi.controllers
             return StatusCode(201);
         }
 		
-		[HttpPut("echeance/{id}")]
-        public async Task<IActionResult> UpdateEcheance(int id, EcheanceCreditRequestDto request)
-        {
-            var echeance = await uow.EcheanceRepository.GetByIdAsync(id);
-			if(echeance is null) {
-				return NotFound("Echeance credit non trouvée");
-			}
-			
-			mapper.Map(request, echeance);
-            echeance.ModifiePar = GetUserId();
-            echeance.ModifieLe = DateTime.Now;
-
-            await uow.SaveAsync();
-            return StatusCode(201);
-        }
     }
 }

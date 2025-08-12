@@ -33,6 +33,7 @@ namespace mutuelleApi.data.repo
                 var adhesions = await dc.Adhesions
 				.Include(c => c.Membre)
 				.Include(c => c.Mouvement)
+				.Include(c => c.Utilisateur)
                 .ToListAsync();
                 if (adhesions is not null)
                 {
@@ -50,7 +51,8 @@ namespace mutuelleApi.data.repo
                 var adhesion = await dc.Adhesions
 				.Include(c => c.Membre)
 				.Include(c => c.Mouvement)
-                .Where(s => s.Id == id)
+				.Include(c => c.Utilisateur)
+                .Where(c => c.Id == id)
                 .FirstAsync();
                 if(adhesion is not null)
                 {

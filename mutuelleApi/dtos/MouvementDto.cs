@@ -10,10 +10,13 @@ namespace mutuelleApi.dtos
         public float MontantDebit { get; set; }
         public float MontantCredit { get; set; }
 
-        public int MembreId { get; set; }
-        public int CotisationId { get; set; }
-        public int AvanceId { get; set; }
-        public int CreditId { get; set; }
-        public int EcheanceId { get; set; }
+        public int? MembreId { get; set; }
+        public int? CotisationId { get; set; }
+        public int? AdhesionId { get; set; }
+        public int? AvanceId { get; set; }
+        public int? CreditId { get; set; }
+        public int? EcheanceId { get; set; }
+		
+		public string UtilisateurLogin { get; set; } = string.Empty;
     }
 }

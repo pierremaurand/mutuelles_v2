@@ -6,6 +6,7 @@
           <th class="text-center">N°</th>
           <th class="text-center">Date</th>
           <th class="text-center" *ngIf="echeancierCredit">Capital</th>
+          <th class="text-center" *ngIf="echeancierCredit">Commission</th>
           <th class="text-center" *ngIf="echeancierCredit">Intérets</th>
           <th class="text-center">Montant échéance</th>
           <th class="text-center" *ngIf="echeancierView">Etat</th>
@@ -21,10 +22,17 @@
             {{ echeance.montantCapital | number }} FCFA
           </td>
           <td class="text-end" *ngIf="echeancierCredit">
+            {{ echeance.montantCommission | number }} FCFA
+          </td>
+          <td class="text-end" *ngIf="echeancierCredit">
             {{ echeance.montantInterets | number }} FCFA
           </td>
           <td class="text-end">
-            {{ echeance.montantInterets + echeance.montantCapital | number }}
+            {{
+              echeance.montantInterets +
+                echeance.montantCommission +
+                echeance.montantCapital | number
+            }}
             FCFA
           </td>
           <td

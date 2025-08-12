@@ -19,6 +19,10 @@
                   id="date"
                   name="date"
                   [formControl]="datePaiementCtrl"
+                  [ngClass]="{
+                    'is-invalid': !datePaiementCtrl.valid,
+                    'is-valid': datePaiementCtrl.valid
+                  }"
                 />
               </div>
             </div>
@@ -49,7 +53,7 @@
                       type="checkbox"
                       [checked]="items[i].checked"
                       (change)="onCheck(i, echeance, $event)"
-                      [disabled]="datePaiementCtrl.value == ''"
+                      [disabled]="!datePaiementCtrl.valid"
                     />
                   </td>
                   <td class="text-center">

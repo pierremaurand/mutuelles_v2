@@ -3,8 +3,10 @@
   <hr />
   <form [formGroup]="request" (ngSubmit)="submitForm()">
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-3" *ngIf="membre$ | async as membre">
         <app-infos-pret
+          [nom]="membre.nom"
+          [photo]="membre.photo"
           [montant]="montantCapitalCtrl.value"
           [duree]="dureeCtrl.value"
         ></app-infos-pret>
@@ -20,12 +22,17 @@
                   id="agenceId"
                   class="form-select"
                   [formControl]="agenceCtrl"
+                  [ngClass]="{
+                    'is-valid': agenceCtrl.valid,
+                    'is-invalid': !agenceCtrl.valid
+                  }"
                 >
                   <option value=""></option>
                   <option *ngFor="let agence of agences" [value]="agence.id">
                     {{ agence.nom | uppercase }}
                   </option>
                 </select>
+                <div class="invalid-feedback">L'agence est obligatoire!</div>
               </div>
               <div class="col-md-6 mb-3" *ngIf="membres$ | async as membres">
                 <label for="membreId" class="form-label">Membre</label>
@@ -34,12 +41,17 @@
                   id="membreId"
                   class="form-select"
                   formControlName="membreId"
+                  [ngClass]="{
+                    'is-valid': membreIdCtrl.valid,
+                    'is-invalid': !membreIdCtrl.valid
+                  }"
                 >
                   <option value=""></option>
                   <option *ngFor="let membre of membres" [value]="membre.id">
                     {{ membre.nom | uppercase }}
                   </option>
                 </select>
+                <div class="invalid-feedback">Le membre est obligatoire!</div>
               </div>
               <div class="col-md-6 mb-3">
                 <label for="montantCapital" class="form-label">Montant</label>
@@ -49,7 +61,15 @@
                   id="montantCapital"
                   class="form-control"
                   formControlName="montantCapital"
+                  [ngClass]="{
+                    'is-valid': montantCapitalCtrl.valid,
+                    'is-invalid': !montantCapitalCtrl.valid
+                  }"
                 />
+                <div class="invalid-feedback">
+                  Le montant est obligatoire et doit être inférieur ou égal à
+                  300 000 FCFA!
+                </div>
               </div>
               <div class="col-md-6 mb-3">
                 <label for="duree" class="form-label">Durée</label>
@@ -59,7 +79,15 @@
                   id="duree"
                   class="form-control"
                   formControlName="duree"
+                  [ngClass]="{
+                    'is-valid': dureeCtrl.valid,
+                    'is-invalid': !dureeCtrl.valid
+                  }"
                 />
+                <div class="invalid-feedback">
+                  La durée est obligatoire et doit être inférieur ou égal à 9
+                  mois!
+                </div>
               </div>
               <div class="col-md-4 mb-3">
                 <label for="dateDemande" class="form-label"
@@ -71,7 +99,14 @@
                   id="dateDemande"
                   class="form-control"
                   formControlName="dateDemande"
+                  [ngClass]="{
+                    'is-valid': dateDemandeCtrl.valid,
+                    'is-invalid': !dateDemandeCtrl.valid
+                  }"
                 />
+                <div class="invalid-feedback">
+                  La date de la demande est obligatoire!
+                </div>
               </div>
               <div class="col-md-4 mb-3">
                 <label for="dateDecaissement" class="form-label"
@@ -83,7 +118,14 @@
                   id="dateDecaissement"
                   class="form-control"
                   formControlName="dateDecaissement"
+                  [ngClass]="{
+                    'is-valid': dateDecaissementCtrl.valid,
+                    'is-invalid': !dateDecaissementCtrl.valid
+                  }"
                 />
+                <div class="invalid-feedback">
+                  La date du décaissement est obligatoire!
+                </div>
               </div>
               <div class="col-md-4 mb-3">
                 <label for="differe" class="form-label">Différer de</label>
@@ -93,7 +135,14 @@
                   id="differe"
                   class="form-control"
                   [formControl]="differeCtrl"
+                  [ngClass]="{
+                    'is-valid': differeCtrl.valid,
+                    'is-invalid': !differeCtrl.valid
+                  }"
                 />
+                <div class="invalid-feedback">
+                  Le différé doit être inférieur ou égal à 11 mois!
+                </div>
               </div>
             </div>
           </div>
@@ -113,7 +162,11 @@
 
     <hr />
     <div class="d-flex justify-content-end gap-1">
-      <button class="btn btn-primary" type="submit">
+      <button
+        class="btn btn-primary"
+        type="submit"
+        [disabled]="!request.valid || echeancier.length === 0"
+      >
         <i class="fa-solid fa-floppy-disk"></i> Enregistrer
       </button>
       <button class="btn btn-danger" type="button" (click)="onCancel()">

@@ -26,30 +26,19 @@ export default class ListeComponent implements OnInit {
 
   constructor(
     private avanceService: AvanceService,
-    private membreService: MembreService,
     private searchService: SearchService,
-    private echeanceService: EcheanceService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.membres$ = this.membreService.membres$;
-    this.membres$.subscribe({
-      next: (membres) => {
-        this.membres = membres;
-      },
-    });
-
     this.search$ = this.searchService.search$;
     this.search$.subscribe();
 
     this.avances$ = combineLatest([
       this.searchService.search$,
       this.avanceService.avances$,
-      this.membreService.membres$,
-      this.echeanceService.echeances$,
     ]).pipe(
-      map(([search, avances, membres, echeances]) =>
+      map(([search, avances]) =>
         avances.filter((avance: Avance) =>
           avance.nomMembre.toLowerCase().includes(search)
         )

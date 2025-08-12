@@ -1,4 +1,5 @@
-
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace mutuelleApi.models
 {
@@ -15,5 +16,10 @@ namespace mutuelleApi.models
         public int? AvanceId { get; set; }
         public int? CreditId { get; set; }
         public int? EcheanceId { get; set; }
+		
+		[ForeignKey("ModifiePar")]
+		public Utilisateur? Utilisateur { get; set; }
+		
+		public string UtilisateurLogin => Utilisateur?.Login ?? "";
     }
 }

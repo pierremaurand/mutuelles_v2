@@ -11,6 +11,9 @@ export class Credit {
   montantTotal: number = 0;
   montantRestant: number = 0;
   status: string = '';
+  nombreEcheancePaye: number = 0;
+  nombreEcheanceImpaye: number = 0;
+  dateDerniereEcheance: string = '';
 
   nomMembre: string = '';
   photoMembre: string = '';

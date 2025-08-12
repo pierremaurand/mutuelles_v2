@@ -43,6 +43,7 @@ export default class AddComponent implements OnInit {
   dureeCtrl!: FormControl;
   dateDemandeCtrl!: FormControl;
   dateDecaissementCtrl!: FormControl;
+  differeCtrl!: FormControl;
 
   agenceCtrl!: FormControl;
 
@@ -76,8 +77,15 @@ export default class AddComponent implements OnInit {
   }
 
   initControls(): void {
-    this.membreIdCtrl = this.fb.control(0, Validators.required);
-    this.montantCapitalCtrl = this.fb.control('', Validators.required);
+    this.differeCtrl = this.fb.control(0, [
+      Validators.min(0),
+      Validators.max(11),
+    ]);
+    this.membreIdCtrl = this.fb.control('', Validators.required);
+    this.montantCapitalCtrl = this.fb.control('', [
+      Validators.required,
+      Validators.min(0),
+    ]);
     this.montantCommissionCtrl = this.fb.control('', Validators.required);
     this.montantInteretsCtrl = this.fb.control('', Validators.required);
     this.dureeCtrl = this.fb.control('', [
@@ -88,7 +96,7 @@ export default class AddComponent implements OnInit {
     this.dateDemandeCtrl = this.fb.control('', Validators.required);
     this.dateDecaissementCtrl = this.fb.control('', Validators.required);
 
-    this.agenceCtrl = this.fb.control(0);
+    this.agenceCtrl = this.fb.control('', Validators.required);
   }
 
   initForm(): void {
@@ -148,21 +156,16 @@ export default class AddComponent implements OnInit {
       )
     );
 
-    combineLatest([membreId$, this.membres$])
-      .pipe(
-        map(
-          ([membreId, membres]) =>
-            membres.filter((membre: Membre) => membre.id === +membreId)[0] ||
-            new Membre()
-        )
+    this.membre$ = combineLatest([membreId$, this.membres$]).pipe(
+      map(
+        ([membreId, membres]) =>
+          membres.filter((membre: Membre) => membre.id === +membreId)[0] ||
+          new Membre()
       )
-      .subscribe({
-        next: (membre: Membre) => {
-          this.membre = membre;
-        },
-      });
+    );
 
     this.membres$.subscribe();
+    this.membre$.subscribe();
   }
 
   genererEcheancier(): void {
@@ -170,11 +173,17 @@ export default class AddComponent implements OnInit {
     let curDate = new Date();
     let capital: number | undefined = 0;
     let interet: number | undefined = 0;
+    let commission: number | undefined = 0;
     let montantCapital: number | undefined = 0;
     let montantInteret: number | undefined = 0;
+    let montantCommission: number | undefined = 0;
     let nbrEcheances: number | undefined = 0;
     let resteCapital: number | undefined = 0;
     let resteInteret: number | undefined = 0;
+    let resteCommission: number | undefined = 0;
+    let differe: number = 0;
+
+    differe = this.differeCtrl.value;
 
     dateDebut = new Date(this.dateDecaissementCtrl.value);
     if (dateDebut.getDate() < 10) {
@@ -183,14 +192,16 @@ export default class AddComponent implements OnInit {
     dateDebut.setDate(25);
     nbrEcheances = this.dureeCtrl.value;
     montantCapital = this.montantCapitalCtrl.value;
-    montantInteret =
-      this.montantInteretsCtrl.value + this.montantCommissionCtrl.value;
+    montantCommission = this.montantCommissionCtrl.value;
+    montantInteret = this.montantInteretsCtrl.value;
 
-    if (montantCapital && montantInteret && nbrEcheances) {
+    if (montantCapital && montantCommission && montantInteret && nbrEcheances) {
       capital = Math.round(montantCapital / nbrEcheances);
       resteCapital = montantCapital - capital * nbrEcheances;
       interet = Math.round(montantInteret / nbrEcheances);
       resteInteret = montantInteret - interet * nbrEcheances;
+      commission = Math.round(montantCommission / nbrEcheances);
+      resteCommission = montantCommission - commission * nbrEcheances;
     }
 
     if (this.dureeCtrl.valid && this.dateDecaissementCtrl.valid) {
@@ -200,18 +211,20 @@ export default class AddComponent implements OnInit {
         for (let i = 1; i <= nbrEcheances; i++) {
           if (curDate.getMonth() == 11) {
             curDate.setFullYear(curDate.getFullYear() + 1);
-            curDate.setMonth(0);
+            curDate.setMonth(differe);
           } else {
-            curDate.setMonth(curDate.getMonth() + 1);
+            curDate.setMonth(curDate.getMonth() + differe + 1);
           }
           let echeance: Echeance = new Echeance();
           echeance.dateEcheance =
             this.datePipe.transform(curDate, 'yyyy-MM-dd') ?? '';
           echeance.montantCapital = capital;
           echeance.montantInterets = interet;
+          echeance.montantCommission = commission;
           if (i === 1) {
             echeance.montantCapital = capital + resteCapital;
             echeance.montantInterets = interet + resteInteret;
+            echeance.montantCommission = commission + resteCommission;
           }
           this.echeancier.push(echeance);
         }

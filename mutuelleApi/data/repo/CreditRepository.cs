@@ -31,7 +31,7 @@ namespace mutuelleApi.data.repo
                 var credits = await dc.Credits
 				.Include(c => c.Membre)
 				.Include(c => c.Mouvements)
-				.Include(c => c.Echeancier)
+				.Include(c => c.Echeances)
                 .ToListAsync();
                 if(credits is not null) {
                     return credits;
@@ -47,7 +47,7 @@ namespace mutuelleApi.data.repo
                 var credit = await dc.Credits
 				.Include(c => c.Membre)
 				.Include(c => c.Mouvements)
-				.Include(c => c.Echeancier)
+				.Include(c => c.Echeances)
                 .Where(x => x.Id == id)
                 .FirstAsync();
                 if (credit is not null) {

@@ -35,6 +35,8 @@ namespace mutuelleApi.data.repo
                 var membres = await dc.Membres
 				.Include(c => c.Agence)
 				.Include(c => c.Mouvements)
+				.Include(c => c.Utilisateur)
+				.OrderBy(c => c.Nom)
                 .ToListAsync();
                 if (membres is not null)
                 {
@@ -52,6 +54,7 @@ namespace mutuelleApi.data.repo
                 var membre = await dc.Membres
 				.Include(c => c.Agence)
 				.Include(c => c.Mouvements)
+				.Include(c => c.Utilisateur)
                 .Where(s => s.Id == id)
                 .FirstAsync();
                 if (membre is not null)

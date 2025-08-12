@@ -123,7 +123,7 @@ export default class PaiementComponent implements OnInit {
         dateEcheance: [echeance.dateEcheance, Validators.required],
         montantCapital: [echeance.montantCapital, Validators.required],
         montantInterets: [echeance.montantInterets, Validators.required],
-        datePaiement: this.datePaiementCtrl,
+        dateAnticipation: this.datePaiementCtrl,
       });
       this.lines.push(echeanceForm);
     }

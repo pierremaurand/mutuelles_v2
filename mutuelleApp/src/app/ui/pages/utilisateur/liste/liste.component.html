@@ -11,7 +11,7 @@
   </div>
   <hr />
   <div class="row" *ngIf="utilisateurs$ | async as utilisateurs">
-    <div class="col-md-2 mb-3" *ngFor="let utilisateur of utilisateurs">
+    <div class="col-md-2 mb-3 liste" *ngFor="let utilisateur of utilisateurs">
       <app-utilisateur-card
         [utilisateur]="utilisateur"
         (updateInfos)="updateInfos($event)"

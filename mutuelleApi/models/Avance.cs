@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace mutuelleApi.models
@@ -10,24 +11,25 @@ namespace mutuelleApi.models
         public string DateDemande { get; set; } = string.Empty;
         public string DateDecaissement { get; set; } = string.Empty;
 
-        public List<Echeance>? Echeancier { get; set; }
+        public List<Echeance>? Echeances { get; set; }
         public List<Mouvement>? Mouvements { get; set; }
         public Membre? Membre { get; set; }
 		
 		public string NomMembre => Membre?.Nom ?? "";
 		public string SexeMembre => Membre?.NomSexe ?? "";
 		public string PhotoMembre => Membre?.Photo ?? "";
+		public string NomAgence => Membre?.NomAgence ?? "";
 		public int AgenceId => Membre?.AgenceId ?? 0;
 
         public double MontantTotal => (MontantCapital);
 
-		public int NombreEcheancePaye => (Echeancier?.Count(e => e.MontantRestant == 0)??0);
+		public int NombreEcheancePaye => (Echeances?.Count(e => e.MontantRestant == 0)??0);
 		
-		public int NombreEcheanceImpaye => (Echeancier?.Count(e => e.MontantRestant > 0)??0);
+		public int NombreEcheanceImpaye => (Echeances?.Count(e => e.MontantRestant > 0)??0);
 		
-		public string DateDerniereEcheance => (Echeancier?.Max(e => e.DateEcheance)??"");
+		public string DateDerniereEcheance => (Echeances?.Max(e => e.DateEcheance)??"");
 		
-        public double MontantRestant => (Echeancier?.Sum(m => m.MontantRestant) ?? 0);
+        public double MontantRestant => (Echeances?.Sum(m => m.MontantRestant) ?? 0);
 
         public string Status => MontantRestant == 0 ? "Remboursée" : "En cour";
 
@@ -49,6 +51,11 @@ namespace mutuelleApi.models
         }
         
         public string Libelle => "avance de " + MontantCapital + " du membre " + Membre?.Nom + " du " + DateDemande + " remboursable en " + Duree + " mois";
+		
+		[ForeignKey("ModifiePar")]
+		public Utilisateur? Utilisateur { get; set; }
+		
+		public string UtilisateurLogin => Utilisateur?.Login ?? "";
      
     }
 }

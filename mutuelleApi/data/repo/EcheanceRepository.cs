@@ -32,6 +32,7 @@ namespace mutuelleApi.data.repo
 				.Include(c => c.Credit)
 				.Include(c => c.Avance)
 				.Include(c => c.Mouvements)
+				.Include(c => c.Utilisateur)
                 .ToListAsync();
                 if(echeances is not null) {
                     return echeances;
@@ -48,6 +49,7 @@ namespace mutuelleApi.data.repo
 				.Include(c => c.Credit)
 				.Include(c => c.Avance)
 				.Include(c => c.Mouvements)
+				.Include(c => c.Utilisateur)
                 .Where(s => s.Id == id)
                 .FirstAsync();
                 if(echeance is not null) {

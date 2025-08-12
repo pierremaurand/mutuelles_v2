@@ -1,5 +1,4 @@
-
-
+using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace mutuelleApi.models
@@ -36,5 +35,10 @@ namespace mutuelleApi.models
 		public string SexeMembre => Membre?.NomSexe ?? "";
 		public string PhotoMembre => Membre?.Photo ?? "";
 		public int AgenceId => Membre?.AgenceId ?? 0;
+		
+		[ForeignKey("ModifiePar")]
+		public Utilisateur? Utilisateur { get; set; }
+		
+		public string UtilisateurLogin => Utilisateur?.Login ?? "";
     }
 }

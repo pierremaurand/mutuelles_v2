@@ -16,6 +16,7 @@ namespace mutuelleApi.dtos
 		public string NomMembre { get; set; } = string.Empty;
 		public string SexeMembre { get; set; } = string.Empty;
 		public string PhotoMembre { get; set; } = string.Empty;
+		public string UtilisateurLogin { get; set; } = string.Empty;
 		public int AgenceId { get; set; } 
 		
 		public int MembreId { get; set; }

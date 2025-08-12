@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.Authorization;
 using mutuelleApi.dtos;
 using mutuelleApi.hubConfig;
 using mutuelleApi.interfaces;
@@ -14,16 +15,8 @@ namespace mutuelleApi.controllers
         private readonly IMapper mapper = mapper;
         private readonly IHubContext<SignalrServer> signalrHub = signalrHub;
 
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            uow.EcheanceRepository.Delete(id);
-            await uow.SaveAsync();
-            return Ok();
-        }
-
         [HttpGet]
+		[AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var echeances = await uow.EcheanceRepository.GetAllAsync();

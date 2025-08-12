@@ -15,6 +15,7 @@ import { Echeance } from '../../../../core/models/echeance';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class InfosComponent implements OnInit {
+  credit$!: Observable<Credit>;
   echeancier$!: Observable<Echeance[]>;
 
   constructor(
@@ -23,6 +24,7 @@ export default class InfosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.credit$ = this.creditService.credit$;
     this.echeancier$ = combineLatest([
       this.creditService.credit$,
       this.echeanceService.echeances$,
@@ -31,29 +33,5 @@ export default class InfosComponent implements OnInit {
         return echeances.filter((e) => e.creditId === credit.id);
       })
     );
-  }
-
-  calculSoldeCapital(echeances: Echeance[]): number {
-    return echeances
-      .filter((e) => !e.montantRestant)
-      .reduce((acc, e) => acc + e.montantCapital, 0);
-  }
-
-  calculSoldeInterets(echeances: Echeance[]): number {
-    return echeances
-      .filter((e) => !e.montantRestant)
-      .reduce((acc, e) => acc + e.montantInterets, 0);
-  }
-
-  calculNombreEcheancesPayees(echeances: Echeance[]): number {
-    return echeances
-      .filter((e) => e.montantRestant === 0)
-      .reduce((acc, e) => acc + 1, 0);
-  }
-
-  calculNombreEcheancesNonPayees(echeances: Echeance[]): number {
-    return echeances
-      .filter((e) => !e.montantRestant)
-      .reduce((acc, e) => acc + 1, 0);
   }
 }

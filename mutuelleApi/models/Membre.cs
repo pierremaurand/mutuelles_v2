@@ -1,5 +1,4 @@
-
-
+using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using mutuelleApi.enums;
 
@@ -43,6 +42,11 @@ namespace mutuelleApi.models
         public string NomAgence => Agence?.Nom??"";
 		
 		public string NomSexe => Sexe == Sexe.Masculin ? "Homme":"Femme";
+		
+		[ForeignKey("ModifiePar")]
+		public Utilisateur? Utilisateur { get; set; }
+		
+		public string UtilisateurLogin => Utilisateur?.Login ?? "";
         
     }
 }

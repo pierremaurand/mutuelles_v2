@@ -81,8 +81,12 @@ export default class AddComponent implements OnInit {
       Validators.min(0),
       Validators.max(11),
     ]);
-    this.membreIdCtrl = this.fb.control(0, Validators.required);
-    this.montantCapitalCtrl = this.fb.control('', Validators.required);
+    this.membreIdCtrl = this.fb.control('', Validators.required);
+    this.montantCapitalCtrl = this.fb.control('', [
+      Validators.required,
+      Validators.min(10000),
+      Validators.max(300000),
+    ]);
     this.montantCommissionCtrl = this.fb.control('', Validators.required);
     this.montantInteretsCtrl = this.fb.control('', Validators.required);
     this.dureeCtrl = this.fb.control('', [
@@ -92,8 +96,7 @@ export default class AddComponent implements OnInit {
     ]); // Duree in months
     this.dateDemandeCtrl = this.fb.control('', Validators.required);
     this.dateDecaissementCtrl = this.fb.control('', Validators.required);
-
-    this.agenceCtrl = this.fb.control(0);
+    this.agenceCtrl = this.fb.control('', Validators.required);
   }
 
   initForm(): void {
@@ -160,21 +163,16 @@ export default class AddComponent implements OnInit {
       )
     );
 
-    combineLatest([membreId$, this.membres$])
-      .pipe(
-        map(
-          ([membreId, membres]) =>
-            membres.filter((membre: Membre) => membre.id === +membreId)[0] ||
-            new Membre()
-        )
+    this.membre$ = combineLatest([membreId$, this.membres$]).pipe(
+      map(
+        ([membreId, membres]) =>
+          membres.filter((membre: Membre) => membre.id === +membreId)[0] ||
+          new Membre()
       )
-      .subscribe({
-        next: (membre: Membre) => {
-          this.membre = membre;
-        },
-      });
+    );
 
     this.membres$.subscribe();
+    this.membre$.subscribe();
   }
 
   genererEcheancier(): void {

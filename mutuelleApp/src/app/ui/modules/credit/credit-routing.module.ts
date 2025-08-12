@@ -18,7 +18,7 @@ const routes: Routes = [
     path: 'liste',
     loadComponent: () =>
       import('../../pages/credit/liste/liste.component').then((m) => m.default),
-    resolve: [creditsResolver, membresResolver, echeancesResolver],
+    resolve: [creditsResolver],
   },
   {
     path: 'add',
@@ -34,31 +34,16 @@ const routes: Routes = [
       {
         path: '',
         loadComponent: () => import('../../pages/credit/infos/infos.component'),
-        resolve: [
-          creditResolver,
-          membresResolver,
-          agencesResolver,
-          echeancesResolver,
-        ],
+        resolve: [creditResolver, echeancesResolver],
       },
       {
         path: 'paiement/:id',
         loadComponent: () =>
           import('../../pages/credit/paiement/paiement.component'),
-        resolve: [
-          creditResolver,
-          membresResolver,
-          agencesResolver,
-          echeancesResolver,
-        ],
+        resolve: [creditResolver, echeancesResolver],
       },
     ],
-    resolve: [
-      creditResolver,
-      membresResolver,
-      agencesResolver,
-      echeancesResolver,
-    ],
+    resolve: [creditResolver],
   },
 ];
 

@@ -1,0 +1,48 @@
+<div
+  class="card shadow-sm"
+  [ngClass]="{'border-danger text-danger': mouvement.montantDebit, 'border-success text-success': mouvement.montantCredit}"
+  (click)="onSelected()"
+>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-1 text-center align-content-center">
+        <button
+          class="btn btn-sm rounded-circle"
+          [ngClass]="{'btn-danger': mouvement.montantDebit, 'btn-success': mouvement.montantCredit}"
+        >
+          <i
+            class="fa-solid"
+            [ngClass]="{'fa-arrow-up': mouvement.montantDebit, 'fa-arrow-down': mouvement.montantCredit}"
+          ></i>
+        </button>
+      </div>
+      <div class="col-md-11 infos">
+        <div class="row">
+          <div class="col">
+            <i class="fa-solid fa-calendar-days"></i> {{ mouvement.dateMouvement
+            | date:'dd/MM/yyyy'}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-truncate">
+            <i class="fa-solid fa-tag"></i>
+            {{ mouvement.libelle}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <i class="fa-solid fa-coins"></i>
+            {{ (mouvement.montantDebit?mouvement.montantDebit:
+            mouvement.montantCredit) | number}} FCFA
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <i class="fa-solid fa-circle-user"></i>
+            {{ mouvement.utilisateurLogin | uppercase}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

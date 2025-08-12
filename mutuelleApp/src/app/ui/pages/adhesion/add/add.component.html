@@ -45,7 +45,11 @@
             name="montant-{{ i }}"
             id="montant-{{ i }}"
             formControlName="montant"
+            [ngClass]="{ invalid: true, valid: false }"
           />
+          <div class="invalid-feedback">
+            Le montant de l'adhésion est obligatoire!.
+          </div>
         </div>
       </div>
     </div>

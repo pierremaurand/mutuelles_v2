@@ -26,6 +26,7 @@ namespace mutuelleApi.data.repo
             if (dc.Mouvements is not null)
             {
                 var mouvements = await dc.Mouvements
+				.Include(m => m.Utilisateur)
                 .ToListAsync();
                 if (mouvements is not null)
                 {
@@ -40,6 +41,7 @@ namespace mutuelleApi.data.repo
         {
             if(dc.Mouvements is not null) {
                 var mouvement = await dc.Mouvements
+				.Include(m => m.Utilisateur)
                 .Where(x => x.Id == id)
                 .FirstAsync();
                 if(mouvement is not null) {

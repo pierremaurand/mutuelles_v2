@@ -1,0 +1,43 @@
+<!-- <td class="text-center">
+  <input
+    class="form-check-input"
+    type="checkbox"
+    [checked]="echeance.checked"
+    (change)="onCheck(i, echeance, $event)"
+  />
+</td>
+<td class="text-center">
+  {{ echeance.dateEcheance | date : "dd/MM/yyyy" }}
+</td>
+<td class="text-end">
+  {{ echeance.montantInterets + echeance.montantCapital |
+  number }} FCFA
+</td>
+</tr> -->
+<div class="card shadow-sm mb-1">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-1 text-center align-content-center">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          [checked]="item.checked"
+          (change)="onCheck($event)"
+        />
+      </div>
+      <div class="col-1">
+        <img
+          [src]="
+          item.echeance.photoMembre ? baseUrl + '/' + item.echeance.photoMembre : './assets/images/default_man.jpg'
+        "
+          class="rounded-circle"
+          alt="image utilisateur"
+          width="100%"
+        />
+      </div>
+      <div class="col-3 text-truncate">
+        {{item.echeance.nomMembre | uppercase}}
+      </div>
+    </div>
+  </div>
+</div>

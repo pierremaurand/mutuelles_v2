@@ -1,3 +1,5 @@
+
+
 namespace mutuelleApi.models
 {
     public class BaseEntity

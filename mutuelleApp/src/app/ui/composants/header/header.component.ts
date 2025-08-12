@@ -18,35 +18,21 @@ export class HeaderComponent implements OnInit {
   constructor(private searchService: SearchService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.initControls();
-    this.initObservables();
-  }
-
-  private initObservables() {
-    this.search$ = this.searchCtrl.valueChanges.pipe(
-      startWith(this.searchCtrl.value),
-      map((value) => value.toLowerCase())
-    );
-
-    this.search$.subscribe({
-      next: (value: string) => {
-        this.searchService.setSearch(value);
-      },
-    });
-
-    this.date$ = this.dateCtrl.valueChanges.pipe(
-      startWith(this.dateCtrl.value)
-    );
-
-    this.date$.subscribe({
-      next: (value: string) => {
-        this.searchService.setDate(value);
-      },
-    });
+    this.onErase();
   }
 
   private initControls(): void {
     this.searchCtrl = this.fb.control('');
     this.dateCtrl = this.fb.control('');
+  }
+
+  onFilter(): void {
+    this.searchService.setSearch(this.searchCtrl.value);
+    this.searchService.setDate(this.dateCtrl.value.substr(0, 7));
+  }
+
+  onErase(): void {
+    this.initControls();
+    this.onFilter();
   }
 }

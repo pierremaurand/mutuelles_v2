@@ -74,7 +74,7 @@ export default class AddComponent implements OnInit {
     var adhesionForm = this.fb.group({
       membreId: [membre.id, [Validators.required]],
       dateAdhesion: ['', [Validators.required]],
-      montant: ['', [Validators.required]],
+      montant: ['', [Validators.required, Validators.min(3000)]],
     });
     this.lines.push(adhesionForm);
   }

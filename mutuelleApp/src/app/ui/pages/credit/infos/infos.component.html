@@ -2,47 +2,29 @@
   <div class="card-body">
     <table
       class="table table-bordered table-striped"
-      *ngIf="echeancier$ | async as echeances"
+      *ngIf="credit$ | async as credit"
     >
       <tbody>
         <tr>
-          <th>Solde capital</th>
-          <td class="text-end">
-            {{ calculSoldeCapital(echeances) | number }} FCFA
-          </td>
-        </tr>
-        <tr>
-          <th>Solde intérêts</th>
-          <td class="text-end">
-            {{ calculSoldeInterets(echeances) | number }} FCFA
-          </td>
-        </tr>
-        <tr>
-          <th>Solde crédit</th>
-          <td class="text-end">
-            {{
-              calculSoldeInterets(echeances) + calculSoldeCapital(echeances)
-                | number
-            }}
-            FCFA
-          </td>
+          <th>Solde credit</th>
+          <td class="text-end">{{ credit.montantRestant | number }} FCFA</td>
         </tr>
         <tr>
           <th>Nombre d'échéances payées</th>
           <td class="text-end">
-            {{ calculNombreEcheancesPayees(echeances) | number }}
+            {{ credit.nombreEcheancePaye | number }}
           </td>
         </tr>
         <tr>
           <th>Nombre d'échéances impayées</th>
           <td class="text-end">
-            {{ calculNombreEcheancesNonPayees(echeances) | number }}
+            {{ credit.nombreEcheanceImpaye | number }}
           </td>
         </tr>
         <tr>
           <th>Date dernière échéance</th>
           <td class="text-end">
-            {{ echeances[echeances.length - 1].dateEcheance | date }}
+            {{ credit.dateDerniereEcheance | date }}
           </td>
         </tr>
       </tbody>

@@ -21,5 +21,6 @@ namespace mutuelleApi.dtos
         public bool EstActif { get; set; } = true;
 		public double MontantCotise { get; set; } = 0;
 		public double Solde { get; set; } = 0;
+		public string UtilisateurLogin { get; set; } = string.Empty;
     }
 }

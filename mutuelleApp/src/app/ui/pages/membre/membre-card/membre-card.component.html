@@ -1,4 +1,8 @@
-<div class="card shadow border-{{ membre.estActif ? 'success' : 'danger' }}">
+<div
+  class="card shadow membre-card border-{{
+    membre.estActif ? 'success' : 'danger'
+  }}"
+>
   <div class="card-img-wrapper">
     <img
       [src]="

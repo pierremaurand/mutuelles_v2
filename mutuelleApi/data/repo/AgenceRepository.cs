@@ -33,6 +33,7 @@ namespace mutuelleApi.data.repo
             if (dc.Agences is not null)
             {
                 var agences = await dc.Agences
+				.Include(c => c.Utilisateur)
                 .ToListAsync();
                 if (agences is not null)
                 {
@@ -48,7 +49,8 @@ namespace mutuelleApi.data.repo
             if (dc.Agences is not null)
             {
                 var agence = await dc.Agences
-                .Where(s => s.Id == id)
+				.Include(c => c.Utilisateur)
+                .Where(c => c.Id == id)
                 .FirstAsync();
                 if(agence is not null)
                 {

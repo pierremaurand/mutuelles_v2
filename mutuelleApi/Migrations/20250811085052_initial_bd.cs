@@ -6,26 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace mutuelleApi.Migrations
 {
     /// <inheritdoc />
-    public partial class database_update : Migration
+    public partial class initial_bd : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Agences",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ModifieLe = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifiePar = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Agences", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Utilisateurs",
                 columns: table => new
@@ -46,6 +31,26 @@ namespace mutuelleApi.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Utilisateurs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Agences",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nom = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ModifieLe = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiePar = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Agences", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Agences_Utilisateurs_ModifiePar",
+                        column: x => x.ModifiePar,
+                        principalTable: "Utilisateurs",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -76,6 +81,11 @@ namespace mutuelleApi.Migrations
                         principalTable: "Agences",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Membres_Utilisateurs_ModifiePar",
+                        column: x => x.ModifiePar,
+                        principalTable: "Utilisateurs",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -99,6 +109,11 @@ namespace mutuelleApi.Migrations
                         principalTable: "Membres",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Adhesions_Utilisateurs_ModifiePar",
+                        column: x => x.ModifiePar,
+                        principalTable: "Utilisateurs",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -124,6 +139,11 @@ namespace mutuelleApi.Migrations
                         principalTable: "Membres",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Avances_Utilisateurs_ModifiePar",
+                        column: x => x.ModifiePar,
+                        principalTable: "Utilisateurs",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -147,6 +167,11 @@ namespace mutuelleApi.Migrations
                         principalTable: "Membres",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Cotisations_Utilisateurs_ModifiePar",
+                        column: x => x.ModifiePar,
+                        principalTable: "Utilisateurs",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -174,6 +199,11 @@ namespace mutuelleApi.Migrations
                         principalTable: "Membres",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Credits_Utilisateurs_ModifiePar",
+                        column: x => x.ModifiePar,
+                        principalTable: "Utilisateurs",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -188,8 +218,8 @@ namespace mutuelleApi.Migrations
                     MontantInterets = table.Column<double>(type: "float", nullable: false),
                     CreditId = table.Column<int>(type: "int", nullable: false),
                     AvanceId = table.Column<int>(type: "int", nullable: false),
-                    DatePaiement = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateAnticipation = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DatePaiement = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateAnticipation = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ModifieLe = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiePar = table.Column<int>(type: "int", nullable: true)
                 },
@@ -208,6 +238,11 @@ namespace mutuelleApi.Migrations
                         principalTable: "Credits",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
+                    table.ForeignKey(
+                        name: "FK_Echeances_Utilisateurs_ModifiePar",
+                        column: x => x.ModifiePar,
+                        principalTable: "Utilisateurs",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -220,12 +255,12 @@ namespace mutuelleApi.Migrations
                     Libelle = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MontantDebit = table.Column<double>(type: "float", nullable: false),
                     MontantCredit = table.Column<double>(type: "float", nullable: false),
-                    MembreId = table.Column<int>(type: "int", nullable: false),
-                    CotisationId = table.Column<int>(type: "int", nullable: false),
-                    AdhesionId = table.Column<int>(type: "int", nullable: false),
-                    AvanceId = table.Column<int>(type: "int", nullable: false),
-                    CreditId = table.Column<int>(type: "int", nullable: false),
-                    EcheanceId = table.Column<int>(type: "int", nullable: false),
+                    MembreId = table.Column<int>(type: "int", nullable: true),
+                    CotisationId = table.Column<int>(type: "int", nullable: true),
+                    AdhesionId = table.Column<int>(type: "int", nullable: true),
+                    AvanceId = table.Column<int>(type: "int", nullable: true),
+                    CreditId = table.Column<int>(type: "int", nullable: true),
+                    EcheanceId = table.Column<int>(type: "int", nullable: true),
                     ModifieLe = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiePar = table.Column<int>(type: "int", nullable: true)
                 },
@@ -233,35 +268,40 @@ namespace mutuelleApi.Migrations
                 {
                     table.PrimaryKey("PK_Mouvements", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Mouvements_Adhesions_AdhesionId",
+                        column: x => x.AdhesionId,
+                        principalTable: "Adhesions",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Mouvements_Avances_AvanceId",
                         column: x => x.AvanceId,
                         principalTable: "Avances",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Mouvements_Cotisations_CotisationId",
                         column: x => x.CotisationId,
                         principalTable: "Cotisations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Mouvements_Credits_CreditId",
                         column: x => x.CreditId,
                         principalTable: "Credits",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Mouvements_Echeances_EcheanceId",
                         column: x => x.EcheanceId,
                         principalTable: "Echeances",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Mouvements_Membres_MembreId",
                         column: x => x.MembreId,
                         principalTable: "Membres",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Mouvements_Utilisateurs_ModifiePar",
+                        column: x => x.ModifiePar,
+                        principalTable: "Utilisateurs",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -270,9 +310,24 @@ namespace mutuelleApi.Migrations
                 column: "MembreId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Adhesions_ModifiePar",
+                table: "Adhesions",
+                column: "ModifiePar");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Agences_ModifiePar",
+                table: "Agences",
+                column: "ModifiePar");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Avances_MembreId",
                 table: "Avances",
                 column: "MembreId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Avances_ModifiePar",
+                table: "Avances",
+                column: "ModifiePar");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cotisations_MembreId",
@@ -280,9 +335,19 @@ namespace mutuelleApi.Migrations
                 column: "MembreId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Cotisations_ModifiePar",
+                table: "Cotisations",
+                column: "ModifiePar");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Credits_MembreId",
                 table: "Credits",
                 column: "MembreId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Credits_ModifiePar",
+                table: "Credits",
+                column: "ModifiePar");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Echeances_AvanceId",
@@ -295,21 +360,38 @@ namespace mutuelleApi.Migrations
                 column: "CreditId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Echeances_ModifiePar",
+                table: "Echeances",
+                column: "ModifiePar");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Membres_AgenceId",
                 table: "Membres",
                 column: "AgenceId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Membres_ModifiePar",
+                table: "Membres",
+                column: "ModifiePar");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Mouvements_AdhesionId",
+                table: "Mouvements",
+                column: "AdhesionId",
+                unique: true,
+                filter: "[AdhesionId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Mouvements_AvanceId",
                 table: "Mouvements",
-                column: "AvanceId",
-                unique: true);
+                column: "AvanceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Mouvements_CotisationId",
                 table: "Mouvements",
                 column: "CotisationId",
-                unique: true);
+                unique: true,
+                filter: "[CotisationId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Mouvements_CreditId",
@@ -325,19 +407,21 @@ namespace mutuelleApi.Migrations
                 name: "IX_Mouvements_MembreId",
                 table: "Mouvements",
                 column: "MembreId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Mouvements_ModifiePar",
+                table: "Mouvements",
+                column: "ModifiePar");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Adhesions");
-
-            migrationBuilder.DropTable(
                 name: "Mouvements");
 
             migrationBuilder.DropTable(
-                name: "Utilisateurs");
+                name: "Adhesions");
 
             migrationBuilder.DropTable(
                 name: "Cotisations");
@@ -356,6 +440,9 @@ namespace mutuelleApi.Migrations
 
             migrationBuilder.DropTable(
                 name: "Agences");
+
+            migrationBuilder.DropTable(
+                name: "Utilisateurs");
         }
     }
 }

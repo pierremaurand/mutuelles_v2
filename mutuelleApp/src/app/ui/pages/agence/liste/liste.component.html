@@ -7,7 +7,7 @@
   </div>
   <hr />
   <div class="row" *ngIf="agences$ | async as agences">
-    <div class="col-md-2 mb-3" *ngFor="let agence of agences">
+    <div class="col-md-2 mb-3 liste" *ngFor="let agence of agences">
       <app-agence-card
         [agence]="agence"
         (edit)="edit($event)"

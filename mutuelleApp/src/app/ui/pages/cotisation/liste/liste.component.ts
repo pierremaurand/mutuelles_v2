@@ -23,7 +23,6 @@ export default class ListeComponent implements OnInit {
 
   constructor(
     private cotisationService: CotisationService,
-    private membreService: MembreService,
     private searchService: SearchService,
     private router: Router
   ) {}

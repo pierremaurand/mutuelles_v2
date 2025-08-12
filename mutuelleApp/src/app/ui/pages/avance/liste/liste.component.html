@@ -6,12 +6,13 @@
     </button>
   </div>
   <hr />
-  <div class="row" *ngIf="avances$ | async as avances">
-    <div class="col-md-2 mb-3" *ngFor="let avance of avances">
-      <app-card [avance]="avance"></app-card>
-    </div>
-    <div class="col" *ngIf="avances.length == 0">
-      <h2 class="text-center">Aucune avance n'a été trouvé dans la base</h2>
-    </div>
+  <div
+    class="d-flex justify-content-center flex-wrap gap-2 mb-3 liste"
+    *ngIf="avances$ | async as avances"
+  >
+    <app-card *ngFor="let avance of avances" [avance]="avance"></app-card>
+    <h2 *ngIf="avances.length == 0" class="text-center">
+      Aucune avance n'a été trouvé dans la base
+    </h2>
   </div>
 </div>
