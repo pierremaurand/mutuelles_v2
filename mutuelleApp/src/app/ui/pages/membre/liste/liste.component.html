@@ -1,21 +1,22 @@
-<div class="container">
-  <div class="d-flex justify-content-between">
-    <h1 class="h3">Les membres</h1>
-    <button class="btn btn-primary" type="button" (click)="add()">
-      Ajouter un membre
-    </button>
+<div class="d-flex justify-content-between">
+  <h1 class="h3">Les membres</h1>
+  <button class="btn btn-primary" type="button" (click)="add()">
+    Ajouter un membre
+  </button>
+</div>
+<hr />
+<div class="row">
+  <div class="col-md-9 liste">
+    @if(membres$ | async; as membres){ @for(membre of membres; track membre.id)
+    {
+    <app-ligne [membre]="membre" (selectedEvent)="onSelected($event)" />
+    } @empty {
+    <h2 class="text-center">Aucun membre trouvés</h2>
+    } }
   </div>
-  <hr />
-  <div
-    class="d-flex justify-content-center flex-wrap gap-2 mb-3 liste"
-    *ngIf="membres$ | async as membres"
-  >
-    <app-membre-card
-      *ngFor="let membre of membres"
-      [membre]="membre"
-    ></app-membre-card>
-    <h2 *ngIf="membres.length == 0" class="text-center">
-      Aucun membre n'a été trouvé dans la base
-    </h2>
+  <div class="col-md-3">
+    @if(selectedMembre) {
+    <app-membre-card [membre]="selectedMembre"></app-membre-card>
+    }
   </div>
 </div>

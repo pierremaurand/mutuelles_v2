@@ -1,0 +1,17 @@
+@if(membre) {
+<div class="card shadow-sm" (click)="onSelected()">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-1">
+        <img
+          [src]="membre.photo ? baseUrl + '/' + membre.photo : photo"
+          class="rounded-circle"
+          alt="image utilisateur"
+          width="100%"
+        />
+      </div>
+      <div class="col-md-11">{{membre.nom}}</div>
+    </div>
+  </div>
+</div>
+}
