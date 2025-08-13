@@ -34,16 +34,20 @@
     }
   </div>
 
-  <div class="card-body">
-    <h6 class="text-center text-truncate">{{ membre.nom | uppercase }}</h6>
-    <h6 class="text-center text-truncate">
-      {{ membre.nomAgence | uppercase }}
-    </h6>
-    <h6 class="text-center text-success text-truncate">
-      {{ membre.montantCotise | number }} FCFA
-    </h6>
-    <h6 class="text-center text-primary text-truncate">
-      {{ membre.solde | number }} FCFA
-    </h6>
+  <div class="card-body text-white  {{ bgColor }}">
+    <h5 class="card-title text-center">
+      {{ membre.nom | uppercase }}
+    </h5>
+    <p class="card-text text-center">
+      <i class="fa-solid fa-calendar-xmark fs-6"></i>
+      {{ dateStart }} {{ membre.dateNaissance | date }} à
+      {{ membre.lieuNaissance | uppercase }} <br />
+      <i class="fa-solid fa-building fs-6"></i>
+      {{ membre.nomAgence | uppercase }} <br />
+      <i class="fa-solid fa-at fs-6"></i>
+      {{ membre.email }} <br />
+      <i class="fa-solid fa-phone fs-6"></i>
+      {{ membre.telephone }}
+    </p>
   </div>
 </div>
