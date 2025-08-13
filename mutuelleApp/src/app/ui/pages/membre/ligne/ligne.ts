@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Membre } from '../../../../core/models/membre';
-import { CommonModule } from '@angular/common';
+import { CommonModule, UpperCasePipe } from '@angular/common';
 import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-ligne',
-  imports: [CommonModule],
+  imports: [CommonModule, UpperCasePipe],
   templateUrl: './ligne.html',
   styleUrl: './ligne.scss',
 })
