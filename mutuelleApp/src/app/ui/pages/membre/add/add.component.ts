@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   FormBuilder,
+  FormControl,
   FormGroup,
   ReactiveFormsModule,
   Validators,
@@ -16,10 +17,11 @@ import { Agence } from '../../../../core/models/agence';
 import { environment } from '../../../../../environments/environment';
 import { Sexe } from '../../../../core/models/sexe';
 import { MembreRequest } from '../../../../core/models/membre-request';
+import { MembreCardComponent } from '../membre-card/membre-card.component';
 
 @Component({
   selector: 'app-add',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, MembreCardComponent],
   templateUrl: './add.component.html',
   styleUrl: './add.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,8 +30,16 @@ export default class AddComponent implements OnInit {
   request!: FormGroup;
   membre$!: Observable<Membre>;
   agences$!: Observable<Agence[]>;
-  photo: string = '';
   baseUrl: string = environment.imagesUrl;
+
+  nomCtrl!: FormControl;
+  sexeCtrl!: FormControl;
+  dateNaissanceCtrl!: FormControl;
+  lieuNaissanceCtrl!: FormControl;
+  agenceIdCtrl!: FormControl;
+  dateAdhesionCtrl!: FormControl;
+  telephoneCtrl!: FormControl;
+  emailCtrl!: FormControl;
 
   constructor(
     private router: Router,
@@ -40,21 +50,36 @@ export default class AddComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.initControls();
     this.initForm();
     this.initObservables();
+  }
+
+  initControls(): void {
+    this.nomCtrl = this.fb.control('', Validators.required);
+    this.sexeCtrl = this.fb.control('', Validators.required);
+    this.dateNaissanceCtrl = this.fb.control('', Validators.required);
+    this.lieuNaissanceCtrl = this.fb.control('', Validators.required);
+    this.agenceIdCtrl = this.fb.control('', [
+      Validators.required,
+      Validators.min(1),
+    ]);
+    this.dateAdhesionCtrl = this.fb.control('', Validators.required);
+    this.telephoneCtrl = this.fb.control('', Validators.required);
+    this.emailCtrl = this.fb.control('', Validators.required);
   }
 
   initForm(): void {
     this.request = this.fb.group({
       id: [0],
-      nom: ['', [Validators.required]],
-      sexe: ['', [Validators.required]],
-      dateNaissance: ['', [Validators.required]],
-      lieuNaissance: ['', [Validators.required]],
-      agenceId: ['', [Validators.required]],
-      dateAdhesion: ['', [Validators.required]],
-      telephone: ['', [Validators.required]],
-      email: ['', [Validators.required]],
+      nom: this.nomCtrl,
+      sexe: this.sexeCtrl,
+      dateNaissance: this.dateNaissanceCtrl,
+      lieuNaissance: this.lieuNaissanceCtrl,
+      agenceId: this.agenceIdCtrl,
+      dateAdhesion: this.dateAdhesionCtrl,
+      telephone: this.telephoneCtrl,
+      email: this.emailCtrl,
       photo: [''],
       estActif: [true],
     });
@@ -66,7 +91,6 @@ export default class AddComponent implements OnInit {
     this.membre$ = this.membreService.membre$;
     this.membre$.subscribe({
       next: (membre: Membre) => {
-        this.photo = membre.photo;
         this.request.patchValue({
           id: membre.id as number,
           nom: membre.nom as string,
@@ -125,5 +149,37 @@ export default class AddComponent implements OnInit {
     } else {
       return 'Une erreur est survenue!';
     }
+  }
+
+  get nomClasse(): string {
+    return this.nomCtrl.valid ? 'is-valid' : 'is-invalid';
+  }
+
+  get sexeClasse(): string {
+    return this.sexeCtrl.valid ? 'is-valid' : 'is-invalid';
+  }
+
+  get agenceIdClasse(): string {
+    return this.agenceIdCtrl.valid ? 'is-valid' : 'is-invalid';
+  }
+
+  get dateNaissanceClasse(): string {
+    return this.dateNaissanceCtrl.valid ? 'is-valid' : 'is-invalid';
+  }
+
+  get lieuNaissanceClasse(): string {
+    return this.lieuNaissanceCtrl.valid ? 'is-valid' : 'is-invalid';
+  }
+
+  get dateAdhesionClasse(): string {
+    return this.dateAdhesionCtrl.valid ? 'is-valid' : 'is-invalid';
+  }
+
+  get telephoneClasse(): string {
+    return this.telephoneCtrl.valid ? 'is-valid' : 'is-invalid';
+  }
+
+  get emailClasse(): string {
+    return this.emailCtrl.valid ? 'is-valid' : 'is-invalid';
   }
 }

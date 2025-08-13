@@ -6,8 +6,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { combineLatest, map, startWith, tap } from 'rxjs';
-import { CommonModule, DatePipe, JsonPipe } from '@angular/common';
+import { combineLatest, startWith, tap } from 'rxjs';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { AvanceRequest } from '../../../../core/models/avance-request';
 import { ToastrService } from 'ngx-toastr';
@@ -114,5 +114,21 @@ export default class AddComponent implements OnInit {
     } else {
       this.toastr.error('Tous les champs doivent être renseignés.');
     }
+  }
+
+  get typeMouvementClasse(): string {
+    return this.typeMouvementCtrl.valid ? 'is-valid' : 'is-invalid';
+  }
+
+  get dateMouvementClasse(): string {
+    return this.dateMouvementCtrl.valid ? 'is-valid' : 'is-invalid';
+  }
+
+  get montantClasse(): string {
+    return this.montantCtrl.valid ? 'is-valid' : 'is-invalid';
+  }
+
+  get libelleClasse(): string {
+    return this.libelleCtrl.valid ? 'is-valid' : 'is-invalid';
   }
 }

@@ -22,4 +22,12 @@ export class LigneMouvement {
   onSelected(): void {
     this.onSelectedEvent.emit(this.mouvement);
   }
+
+  get typeBtn(): string {
+    return this.mouvement.montantCredit ? 'btn-success' : 'btn-danger';
+  }
+
+  get btnIcon(): string {
+    return this.mouvement.montantCredit ? 'fa-arrow-down' : 'fa-arrow-up';
+  }
 }

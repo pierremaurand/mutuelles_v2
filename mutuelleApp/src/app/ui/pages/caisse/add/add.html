@@ -14,20 +14,14 @@
                 <select
                   name="typeMouvement"
                   id="typeMouvement"
-                  class="form-select"
+                  class="form-select {{typeMouvementClasse}}"
                   [formControl]="typeMouvementCtrl"
-                  [ngClass]="{
-                  'is-valid': typeMouvementCtrl.valid,
-                  'is-invalid': !typeMouvementCtrl.valid
-                }"
                 >
                   <option value=""></option>
-                  <option value="1">Entrée</option>
-                  <option value="2">Sortie</option>
+                  <option value="1">Entrée de caisse</option>
+                  <option value="2">Sortie de caisse</option>
                 </select>
-                <div class="invalid-feedback">
-                  Le type de mouvement est requis!
-                </div>
+                <div class="invalid-feedback">Le type est requis!</div>
               </div>
               <div class="col-md-4 mb-3">
                 <label for="dateMouvement" class="form-label"
@@ -37,14 +31,10 @@
                   type="date"
                   name="dateMouvement"
                   id="dateMouvement"
-                  class="form-control"
+                  class="form-control {{dateMouvementClasse}}"
                   formControlName="dateMouvement"
-                  [ngClass]="{
-                  'is-valid': dateMouvementCtrl.valid,
-                  'is-invalid': !dateMouvementCtrl.valid
-                }"
                 />
-                <div class="invalid-feedback">La date est requis!</div>
+                <div class="invalid-feedback">La date est requise!</div>
               </div>
               <div class="col-md-4 mb-3">
                 <label for="montant" class="form-label">Montant</label>
@@ -52,12 +42,8 @@
                   type="number"
                   name="montant"
                   id="montant"
-                  class="form-control"
+                  class="form-control {{montantClasse}}"
                   [formControl]="montantCtrl"
-                  [ngClass]="{
-                  'is-valid': montantCtrl.valid,
-                  'is-invalid': !montantCtrl.valid
-                }"
                 />
                 <div class="invalid-feedback">Le montant est requis!</div>
               </div>
@@ -67,12 +53,8 @@
                   name="libelle"
                   id="libelle"
                   rows="5"
-                  class="form-control"
+                  class="form-control {{libelleClasse}}"
                   formControlName="libelle"
-                  [ngClass]="{
-                  'is-valid': libelleCtrl.valid,
-                  'is-invalid': !libelleCtrl.valid
-                }"
                 ></textarea>
                 <div class="invalid-feedback">Le libellé est requis!</div>
               </div>

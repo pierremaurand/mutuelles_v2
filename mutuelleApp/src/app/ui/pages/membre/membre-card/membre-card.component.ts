@@ -3,6 +3,7 @@ import { Membre } from '../../../../core/models/membre';
 import { DecimalPipe, JsonPipe, UpperCasePipe } from '@angular/common';
 import { environment } from '../../../../../environments/environment';
 import { Router } from '@angular/router';
+import { Sexe } from '../../../../core/models/sexe';
 
 @Component({
   selector: 'app-membre-card',
@@ -13,6 +14,8 @@ import { Router } from '@angular/router';
 export class MembreCardComponent {
   @Input()
   membre!: Membre;
+  @Input()
+  showActions: boolean = true;
   baseUrl: string = environment.imagesUrl;
 
   constructor(private router: Router) {}
@@ -23,5 +26,11 @@ export class MembreCardComponent {
 
   onView(): void {
     this.router.navigateByUrl('/membre/view/' + this.membre.id);
+  }
+
+  get photo(): string {
+    return this.membre.sexe == Sexe.Feminin
+      ? './assets/images/default_woman.jpg'
+      : './assets/images/default_man.jpg';
   }
 }

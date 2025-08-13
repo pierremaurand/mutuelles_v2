@@ -1,8 +1,8 @@
 @if(membre) {
-<div class="card shadow-sm mb-1" (click)="onSelected()">
+<div class="card shadow-sm mb-1 {{border}} ligne" (click)="onSelected()">
   <div class="card-body">
     <div class="row">
-      <div class="col-md-1">
+      <div class="col-md-1 text-center align-content-center">
         <img
           [src]="membre.photo ? baseUrl + '/' + membre.photo : photo"
           class="rounded-circle"
@@ -10,7 +10,13 @@
           width="100%"
         />
       </div>
-      <div class="col-md-11">{{membre.nom | uppercase }}</div>
+      <div class="col-md-11 d-flex flex-column {{color}}">
+        <div>{{membre.nom | uppercase }}</div>
+        <div><i class="fa-solid {{sexeIcon}}"></i> {{membre.nomSexe }}</div>
+        <div>
+          <i class="fa-solid fa-building"></i> {{membre.nomAgence | uppercase }}
+        </div>
+      </div>
     </div>
   </div>
 </div>
