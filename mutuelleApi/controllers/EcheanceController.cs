@@ -31,5 +31,24 @@ namespace mutuelleApi.controllers
             var echeanceDto = mapper.Map<EcheanceDto>(echeance);
             return Ok(echeanceDto);
         }
+
+        [HttpPut]
+        public async Task<IActionResult> Put(List<RemboursementEcheanceDto> request) 
+        {
+            foreach(var echeanceRequest in request) {
+				var echeance = await uow.EcheanceRepository.GetByIdAsync(echeanceRequest.Id); 
+				if(echeance is null) {
+					return NotFound("Echance non trouvée");
+				}
+
+				echeance.DatePaiement = echeanceRequest.DatePaiement;
+				echeance.ModifiePar = GetUserId();
+                echeance.ModifieLe = DateTime.Now;
+                echeance.Rembourser(GetUserId());
+			}
+
+            await uow.SaveAsync();
+            return StatusCode(201);
+        }
     }
 }

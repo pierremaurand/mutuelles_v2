@@ -9,45 +9,66 @@
       class="card-img-top"
       alt="photo membre"
     />
-    @if(showActions) {
-    <ul class="list-inline text-center membre-icons animate">
-      <li class="list-inline-item">
-        <button
-          class="btn btn-warning form-control btn-sm"
-          type="button"
-          (click)="onEdit()"
-        >
-          <i class="fa-solid fa-pen-to-square"></i>
-        </button>
-      </li>
-
-      <li class="list-inline-item">
-        <button
-          class="btn btn-primary form-control btn-sm"
-          type="button"
-          (click)="onView()"
-        >
-          <i class="fa-solid fa-eye"></i>
-        </button>
-      </li>
-    </ul>
-    }
+    <div class="d-flex justify-content-center gap-1 mb-2 membre-icons animate">
+      @if(showActivated) {
+      <button
+        class="btn btn-sm {{ typeBtn }}"
+        type="button"
+        (click)="onActivate()"
+      >
+        <i class="fa-solid {{ membreStatus }} "></i>
+      </button>
+      } @if(showImageChanged) {
+      <button
+        type="button"
+        class="btn btn-secondary btn-sm"
+        (click)="onChangeImage()"
+      >
+        <i class="fa-solid fa-camera"></i>
+      </button>
+      } @if(showEditEd) {
+      <button class="btn btn-warning btn-sm" type="button" (click)="onEdit()">
+        <i class="fa-solid fa-pen-to-square"></i>
+      </button>
+      } @if(showViewed) {
+      <button class="btn btn-primary btn-sm" type="button" (click)="onView()">
+        <i class="fa-solid fa-eye"></i>
+      </button>
+      }
+    </div>
   </div>
 
   <div class="card-body text-white  {{ bgColor }}">
     <h5 class="card-title text-center">
       {{ membre.nom | uppercase }}
     </h5>
+    @if(showInfosMembre){
     <p class="card-text text-center">
-      <i class="fa-solid fa-calendar-xmark fs-6"></i>
-      {{ dateStart }} {{ membre.dateNaissance | date }} à
-      {{ membre.lieuNaissance | uppercase }} <br />
+      @if(membre.dateNaissance && membre.lieuNaissance && membre.nomSexe){
+      <i class="fa-solid fa-calendar-xmark fs-6"></i> {{ dateStart }}
+      {{ membre.dateNaissance | date : "dd/MM/yyyy" }} à
+      {{ membre.lieuNaissance | uppercase }} <br />} @if(membre.nomAgence){
       <i class="fa-solid fa-building fs-6"></i>
-      {{ membre.nomAgence | uppercase }} <br />
-      <i class="fa-solid fa-at fs-6"></i>
-      {{ membre.email }} <br />
-      <i class="fa-solid fa-phone fs-6"></i>
-      {{ membre.telephone }}
+      {{ membre.nomAgence | uppercase }} <br />} @if(membre.email){
+      <i class="fa-solid fa-at fs-6"></i> {{ membre.email }} <br />}
+      @if(membre.telephone){ <i class="fa-solid fa-phone fs-6"></i>
+      {{ membre.telephone }}}
     </p>
+    } @else {
+    <p class="card-text text-center">
+      @if(membre.montantCapital){Montant:
+      {{ membre.montantCapital | number }} FCFA <br />} @if(membre.duree){Durée:
+      {{ membre.duree | number }} Mois <br />} @if(membre.montantCommission) {
+      Commission: {{ membre.montantCommission | number }} FCFA <br />
+      Intérêts:
+      {{ membre.montantInterets | number }} FCFA <br />
+      } @if(membre.dateAdhesion){Date:
+      {{ membre.dateAdhesion | date : "dd/MM/yyyy" }} <br />}
+      @if(membre.montant){Montant: {{ membre.montant | number }} FCFA <br />}
+      @if(membre.dateCotisation){Période:
+      {{ membre.dateCotisation | date : "MM/yyyy" }} <br />}
+      @if(membre.retenue){Montant: {{ membre.retenue | number }} FCFA <br />}
+    </p>
+    }
   </div>
 </div>

@@ -1,4 +1,5 @@
-<div class="container" *ngIf="credit$ | async as credit">
+@if(credit$ | async; as credit){
+<div class="container">
   <div class="d-flex justify-content-between">
     <div class="d-flex justify-content-start gap-2">
       <button
@@ -14,7 +15,7 @@
       <button
         type="button"
         class="btn btn-success"
-        (click)="onAnticipePaiement(credit.id)"
+        (click)="onAnticipePaiement(credit.id ?? 0)"
         *ngIf="credit.nombreEcheanceImpaye"
       >
         <i class="fa-solid fa-list-check"></i>
@@ -22,19 +23,13 @@
     </div>
   </div>
   <hr />
-  <div class="row" *ngIf="credit$ | async as credit">
+  <div class="row">
     <div class="col-md-3">
-      <app-infos-pret
-        [nom]="credit.nomMembre"
-        [photo]="credit.photoMembre"
-        [montant]="credit.montantCapital"
-        [interets]="credit.montantInterets"
-        [commission]="credit.montantCommission"
-        [duree]="credit.duree"
-      ></app-infos-pret>
+      <app-membre-card [membre]="credit" [showInfosMembre]="false" />
     </div>
     <div class="col-md-9">
       <router-outlet />
     </div>
   </div>
 </div>
+}

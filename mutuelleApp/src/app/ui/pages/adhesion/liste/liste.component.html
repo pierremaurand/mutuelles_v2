@@ -6,16 +6,25 @@
     </button>
   </div>
   <hr />
-  <div
-    class="d-flex justify-content-center flex-wrap gap-2 mb-3 liste"
-    *ngIf="adhesions$ | async as adhesions"
-  >
-    <app-card
-      *ngFor="let adhesion of adhesions"
-      [adhesion]="adhesion"
-    ></app-card>
-    <h2 *ngIf="adhesions.length == 0" class="text-center">
-      Aucune adhesion n'a été trouvé dans la base
-    </h2>
+  <div class="row">
+    @if(adhesions$ | async; as adhesions) {
+    <div class="col-md-9 liste">
+      <div class="row">
+        @for(adhesion of adhesions| sort : ['nom', 'asc']| sort :
+        ['dateAdhesion', 'desc']; track adhesion.id){
+        <div class="col-md-6">
+          <app-ligne
+            [adhesion]="adhesion"
+            (selectedEvent)="onAdhesionSelected($event)"
+          />
+        </div>
+        }
+      </div>
+    </div>
+    } @if(selectedAdhesion) {
+    <div class="col-md-3">
+      <app-membre-card [membre]="selectedAdhesion" [showInfosMembre]="false" />
+    </div>
+    }
   </div>
 </div>

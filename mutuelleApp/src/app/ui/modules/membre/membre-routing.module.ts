@@ -6,8 +6,14 @@ import {
 } from '../../../core/resolvers/membre.resolver';
 import { agencesResolver } from '../../../core/resolvers/agence.resolver';
 import { cotisationsResolver } from '../../../core/resolvers/cotisation.resolver';
-import { creditsResolver } from '../../../core/resolvers/credit.resolver';
-import { avancesResolver } from '../../../core/resolvers/avance.resolver';
+import {
+  creditResolver,
+  creditsResolver,
+} from '../../../core/resolvers/credit.resolver';
+import {
+  avanceResolver,
+  avancesResolver,
+} from '../../../core/resolvers/avance.resolver';
 import { echeancesResolver } from '../../../core/resolvers/echeance.resolver';
 
 const routes: Routes = [
@@ -34,10 +40,15 @@ const routes: Routes = [
       import('../../pages/membre/view/view.component').then((m) => m.default),
     children: [
       {
-        path: '',
+        path: 'infos/:id',
         loadComponent: () =>
           import('../../pages/membre/membre-infos/membre-infos.component'),
-        resolve: [membreResolver],
+        resolve: [
+          membreResolver,
+          cotisationsResolver,
+          avancesResolver,
+          creditsResolver,
+        ],
       },
       {
         path: 'image/:id',
@@ -47,6 +58,22 @@ const routes: Routes = [
         data: {
           origin: 'membre',
         },
+      },
+      {
+        path: 'credit/:id',
+        loadComponent: () => import('../../pages/credit/infos/infos.component'),
+        data: {
+          origin: 'membre',
+        },
+        resolve: [creditResolver, echeancesResolver],
+      },
+      {
+        path: 'avance/:id',
+        loadComponent: () => import('../../pages/avance/infos/infos.component'),
+        data: {
+          origin: 'membre',
+        },
+        resolve: [avanceResolver, echeancesResolver],
       },
     ],
     resolve: [membreResolver],

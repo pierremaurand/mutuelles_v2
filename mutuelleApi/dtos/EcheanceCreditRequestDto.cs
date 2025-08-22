@@ -15,7 +15,5 @@ namespace mutuelleApi.dtos
         public float MontantInterets { get; set; }
         [Required(ErrorMessage = "Le crédit est obligatoire.")]
         public int CreditId { get; set; }
-		public string? DatePaiement { get; set; }
-		public string? DateAnticipation { get; set; }
     }
 }

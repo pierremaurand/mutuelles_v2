@@ -41,6 +41,8 @@ namespace mutuelleApi.models
         public string NomAgence => Agence?.Nom??"";
 		
 		public string NomSexe => Sexe == Sexe.Masculin ? "Homme":"Femme";
+
+        public int MembreId => Id;
 		
 		[ForeignKey("ModifiePar")]
 		public Utilisateur? Utilisateur { get; set; }

@@ -105,7 +105,8 @@
             />
             <div class="invalid-feedback">La date d'adhésion est requise!</div>
           </div>
-          <div class="col-md-6 mb-3" *ngIf="agences$ | async as agences">
+          @if(agences$ | async; as agences){
+          <div class="col-md-6 mb-3">
             <label for="agenceId" class="form-label"
               >Agence d'affectation du membre</label
             >
@@ -116,19 +117,22 @@
               formControlName="agenceId"
             >
               <option value=""></option>
-              <option *ngFor="let agence of agences" value="{{ agence.id }}">
+              @for(agence of agences; track agence.id){
+              <option value="{{ agence.id }}">
                 {{ agence.nom | uppercase }}
               </option>
+              }
             </select>
             <div class="invalid-feedback">
               L'agence d'affectation est requise!
             </div>
           </div>
+          }
         </div>
       </div>
       <div class="col-md-3">
-        @if(request.value) {
-        <app-membre-card [membre]="request.value" [showActions]="false" />
+        @if(membre$) {
+        <app-membre-card [membre]="infosMembre" [showActions]="false" />
         }
       </div>
     </div>

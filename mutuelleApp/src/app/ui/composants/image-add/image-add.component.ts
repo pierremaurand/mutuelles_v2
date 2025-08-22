@@ -1,20 +1,11 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import {
   ImageCropperComponent,
   ImageCroppedEvent,
   LoadedImage,
 } from 'ngx-image-cropper';
-import { CroppedImage } from '../../../core/models/cropped-image';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FileUploadService } from '../../../core/services/file-upload.service';
 import { UploadImage } from '../../../core/models/upload-image';
@@ -155,7 +146,9 @@ export default class ImageAddComponent implements OnInit {
     if (this.origin === 'utilisateur') {
       this.router.navigateByUrl('/home/profile/' + this.utilisateur.id);
     } else {
-      this.router.navigateByUrl('/membre/view/' + this.membre.id);
+      this.router.navigateByUrl(
+        '/membre/view/' + this.membre.id + '/infos/' + this.membre.id
+      );
     }
   }
 

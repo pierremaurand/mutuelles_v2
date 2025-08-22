@@ -57,22 +57,11 @@ export class CreditService {
   }
 
   add(credit: CreditRequest, echeancier: Echeance[]): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}`, {
-      credit: credit,
-      echeancier: echeancier,
-    });
+    credit.echeances = echeancier;
+    return this.http.post<any>(`${this.baseUrl}`, credit);
   }
 
   anticipationPaiement(id: number, echeancier: Echeance[]): Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/anticipation/${id}`, echeancier);
-  }
-
-  setMembres(membres: Membre[]): void {
-    this.membres = membres;
-  }
-
-  getMembreById(id: number): Membre {
-    const membre = this.membres.find((m) => m.id === id);
-    return membre ? membre : new Membre();
   }
 }

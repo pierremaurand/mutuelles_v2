@@ -36,7 +36,7 @@ namespace mutuelleApi.models
             }
         }
 
-        public string NomMembre
+        public string Nom
         {
             get
             {
@@ -44,7 +44,7 @@ namespace mutuelleApi.models
             }
         }
 
-        public string SexeMembre
+        public string NomSexe
         {
             get
             {
@@ -52,11 +52,19 @@ namespace mutuelleApi.models
             }
         }
 
-        public string PhotoMembre
+        public string Photo
         {
             get
             {
                 return Membre?.Photo ?? "";
+            }
+        }
+
+        public string NomAgence
+        {
+            get
+            {
+                return Membre?.NomAgence ?? "";
             }
         }
 
@@ -65,6 +73,14 @@ namespace mutuelleApi.models
             get
             {
                 return Membre?.AgenceId ?? 0;
+            }
+        }
+
+        public int CotisationId
+        {
+            get
+            {
+                return Id;
             }
         }
 

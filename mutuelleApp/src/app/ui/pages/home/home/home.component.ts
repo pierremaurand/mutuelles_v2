@@ -4,7 +4,7 @@ import { CotisationService } from '../../../../core/services/cotisation.service'
 import { AvanceService } from '../../../../core/services/avance.service';
 import { CreditService } from '../../../../core/services/credit.service';
 import { CommonModule } from '@angular/common';
-import { Observable, tap } from 'rxjs';
+import { combineLatest, Observable, tap } from 'rxjs';
 import { Membre } from '../../../../core/models/membre';
 import { Sexe } from '../../../../core/models/sexe';
 import { Cotisation } from '../../../../core/models/cotisation';
@@ -12,37 +12,34 @@ import { Avance } from '../../../../core/models/avance';
 import { Credit } from '../../../../core/models/credit';
 import { LineChart } from '../../../composants/line-chart/line-chart';
 import { PieChart } from '../../../composants/pie-chart/pie-chart';
+import { Widget } from '../../../composants/widget/widget';
+import { PieChartData } from '../../../../core/models/pie-chart-data';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, LineChart, PieChart],
+  imports: [CommonModule, LineChart, PieChart, Widget],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class HomeComponent implements OnInit {
   membres$!: Observable<Membre[]>;
+  labelMembres: string = 'Total Membres';
   totalMembre: number = 0;
-  totalMembreActifs: number = 0;
-  totalMembreFemme: number = 0;
-  totalMembreFemmeActifs: number = 0;
-  totalMembreHomme: number = 0;
-  totalMembreHommeActifs: number = 0;
 
   cotisations$!: Observable<Cotisation[]>;
+  labelCotisations: string = 'Encours Cotisations';
   montantTotalCotisation: number = 0;
-  montant90PourCent: number = 0;
-  montant10PourCent: number = 0;
 
   avances$!: Observable<Avance[]>;
-  montantAvanceDecaisse: number = 0;
-  montantAvanceRembourse: number = 0;
+  labelAvances: string = 'Encours Avances';
   encoursAvance: number = 0;
 
   credits$!: Observable<Credit[]>;
-  montantCreditDecaisse: number = 0;
-  montantCreditRembourse: number = 0;
+  labelCredits: string = 'Encours Crédits';
   encoursCredit: number = 0;
+
+  pieChartData: any;
 
   encoursCotisationData = {
     label: 'Encours cotisations',
@@ -133,29 +130,11 @@ export default class HomeComponent implements OnInit {
   }
 
   initObservables(): void {
-    this.membreService.getAllMembresFromServer();
-    this.cotisationService.getAllCotisationsFromServer();
-    this.avanceService.getAllAvancesFromServer();
-    this.creditService.getAllCreditsFromServer();
-
     this.membres$ = this.membreService.membres$;
     this.membres$
       .pipe(
         tap((membres: Membre[]) => {
           this.totalMembre = membres.length;
-          this.totalMembreActifs = membres.filter((x) => x.estActif).length;
-          this.totalMembreHomme = membres.filter(
-            (x) => x.sexe === Sexe.Masculin
-          ).length;
-          this.totalMembreHommeActifs = membres.filter(
-            (x) => x.estActif && x.sexe === Sexe.Masculin
-          ).length;
-          this.totalMembreFemme = membres.filter(
-            (x) => x.sexe === Sexe.Feminin
-          ).length;
-          this.totalMembreFemmeActifs = membres.filter(
-            (x) => x.estActif && x.sexe === Sexe.Feminin
-          ).length;
         })
       )
       .subscribe();
@@ -165,13 +144,7 @@ export default class HomeComponent implements OnInit {
       .pipe(
         tap((cotisations: Cotisation[]) => {
           cotisations.forEach(
-            (x) => (this.montantTotalCotisation += x.retenue)
-          );
-          this.montant10PourCent = Math.round(
-            this.montantTotalCotisation * 0.1
-          );
-          this.montant90PourCent = Math.round(
-            this.montantTotalCotisation * 0.9
+            (x) => (this.montantTotalCotisation += x.retenue ?? 0)
           );
         })
       )
@@ -182,11 +155,9 @@ export default class HomeComponent implements OnInit {
       .pipe(
         tap((avances: Avance[]) => {
           avances.forEach((x) => {
-            this.montantAvanceDecaisse += x.montantCapital;
-            this.montantAvanceRembourse += x.montantCapital - x.montantRestant;
+            this.encoursAvance +=
+              (x.montantCapital ?? 0) - (x.montantCapitalRestant ?? 0);
           });
-          this.encoursAvance =
-            this.montantAvanceDecaisse - this.montantAvanceRembourse;
         })
       )
       .subscribe();
@@ -196,13 +167,36 @@ export default class HomeComponent implements OnInit {
       .pipe(
         tap((credits: Credit[]) => {
           credits.forEach((x) => {
-            this.montantCreditDecaisse += x.montantCapital;
-            this.montantCreditRembourse += x.montantCapital - x.montantRestant;
+            this.encoursCredit +=
+              (x.montantCapital ?? 0) - (x.montantCapitalRestant ?? 0);
           });
-          this.encoursCredit =
-            this.montantCreditDecaisse - this.montantCreditRembourse;
         })
       )
       .subscribe();
+
+    combineLatest([this.cotisations$, this.avances$, this.credits$]).subscribe(
+      ([]) => {
+        this.initPieChartData();
+      }
+    );
+  }
+
+  initPieChartData(): void {
+    this.pieChartData = new PieChartData();
+    this.pieChartData.labels = [
+      this.labelCotisations,
+      this.labelAvances,
+      this.labelCredits,
+    ];
+    this.pieChartData.datasets = [
+      {
+        data: [
+          this.montantTotalCotisation,
+          this.encoursAvance,
+          this.encoursCredit,
+        ],
+        backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56'],
+      },
+    ];
   }
 }

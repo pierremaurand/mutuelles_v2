@@ -4,15 +4,14 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { AvanceRequest } from '../models/avance-request';
 import { Avance } from '../models/avance';
-import { Membre } from '../models/membre';
 import { Echeance } from '../models/echeance';
+import { RemboursementRequest } from '../models/remboursement-request';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AvanceService {
   baseUrl: string = environment.baseUrl + '/avance';
-  private membres: Membre[] = [];
 
   private _avances$ = new BehaviorSubject<Avance[]>([]);
   get avances$(): Observable<Avance[]> {
@@ -57,22 +56,16 @@ export class AvanceService {
   }
 
   add(avance: AvanceRequest, echeancier: Echeance[]): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}`, {
-      avance: avance,
-      echeancier: echeancier,
-    });
+    avance.echeances = echeancier;
+    console.log(avance);
+    return this.http.post<any>(`${this.baseUrl}`, avance);
   }
 
-  anticipationPaiement(id: number, echeancier: Echeance[]): Observable<any> {
+  anticipationPaiement(
+    id: number,
+    echeancier: RemboursementRequest[]
+  ): Observable<any> {
+    console.log(echeancier);
     return this.http.put<any>(`${this.baseUrl}/anticipation/${id}`, echeancier);
-  }
-
-  setMembres(membres: Membre[]): void {
-    this.membres = membres;
-  }
-
-  getMembreById(id: number): Membre {
-    const membre = this.membres.find((m) => m.id === id);
-    return membre ? membre : new Membre();
   }
 }

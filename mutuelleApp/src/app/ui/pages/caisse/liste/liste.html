@@ -8,19 +8,16 @@
   <hr />
   <div class="row">
     <div class="col-md-9">
-      <div
-        class="d-flex flex-column gap-2 mb-3 liste"
-        *ngIf="mouvements$ | async as mouvements"
-      >
-        <app-ligne-mouvement
-          *ngFor="let mouvement of mouvements | sort : ['id', 'desc']| sort : ['dateMouvement', 'desc']"
+      @if(mouvements$ | async; as mouvements){
+      <div class="d-flex flex-column gap-2 mb-3 liste">
+        @for(mouvement of mouvements | sort : ['id', 'desc']| sort :
+        ['dateMouvement', 'desc']; track mouvement.id){<app-ligne-mouvement
           [mouvement]="mouvement"
           (onSelectedEvent)="onSelected($event)"
-        ></app-ligne-mouvement>
-        <h2 *ngIf="mouvements.length == 0" class="text-center">
-          Aucun mouvement n'a été trouvé dans la base
-        </h2>
+        ></app-ligne-mouvement
+        >}
       </div>
+      }
     </div>
     <div class="col-md-3">
       <app-infos [mouvement]="mouvement" />

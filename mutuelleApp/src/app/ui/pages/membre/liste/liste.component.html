@@ -7,16 +7,25 @@
 <hr />
 <div class="row">
   <div class="col-md-9 liste">
-    @if(membres$ | async; as membres){ @for(membre of membres; track membre.id)
-    {
-    <app-ligne [membre]="membre" (selectedEvent)="onSelected($event)" />
-    } @empty {
-    <h2 class="text-center">Aucun membre trouvés</h2>
-    } }
+    <div class="row">
+      @if(membres$ | async; as membres){ @for(membre of membres| sort : ['nom',
+      'asc']| sort : ['nomAgence', 'asc']; track membre.id) {
+      <div class="col-md-6">
+        <app-ligne [membre]="membre" (selectedEvent)="onSelected($event)" />
+      </div>
+      } }
+    </div>
   </div>
   <div class="col-md-3">
     @if(selectedMembre) {
-    <app-membre-card [membre]="selectedMembre"></app-membre-card>
+    <app-membre-card
+      [membre]="selectedMembre"
+      [showActions]="true"
+      [showEditEd]="true"
+      [showViewed]="true"
+      (onEditEvent)="onEdited($event)"
+      (onViewEvent)="onViewed($event)"
+    ></app-membre-card>
     }
   </div>
 </div>

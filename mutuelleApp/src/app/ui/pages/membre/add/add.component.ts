@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { combineLatest, map, Observable, startWith } from 'rxjs';
 import { Membre } from '../../../../core/models/membre';
 import { MembreService } from '../../../../core/services/membre.service';
 import { Router } from '@angular/router';
@@ -18,6 +18,7 @@ import { environment } from '../../../../../environments/environment';
 import { Sexe } from '../../../../core/models/sexe';
 import { MembreRequest } from '../../../../core/models/membre-request';
 import { MembreCardComponent } from '../membre-card/membre-card.component';
+import { InfosPret } from '../../../../core/models/infos-pret';
 
 @Component({
   selector: 'app-add',
@@ -30,6 +31,7 @@ export default class AddComponent implements OnInit {
   request!: FormGroup;
   membre$!: Observable<Membre>;
   agences$!: Observable<Agence[]>;
+  agence$!: Observable<Agence>;
   baseUrl: string = environment.imagesUrl;
 
   nomCtrl!: FormControl;
@@ -41,6 +43,8 @@ export default class AddComponent implements OnInit {
   telephoneCtrl!: FormControl;
   emailCtrl!: FormControl;
 
+  infosMembre!: InfosPret;
+
   constructor(
     private router: Router,
     private membreService: MembreService,
@@ -50,6 +54,7 @@ export default class AddComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.infosMembre = new InfosPret();
     this.initControls();
     this.initForm();
     this.initObservables();
@@ -88,9 +93,21 @@ export default class AddComponent implements OnInit {
   initObservables(): void {
     this.agences$ = this.agenceService.agences$;
     this.agences$.subscribe();
+
     this.membre$ = this.membreService.membre$;
     this.membre$.subscribe({
       next: (membre: Membre) => {
+        this.infosMembre.nom = membre.nom;
+        this.infosMembre.photo = membre.photo;
+        this.infosMembre.nomSexe = membre.nomSexe;
+        this.infosMembre.nomAgence = membre.nomAgence;
+        this.infosMembre.dateAdhesion = membre.dateAdhesion;
+        this.infosMembre.dateNaissance = membre.dateNaissance;
+        this.infosMembre.lieuNaissance = membre.lieuNaissance;
+        this.infosMembre.telephone = membre.telephone;
+        this.infosMembre.email = membre.email;
+        this.infosMembre.estActif = membre.estActif;
+
         this.request.patchValue({
           id: membre.id as number,
           nom: membre.nom as string,
@@ -104,6 +121,68 @@ export default class AddComponent implements OnInit {
           photo: membre.photo as string,
           estActif: membre.estActif as boolean,
         });
+      },
+    });
+
+    this.nomCtrl.valueChanges.subscribe({
+      next: (nom: string) => {
+        this.infosMembre.nom = nom;
+      },
+    });
+
+    this.dateNaissanceCtrl.valueChanges.subscribe({
+      next: (dateNaissance: string) => {
+        this.infosMembre.dateNaissance = dateNaissance;
+      },
+    });
+
+    this.lieuNaissanceCtrl.valueChanges.subscribe({
+      next: (lieuNaissance: string) => {
+        this.infosMembre.lieuNaissance = lieuNaissance;
+      },
+    });
+
+    this.telephoneCtrl.valueChanges.subscribe({
+      next: (telephone: string) => {
+        this.infosMembre.telephone = telephone;
+      },
+    });
+
+    this.emailCtrl.valueChanges.subscribe({
+      next: (email: string) => {
+        this.infosMembre.email = email;
+      },
+    });
+
+    this.dateAdhesionCtrl.valueChanges.subscribe({
+      next: (dateAdhesion: string) => {
+        this.infosMembre.dateAdhesion = dateAdhesion;
+      },
+    });
+
+    this.sexeCtrl.valueChanges
+      .pipe(
+        startWith(this.sexeCtrl.value),
+        map((value) => (value === undefined ? Sexe.Masculin : +value))
+      )
+      .subscribe({
+        next: (sexe: Sexe) => {
+          this.infosMembre.nomSexe = sexe === Sexe.Masculin ? 'Homme' : 'Femme';
+        },
+      });
+
+    const agenceId$ = this.agenceIdCtrl.valueChanges.pipe(
+      startWith(this.agenceIdCtrl.value),
+      map((value) => (value === undefined ? +0 : +value))
+    );
+
+    this.agence$ = combineLatest([agenceId$, this.agences$]).pipe(
+      map(([id, agences]) => agences.find((x) => x.id === id) ?? new Agence())
+    );
+
+    this.agence$.subscribe({
+      next: (agence: Agence) => {
+        this.infosMembre.nomAgence = agence.nom;
       },
     });
   }

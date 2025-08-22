@@ -6,16 +6,28 @@
     </button>
   </div>
   <hr />
-  <div
-    class="d-flex justify-content-center flex-wrap gap-2 mb-3 liste"
-    *ngIf="cotisations$ | async as cotisations"
-  >
-    <app-card
-      *ngFor="let cotisation of cotisations"
-      [cotisation]="cotisation"
-    ></app-card>
-    <h2 *ngIf="cotisations.length == 0" class="text-center">
-      Aucune cotisation n'a été trouvé dans la base
-    </h2>
+  <div class="row">
+    @if(cotisations$ | async; as cotisations) {
+    <div class="col-md-9 liste">
+      <div class="row">
+        @for(cotisation of cotisations| sort : ['dateCotisation', 'desc'] | sort
+        : ['nom', 'asc']; track cotisation.id){
+        <div class="col-md-6">
+          <app-ligne
+            [cotisation]="cotisation"
+            (selectedEvent)="onCotisationSelected($event)"
+          />
+        </div>
+        }
+      </div>
+    </div>
+    } @if(selectedCotisation) {
+    <div class="col-md-3">
+      <app-membre-card
+        [membre]="selectedCotisation"
+        [showInfosMembre]="false"
+      />
+    </div>
+    }
   </div>
 </div>

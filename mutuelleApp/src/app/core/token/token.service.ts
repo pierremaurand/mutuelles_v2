@@ -1,12 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../services/auth.service';
+import { AuthResponse } from '../models/auth-response';
+import { error } from 'console';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TokenService {
-  constructor(private router: Router, private toastr: ToastrService) {}
+  constructor(
+    private router: Router,
+    private toastr: ToastrService,
+    private authService: AuthService
+  ) {}
 
   set token(token: string) {
     localStorage.setItem('token', token);
@@ -26,10 +33,24 @@ export class TokenService {
 
   isAuthenticateUser(): boolean {
     const token = this.token;
+    const refreshToken = this.refreshToken;
     if (token && !this.tokenExpired(token)) {
       return true;
+    } else if (refreshToken && !this.tokenExpired(refreshToken)) {
+      this.token = refreshToken;
+      this.authService.refreshToken().subscribe({
+        next: (authResponse: AuthResponse) => {
+          this.token = authResponse.token ?? '';
+          return true;
+        },
+        error: (error) => {
+          return false;
+        },
+      });
+    } else if (token && refreshToken) {
+      this.logout();
     }
-    this.logout();
+
     return false;
   }
 

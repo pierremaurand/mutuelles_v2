@@ -12,7 +12,7 @@ namespace mutuelleApi.controllers
         private readonly IMapper mapper = mapper;
 
 		[HttpPut("anticipation/{id}")]
-        public async Task<IActionResult> Anticipation(int id,List<EcheanceCreditRequestDto> request)
+        public async Task<IActionResult> Anticipation(int id,List<RemboursementEcheanceDto> request)
         {
 			var credit = await uow.CreditRepository.GetByIdAsync(id);
 			
@@ -24,17 +24,17 @@ namespace mutuelleApi.controllers
             {
                 return NotFound("Membre non trouvé");
             }
+
+            if(credit.Echeances is null) {
+                return BadRequest("Credit sans echeancier");
+            }
 			
 			foreach(var echeanceRequest in request) {
-				if(credit.Echeances is null) {
-					return BadRequest("Credit sans echeancier");
-				}
-				
 				var echeance = credit.Echeances.Find(x => x.Id == echeanceRequest.Id); 
 				if(echeance is null) {
 					return NotFound("Echance non trouvée");
 				}
-				mapper.Map(echeanceRequest,echeance);
+				echeance.DateAnticipation = echeanceRequest.DatePaiement;
 				echeance.ModifiePar = GetUserId();
                 echeance.ModifieLe = DateTime.Now;
                 echeance.Rembourser(GetUserId());

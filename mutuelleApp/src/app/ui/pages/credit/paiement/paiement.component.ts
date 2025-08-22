@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CreditService } from '../../../../core/services/credit.service';
 import { EcheanceService } from '../../../../core/services/echeance.service';
 import { Echeance } from '../../../../core/models/echeance';
-import { combineLatest, map, Observable } from 'rxjs';
+import { combineLatest, map, Observable, tap } from 'rxjs';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import {
   FormArray,
@@ -15,10 +15,12 @@ import {
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { Credit } from '../../../../core/models/credit';
+import { LigneEcheance } from '../../../composants/ligne-echeance/ligne-echeance';
+import { RemboursementRequest } from '../../../../core/models/remboursement-request';
 
 @Component({
   selector: 'app-paiement',
-  imports: [CommonModule, AsyncPipe, ReactiveFormsModule],
+  imports: [CommonModule, AsyncPipe, ReactiveFormsModule, LigneEcheance],
   templateUrl: './paiement.component.html',
   styleUrl: './paiement.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,6 +32,8 @@ export default class PaiementComponent implements OnInit {
   request!: FormGroup;
   datePaiementCtrl!: FormControl;
   items: any[] = [];
+
+  checkBoxLabel: string = 'Cochez tout';
 
   constructor(
     private creditService: CreditService,
@@ -47,6 +51,7 @@ export default class PaiementComponent implements OnInit {
   initForm(): void {
     this.datePaiementCtrl = this.fb.control('', Validators.required);
     this.request = this.fb.group({
+      dateAnticipation: this.datePaiementCtrl,
       lines: this.fb.array([]),
     });
   }
@@ -56,30 +61,48 @@ export default class PaiementComponent implements OnInit {
   }
 
   initObservables(): void {
+    this.datePaiementCtrl.valueChanges
+      .pipe(
+        tap((value) => {
+          this.lines.controls.forEach((line) => {
+            line.get('datePaiement')?.setValue(value);
+          });
+          console.log(this.lines.value);
+        })
+      )
+      .subscribe();
+
     this.credit$ = this.creditService.credit$;
     this.credit$.subscribe((credit) => {
-      this.id = credit.id;
+      this.id = credit.id ?? 0;
     });
     this.echeancier$ = combineLatest([
-      this.creditService.credit$,
+      this.credit$,
       this.echeanceService.echeances$,
     ]).pipe(
-      map(([credit, echeances]) => {
-        return echeances.filter(
-          (e) => e.creditId === credit.id && e.montantRestant > 0
-        );
-      })
+      map(([credit, echeances]) =>
+        echeances.filter(
+          (e) =>
+            e.creditId === credit.id &&
+            e.montantCapitalRestant &&
+            e.montantCapitalRestant > 0
+        )
+      )
     );
     this.echeancier$.subscribe((echeances) => {
       this.lines.clear();
       echeances.forEach(() => this.items.push({ checked: false }));
     });
+    this.credit$.subscribe();
   }
 
   submitForm(): void {
     if (this.request.valid && this.lines.length > 0) {
       this.creditService
-        .anticipationPaiement(this.id, this.lines.value as Echeance[])
+        .anticipationPaiement(
+          this.id,
+          this.lines.value as RemboursementRequest[]
+        )
         .subscribe({
           next: () => {
             this.toastr.success("L'enregistrement a réussie!", 'Succès');
@@ -100,16 +123,17 @@ export default class PaiementComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.router.navigateByUrl('/credit/view/' + this.id);
+    this.router.navigateByUrl('/credit/view/' + this.id + '/infos/' + this.id);
   }
 
-  onCheck(i: number, echeance: Echeance, $event: any) {
-    this.items[i].checked = $event.target.checked;
-    if ($event.target.checked) {
-      this.addLine(echeance);
+  onCheck(item: { echeance: Echeance; checked: boolean }) {
+    console.log(item);
+    if (item.checked) {
+      this.addLine(item.echeance);
     } else {
-      this.removeLine(echeance);
+      this.removeLine(item.echeance);
     }
+    console.log(this.lines.value);
   }
 
   addLine(echeance: Echeance): void {
@@ -120,11 +144,9 @@ export default class PaiementComponent implements OnInit {
       const echeanceForm = this.fb.group({
         id: [echeance.id, Validators.required],
         creditId: [echeance.creditId, Validators.required],
-        dateEcheance: [echeance.dateEcheance, Validators.required],
-        montantCapital: [echeance.montantCapital, Validators.required],
-        montantInterets: [echeance.montantInterets, Validators.required],
-        dateAnticipation: this.datePaiementCtrl,
+        datePaiement: [this.datePaiementCtrl.value, Validators.required],
       });
+
       this.lines.push(echeanceForm);
     }
   }
@@ -133,6 +155,7 @@ export default class PaiementComponent implements OnInit {
     const index = this.lines.controls.findIndex(
       (line) => line.value.id === echeance.id
     );
+    console.log(index);
     if (index !== -1) {
       this.lines.removeAt(index);
     }
@@ -140,15 +163,21 @@ export default class PaiementComponent implements OnInit {
 
   onCheckAll(echeancier: Echeance[], $event: any) {
     if ($event.target.checked) {
+      this.checkBoxLabel = 'Décochez tout';
       echeancier.forEach((echeance) => {
         this.addLine(echeance);
       });
-      this.items = this.items.map(() => ({ checked: true }));
     } else {
+      this.checkBoxLabel = 'Cochez tout';
       echeancier.forEach((echeance) => {
         this.removeLine(echeance);
       });
-      this.items = this.items.map(() => ({ checked: false }));
     }
+    this.items = this.items.map(() => ({ checked: $event.target.checked }));
+    console.log(this.lines.value);
+  }
+
+  get datePaiementClass(): string {
+    return this.datePaiementCtrl.valid ? 'is-valid' : 'is-invalid';
   }
 }

@@ -52,7 +52,7 @@ export class MembreService {
   }
 
   addOrUpdate(id: number, request: MembreRequest): Observable<any> {
-    if (id != 0) {
+    if (id) {
       return this.update(id, request);
     }
     return this.add(request);

@@ -6,13 +6,29 @@
     </button>
   </div>
   <hr />
-  <div
-    class="d-flex justify-content-center flex-wrap gap-2 mb-3 liste"
-    *ngIf="avances$ | async as avances"
-  >
-    <app-card *ngFor="let avance of avances" [avance]="avance"></app-card>
-    <h2 *ngIf="avances.length == 0" class="text-center">
-      Aucune avance n'a été trouvé dans la base
-    </h2>
+  <div class="row">
+    @if(avances$ | async; as avances) {
+    <div class="col-md-9 liste">
+      @for(avance of avances| sort : ['dateDecaissement', 'desc'] | sort :
+      ['nom', 'asc']; track avance.id){
+      <div class="col-md-6">
+        <app-ligne
+          [avance]="avance"
+          (selectedEvent)="onAvanceSelected($event)"
+        />
+      </div>
+      }
+    </div>
+    } @if(selectedAvance) {
+    <div class="col-md-3">
+      <app-membre-card
+        [membre]="selectedAvance"
+        [showInfosMembre]="false"
+        [showActions]="true"
+        [showViewed]="true"
+        (onViewEvent)="onView($event)"
+      />
+    </div>
+    }
   </div>
 </div>

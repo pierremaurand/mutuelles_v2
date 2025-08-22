@@ -25,6 +25,10 @@ export class AuthService {
     return this.http.post<AuthResponse>(this.baseUrl, request);
   }
 
+  refreshToken(): Observable<AuthResponse> {
+    return this.http.get<AuthResponse>(`${this.baseUrl}/refresh-token`);
+  }
+
   getUserInfosFromServer(): void {
     this.http
       .get<UserInfos>(this.baseUrl)

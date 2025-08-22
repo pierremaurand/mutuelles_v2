@@ -5,6 +5,7 @@ namespace mutuelleApi.dtos
     public class MembreDto
     {
         public int Id { get; set; }
+        public int MembreId { get; set; }
         public string Nom { get; set; } = string.Empty;
 		public Sexe Sexe { get; set; }
         public string NomSexe { get; set; } = string.Empty;

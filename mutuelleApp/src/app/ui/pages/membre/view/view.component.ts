@@ -1,26 +1,23 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Membre } from '../../../../core/models/membre';
 import { Observable } from 'rxjs';
-import { SafeUrl } from '@angular/platform-browser';
-import { environment } from '../../../../../environments/environment';
-import { AsyncPipe, CommonModule, UpperCasePipe } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { MembreService } from '../../../../core/services/membre.service';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { MembreRequest } from '../../../../core/models/membre-request';
-import { Sexe } from '../../../../core/models/sexe';
+import { MembreCardComponent } from '../membre-card/membre-card.component';
+import { InfosPret } from '../../../../core/models/infos-pret';
 
 @Component({
   selector: 'app-view',
-  imports: [CommonModule, UpperCasePipe, RouterOutlet, AsyncPipe],
+  imports: [CommonModule, RouterOutlet, AsyncPipe, MembreCardComponent],
   templateUrl: './view.component.html',
   styleUrl: './view.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ViewComponent implements OnInit {
   membre$!: Observable<Membre>;
-  photo: SafeUrl = './assets/images/default_man.jpg';
-  baseUrl: string = environment.imagesUrl;
 
   constructor(
     private membreService: MembreService,
@@ -29,18 +26,22 @@ export default class ViewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.initObservables();
+  }
+
+  initObservables(): void {
     this.membre$ = this.membreService.membre$;
     this.membre$.subscribe();
   }
 
-  onActivated(membre: Membre): void {
+  activateMember(membre: InfosPret): void {
     membre.estActif = !membre.estActif;
     this.membreService
-      .addOrUpdate(membre.id, membre as MembreRequest)
+      .addOrUpdate(membre.id ?? 0, membre as MembreRequest)
       .subscribe({
         next: () => {
           this.toastr.success('Membre mis à jour avec succès', 'Succès');
-          this.membreService.getMembreFromServer(membre.id);
+          this.membreService.getMembreFromServer(membre.id ?? 0);
         },
         error: (err) => {
           this.toastr.error(err, 'Erreur');
@@ -48,19 +49,10 @@ export default class ViewComponent implements OnInit {
       });
   }
 
-  onChangeImage(id: number): void {
-    this.router.navigateByUrl('/membre/view/' + id + '/image/' + id);
-  }
-
-  afficheSexe(sexe: Sexe): string {
-    switch (sexe) {
-      case Sexe.Masculin:
-        return 'Homme';
-      case Sexe.Feminin:
-        return 'Femme';
-      default:
-        return 'Non spécifié';
-    }
+  changeImageMember(membre: InfosPret): void {
+    this.router.navigateByUrl(
+      '/membre/view/' + membre.id + '/image/' + membre.id
+    );
   }
 
   onBack(): void {

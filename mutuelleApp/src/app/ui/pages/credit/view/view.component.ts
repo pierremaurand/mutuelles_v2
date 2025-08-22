@@ -7,11 +7,11 @@ import { CommonModule } from '@angular/common';
 import { CreditService } from '../../../../core/services/credit.service';
 import { Router, RouterOutlet } from '@angular/router';
 import { Membre } from '../../../../core/models/membre';
-import { InfosPretComponent } from '../../../composants/infos-pret/infos-pret.component';
+import { MembreCardComponent } from '../../membre/membre-card/membre-card.component';
 
 @Component({
   selector: 'app-view',
-  imports: [CommonModule, RouterOutlet, InfosPretComponent],
+  imports: [CommonModule, RouterOutlet, MembreCardComponent],
   templateUrl: './view.component.html',
   styleUrl: './view.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Echeance } from '../models/echeance';
-import { Membre } from '../models/membre';
+import { RemboursementRequest } from '../models/remboursement-request';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +28,6 @@ export class EcheanceService {
       .get<Echeance[]>(`${this.baseUrl}`)
       .pipe(
         tap((echeances) => {
-          console.log('echeances', echeances);
           this._echeances$.next(echeances);
         })
       )
@@ -48,5 +47,9 @@ export class EcheanceService {
     } else {
       this._echeance$.next(new Echeance());
     }
+  }
+
+  paiementEcheances(echeancier: RemboursementRequest[]): Observable<any> {
+    return this.http.put(`${this.baseUrl}`, echeancier);
   }
 }

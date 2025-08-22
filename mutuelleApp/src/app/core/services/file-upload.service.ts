@@ -13,7 +13,7 @@ export class FileUploadService {
   constructor(private http: HttpClient) {}
 
   uploadFile(image: UploadImage): Observable<UploadResponse> {
-    return this.http.post<UploadResponse>(`${this.baseUrl}/upload`, image);
+    return this.http.post<UploadResponse>(`${this.baseUrl}`, image);
   }
 
   public blobToBase64(blob: Blob): Promise<string> {

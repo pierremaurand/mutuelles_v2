@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { combineLatest, map, Observable, startWith } from 'rxjs';
+import { combineLatest, map, Observable, startWith, tap } from 'rxjs';
 import { CotisationService } from '../../../../core/services/cotisation.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -17,10 +17,12 @@ import { MembreService } from '../../../../core/services/membre.service';
 import { CotisationRequest } from '../../../../core/models/cotisation-request';
 import { AgenceService } from '../../../../core/services/agence.service';
 import { Agence } from '../../../../core/models/agence';
+import { Ligne } from '../ligne/ligne';
+import { CotisationEvent } from '../../../../core/models/cotisation-event';
 
 @Component({
   selector: 'app-add',
-  imports: [ReactiveFormsModule, CommonModule, AsyncPipe],
+  imports: [ReactiveFormsModule, CommonModule, AsyncPipe, Ligne],
   templateUrl: './add.component.html',
   styleUrl: './add.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -50,6 +52,8 @@ export default class AddComponent implements OnInit {
 
   initForm(): void {
     this.request = this.fb.group({
+      agence: this.agenceCtrl,
+      dateCotisation: this.dateCotisationCtrl,
       lines: this.fb.array([]),
     });
   }
@@ -59,8 +63,8 @@ export default class AddComponent implements OnInit {
   }
 
   initControls(): void {
-    this.dateCotisationCtrl = this.fb.control('');
-    this.agenceCtrl = this.fb.control('');
+    this.dateCotisationCtrl = this.fb.control('', Validators.required);
+    this.agenceCtrl = this.fb.control('', Validators.required);
   }
 
   initObservables(): void {
@@ -72,7 +76,13 @@ export default class AddComponent implements OnInit {
     );
 
     const dateCotisation$ = this.dateCotisationCtrl.valueChanges.pipe(
-      startWith(this.dateCotisationCtrl.value)
+      startWith(this.dateCotisationCtrl.value),
+      tap((value) => {
+        this.lines.controls.forEach((line) => {
+          line.get('dateCotisation')?.setValue(value);
+        });
+      }),
+      map((value) => value.substr(0, 7))
     );
 
     this.membres$ = combineLatest([
@@ -87,11 +97,13 @@ export default class AddComponent implements OnInit {
             !cotisations.find(
               (a) =>
                 a.membreId === membre.id &&
-                (a.dateCotisation.includes(dateCotisation) ||
-                  dateCotisation === '')
+                a.dateCotisation &&
+                a.dateCotisation.includes(dateCotisation)
             ) &&
-            (membre.dateAdhesion <= dateCotisation || dateCotisation === '') &&
-            (membre.agenceId === +agence || agence === '')
+            membre.dateAdhesion &&
+            membre.dateAdhesion.substring(0, 7) <= dateCotisation &&
+            membre.agenceId === +agence &&
+            membre.estActif
         )
       )
     );
@@ -99,6 +111,7 @@ export default class AddComponent implements OnInit {
     this.membres$.subscribe({
       next: (membres: Membre[]) => {
         this.initForm();
+        this.lines.clear();
         membres.forEach((membre: Membre) => {
           this.addCotisation(membre);
         });
@@ -108,9 +121,9 @@ export default class AddComponent implements OnInit {
 
   addCotisation(membre: Membre) {
     var cotisationForm = this.fb.group({
-      membreId: [membre.id, [Validators.required]],
-      dateCotisation: this.dateCotisationCtrl,
-      salaire: ['', [Validators.required]],
+      membreId: [membre.id, Validators.required],
+      dateCotisation: [this.dateCotisationCtrl.value, Validators.required],
+      salaire: ['', [Validators.required, Validators.min(0)]],
     });
     this.lines.push(cotisationForm);
   }
@@ -152,5 +165,20 @@ export default class AddComponent implements OnInit {
     } else {
       return 'Une erreur est survenue!';
     }
+  }
+
+  get agenceClasse(): string {
+    return this.agenceCtrl.valid ? 'is-valid' : 'is-invalid';
+  }
+
+  get dateCotisationClasse(): string {
+    return this.dateCotisationCtrl.valid ? 'is-valid' : 'is-invalid';
+  }
+
+  onSalaireChange(event: CotisationEvent): void {
+    this.lines.controls
+      .find((x) => x.value.membreId === event.membreId)
+      ?.get('salaire')
+      ?.setValue(event.salaire || 0);
   }
 }

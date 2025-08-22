@@ -29,9 +29,9 @@ namespace mutuelleApi.helpers
 			CreateMap<Utilisateur, UtilisateurDto>().ReverseMap();
             CreateMap<Utilisateur, UtilisateurRequestDto>().ReverseMap();
 			
+            CreateMap<Echeance, EcheanceAvanceRequestDto>().ReverseMap();
+            CreateMap<Echeance, EcheanceCreditRequestDto>().ReverseMap();
             CreateMap<Echeance, EcheanceDto>().ReverseMap();
-			CreateMap<Echeance, EcheanceAvanceRequestDto>().ReverseMap();
-			CreateMap<Echeance, EcheanceCreditRequestDto>().ReverseMap();
 
             CreateMap<Mouvement, MouvementDto>().ReverseMap();
             CreateMap<Mouvement, MouvementRequestDto>().ReverseMap();

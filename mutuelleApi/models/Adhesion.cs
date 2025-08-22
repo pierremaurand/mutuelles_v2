@@ -27,10 +27,12 @@ namespace mutuelleApi.models
             }
         }
 		
-		public string NomMembre => Membre?.Nom ?? "";
-		public string SexeMembre => Membre?.NomSexe ?? "";
-		public string PhotoMembre => Membre?.Photo ?? "";
+		public string Nom => Membre?.Nom ?? "";
+		public string NomSexe => Membre?.NomSexe ?? "";
+		public string Photo => Membre?.Photo ?? "";
+		public string NomAgence => Membre?.NomAgence ?? "";
 		public int AgenceId => Membre?.AgenceId ?? 0;
+        public int AdhesionId => Id;
 		
 		[ForeignKey("ModifiePar")]
 		public Utilisateur? Utilisateur { get; set; }

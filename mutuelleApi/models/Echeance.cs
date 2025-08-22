@@ -27,7 +27,7 @@ namespace mutuelleApi.models
             }
         }
 
-        public double MontantRestant
+        public double MontantCapitalRestant
         {
             get
             {
@@ -39,7 +39,7 @@ namespace mutuelleApi.models
         {
             get
             {
-                return MontantRestant > 0 ? "Impayée" : (!string.IsNullOrEmpty(DatePaiement) ? "Payée" : "Anticipée");
+                return MontantCapitalRestant > 0 ? "Impayée" : (!string.IsNullOrEmpty(DatePaiement) ? "Payée" : "Anticipée");
             }
         }
 
@@ -103,37 +103,47 @@ namespace mutuelleApi.models
             }
         }
 
-        public string NomMembre
+        public string Nom
         {
             get
             {
-                return Avance?.NomMembre ?? Credit?.NomMembre ?? "";
+                return Avance?.Nom ?? Credit?.Nom ?? "";
             }
         }
 
-        public string SexeMembre
+        public string NomSexe
         {
             get
             {
-                return Avance?.SexeMembre ?? Credit?.SexeMembre ?? "";
+                return Avance?.NomSexe ?? Credit?.NomSexe ?? "";
             }
         }
 
-        public string PhotoMembre
+        public string Photo
         {
             get
             {
-                return Avance?.PhotoMembre ?? Credit?.PhotoMembre ?? "";
+                return Avance?.Photo ?? Credit?.Photo ?? "";
             }
         }
 
-        public int Agence
+        public string NomAgence
+        {
+            get
+            {
+                return Avance?.NomAgence ?? Credit?.NomAgence ?? "";
+            }
+        }
+
+        public int AgenceId
         {
             get
             {
                 return Avance?.AgenceId ?? Credit?.AgenceId ?? 0;
             }
         }
+
+        public int EcheanceId => Id;
 
         [ForeignKey("ModifiePar")]
 		public Utilisateur? Utilisateur { get; set; }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
@@ -6,7 +6,8 @@ import { BaseChartDirective } from 'ng2-charts';
   imports: [BaseChartDirective],
   templateUrl: './pie-chart.html',
   styleUrl: './pie-chart.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PieChart {
-  @Input() chartData: any;
+  @Input() data: any;
 }

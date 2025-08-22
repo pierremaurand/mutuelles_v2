@@ -14,23 +14,24 @@ namespace mutuelleApi.models
         public List<Mouvement>? Mouvements { get; set; }
         public Membre? Membre { get; set; }
 		
-		public string NomMembre => Membre?.Nom ?? "";
-		public string SexeMembre => Membre?.NomSexe ?? "";
-		public string PhotoMembre => Membre?.Photo ?? "";
+		public string Nom => Membre?.Nom ?? "";
+		public string NomSexe => Membre?.NomSexe ?? "";
+		public string Photo => Membre?.Photo ?? "";
 		public string NomAgence => Membre?.NomAgence ?? "";
 		public int AgenceId => Membre?.AgenceId ?? 0;
+		public int AvanceId => Id;
 
         public double MontantTotal => (MontantCapital);
 
-		public int NombreEcheancePaye => (Echeances?.Count(e => e.MontantRestant == 0)??0);
+		public int NombreEcheancePaye => (Echeances?.Count(e => e.MontantCapitalRestant == 0)??0);
 		
-		public int NombreEcheanceImpaye => (Echeances?.Count(e => e.MontantRestant > 0)??0);
+		public int NombreEcheanceImpaye => (Echeances?.Count(e => e.MontantCapitalRestant > 0)??0);
 		
 		public string DateDerniereEcheance => (Echeances?.Max(e => e.DateEcheance)??"");
 		
-        public double MontantRestant => (Echeances?.Sum(m => m.MontantRestant) ?? 0);
+        public double MontantCapitalRestant => (Echeances?.Sum(m => m.MontantCapitalRestant) ?? 0);
 
-        public string Status => MontantRestant == 0 ? "Remboursée" : "En cour";
+        public string Status => MontantCapitalRestant == 0 ? "Remboursée" : "En cour";
 
         public void Decaisser(int modificateur)
         {

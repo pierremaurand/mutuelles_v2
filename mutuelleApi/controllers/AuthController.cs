@@ -47,6 +47,20 @@ namespace mutuelleApi.controllers
             return Ok(authResponseDto);
         }
 
+        [HttpGet("refresh-token")]
+        public async Task<IActionResult> RefreshToken()
+        {
+           var utilisateur = await uow.UtilisateurRepository.GetByIdAsync(GetUserId());
+            if (utilisateur is null)
+            {
+                return NotFound("Utilisateur non trouvé!");
+            }
+             var authResponseDto = new AuthResponseDto();
+            authResponseDto.Token = CreateJWT(utilisateur, 1);
+
+            return Ok(authResponseDto);
+        }
+
         [HttpGet]
         public async Task<IActionResult> Get()
         {

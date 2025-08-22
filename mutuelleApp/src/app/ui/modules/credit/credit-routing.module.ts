@@ -32,8 +32,11 @@ const routes: Routes = [
       import('../../pages/credit/view/view.component').then((m) => m.default),
     children: [
       {
-        path: '',
+        path: 'infos/:id',
         loadComponent: () => import('../../pages/credit/infos/infos.component'),
+        data: {
+          origin: 'credit',
+        },
         resolve: [creditResolver, echeancesResolver],
       },
       {

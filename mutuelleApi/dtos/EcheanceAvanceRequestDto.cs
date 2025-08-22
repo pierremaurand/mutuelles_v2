@@ -9,7 +9,7 @@ namespace mutuelleApi.dtos
         public string DateEcheance { get; set; } = string.Empty;
         [Required(ErrorMessage = "Le montant du capital est obligatoire")]
         public float MontantCapital { get; set; }
-		public string? DatePaiement { get; set; }
-		public string? DateAnticipation { get; set; }
+        [Required(ErrorMessage = "L'avance est obligatoire.")]
+        public int AvanceId { get; set; }
     }
 }

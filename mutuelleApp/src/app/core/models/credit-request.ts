@@ -1,3 +1,5 @@
+import { EcheanceCreditRequest } from './echeance-credit-request';
+
 export class CreditRequest {
   membreId: number = 0;
   duree: number = 0;
@@ -6,4 +8,5 @@ export class CreditRequest {
   montantInterets: number = 0;
   dateDemande: string = '';
   dateDecaissement: string = '';
+  echeances: EcheanceCreditRequest[] = [];
 }

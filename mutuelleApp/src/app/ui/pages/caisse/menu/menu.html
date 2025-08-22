@@ -1,13 +1,5 @@
 <div class="d-flex flex-column flex-shrink-0">
-  <div
-    class="card shadow-sm text-white"
-    [ngClass]="{'bg-success': soldeCaisse>0, 'bg-danger': soldeCaisse<0}"
-  >
-    <div class="card-body">
-      <h5 class="card-title text-center">Solde caisse</h5>
-      <h4 class="card-title text-center">{{ soldeCaisse | number}} FCFA</h4>
-    </div>
-  </div>
+  <app-widget [label]="label" [value]="soldeCaisse" />
   <hr />
   <ul class="nav nav-pills flex-column mb-auto">
     <li>

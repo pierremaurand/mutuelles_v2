@@ -3,72 +3,69 @@
   <hr />
   <form [formGroup]="request" (ngSubmit)="submitForm()">
     <div class="row">
-      <div class="col-md-3" *ngIf="membre$ | async as membre">
-        <app-infos-pret
-          [nom]="membre.nom"
-          [photo]="membre.photo"
-          [montant]="montantCapitalCtrl.value"
-          [duree]="dureeCtrl.value"
-        ></app-infos-pret>
+      <div class="col-md-3">
+        @if(membre$ | async; as membre) {
+        <app-membre-card
+          [membre]="infosPret"
+          [showActions]="false"
+          [showInfosMembre]="false"
+        />
+        }
       </div>
+
       <div class="col-md-9">
         <div class="card shadow">
           <div class="card-body">
             <div class="row">
-              <div class="col-md-6 mb-3" *ngIf="agences$ | async as agences">
+              @if(agences$ | async; as agences){
+              <div class="col-md-6 mb-3">
                 <label for="agenceId" class="form-label">Agence</label>
                 <select
                   name="agenceId"
                   id="agenceId"
-                  class="form-select"
+                  class="form-select {{ agenceClass }}"
                   [formControl]="agenceCtrl"
-                  [ngClass]="{
-                    'is-valid': agenceCtrl.valid,
-                    'is-invalid': !agenceCtrl.valid
-                  }"
                 >
                   <option value=""></option>
-                  <option *ngFor="let agence of agences" [value]="agence.id">
+                  @for(agence of agences; track agence.id){
+                  <option [value]="agence.id">
                     {{ agence.nom | uppercase }}
                   </option>
+                  }
                 </select>
-                <div class="invalid-feedback">L'agence est obligatoire!</div>
+                <div class="invalid-feedback">L'agence est requis!</div>
               </div>
-              <div class="col-md-6 mb-3" *ngIf="membres$ | async as membres">
+              } @if(membres$ | async; as membres) {
+              <div class="col-md-6 mb-3">
                 <label for="membreId" class="form-label">Membre</label>
                 <select
                   name="membreId"
                   id="membreId"
-                  class="form-select"
+                  class="form-select {{ membreClass }}"
                   formControlName="membreId"
-                  [ngClass]="{
-                    'is-valid': membreIdCtrl.valid,
-                    'is-invalid': !membreIdCtrl.valid
-                  }"
                 >
                   <option value=""></option>
-                  <option *ngFor="let membre of membres" [value]="membre.id">
+                  @for(membre of membres; track membre.id){
+                  <option [value]="membre.id">
                     {{ membre.nom | uppercase }}
                   </option>
+                  }
                 </select>
-                <div class="invalid-feedback">Le membre est obligatoire!</div>
+                <div class="invalid-feedback">Le membre est requis!</div>
               </div>
+              }
+
               <div class="col-md-6 mb-3">
                 <label for="montantCapital" class="form-label">Montant</label>
                 <input
                   type="number"
                   name="montantCapital"
                   id="montantCapital"
-                  class="form-control"
+                  class="form-control {{ montantCapitalClass }}"
                   formControlName="montantCapital"
-                  [ngClass]="{
-                    'is-valid': montantCapitalCtrl.valid,
-                    'is-invalid': !montantCapitalCtrl.valid
-                  }"
                 />
                 <div class="invalid-feedback">
-                  Le montant est obligatoire et doit être inférieur ou égal à
-                  300 000 FCFA!
+                  Le montant est requis doit être <= 300 000 FCFA!
                 </div>
               </div>
               <div class="col-md-6 mb-3">
@@ -77,16 +74,11 @@
                   type="number"
                   name="duree"
                   id="duree"
-                  class="form-control"
+                  class="form-control {{ dureeClass }}"
                   formControlName="duree"
-                  [ngClass]="{
-                    'is-valid': dureeCtrl.valid,
-                    'is-invalid': !dureeCtrl.valid
-                  }"
                 />
                 <div class="invalid-feedback">
-                  La durée est obligatoire et doit être inférieur ou égal à 9
-                  mois!
+                  La durée est requis et doit être <= 9 mois!
                 </div>
               </div>
               <div class="col-md-4 mb-3">
@@ -97,15 +89,11 @@
                   type="date"
                   name="dateDemande"
                   id="dateDemande"
-                  class="form-control"
+                  class="form-control {{ dateDemandeClass }}"
                   formControlName="dateDemande"
-                  [ngClass]="{
-                    'is-valid': dateDemandeCtrl.valid,
-                    'is-invalid': !dateDemandeCtrl.valid
-                  }"
                 />
                 <div class="invalid-feedback">
-                  La date de la demande est obligatoire!
+                  La date de la demande est requise!
                 </div>
               </div>
               <div class="col-md-4 mb-3">
@@ -116,15 +104,11 @@
                   type="date"
                   name="dateDecaissement"
                   id="dateDecaissement"
-                  class="form-control"
+                  class="form-control {{ dateDecaissementClass }}"
                   formControlName="dateDecaissement"
-                  [ngClass]="{
-                    'is-valid': dateDecaissementCtrl.valid,
-                    'is-invalid': !dateDecaissementCtrl.valid
-                  }"
                 />
                 <div class="invalid-feedback">
-                  La date du décaissement est obligatoire!
+                  La date du décaissement est requise!
                 </div>
               </div>
               <div class="col-md-4 mb-3">
@@ -133,15 +117,11 @@
                   type="number"
                   name="differe"
                   id="differe"
-                  class="form-control"
+                  class="form-control {{ differeClass }}"
                   [formControl]="differeCtrl"
-                  [ngClass]="{
-                    'is-valid': differeCtrl.valid,
-                    'is-invalid': !differeCtrl.valid
-                  }"
                 />
                 <div class="invalid-feedback">
-                  Le différé doit être inférieur ou égal à 11 mois!
+                  Le différé doit être <= 11 mois!
                 </div>
               </div>
             </div>

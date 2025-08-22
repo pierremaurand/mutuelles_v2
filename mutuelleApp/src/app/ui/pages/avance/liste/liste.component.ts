@@ -4,25 +4,23 @@ import { combineLatest, map, Observable } from 'rxjs';
 import { AvanceService } from '../../../../core/services/avance.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { CardComponent } from '../card/card.component';
-import { Membre } from '../../../../core/models/membre';
-import { MembreService } from '../../../../core/services/membre.service';
 import { SearchService } from '../../../../core/services/search.service';
-import { Echeance } from '../../../../core/models/echeance';
-import { EcheanceService } from '../../../../core/services/echeance.service';
+import { MembreCardComponent } from '../../membre/membre-card/membre-card.component';
+import { Ligne } from '../ligne/ligne';
+import { InfosPret } from '../../../../core/models/infos-pret';
+import { SortPipe } from '../../../../core/pipes/sort.pipe';
 
 @Component({
   selector: 'app-liste',
-  imports: [CommonModule, CardComponent],
+  imports: [CommonModule, MembreCardComponent, Ligne, SortPipe],
   templateUrl: './liste.component.html',
   styleUrl: './liste.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ListeComponent implements OnInit {
   avances$!: Observable<Avance[]>;
-  membres$!: Observable<Membre[]>;
   search$!: Observable<string>;
-  membres: Membre[] = [];
+  selectedAvance!: Avance;
 
   constructor(
     private avanceService: AvanceService,
@@ -39,8 +37,12 @@ export default class ListeComponent implements OnInit {
       this.avanceService.avances$,
     ]).pipe(
       map(([search, avances]) =>
-        avances.filter((avance: Avance) =>
-          avance.nomMembre.toLowerCase().includes(search)
+        avances.filter(
+          (avance: Avance) =>
+            avance.nom &&
+            avance.nom.toLowerCase().includes(search) &&
+            avance.montantCapitalRestant &&
+            avance.montantCapitalRestant > 0
         )
       )
     );
@@ -51,7 +53,13 @@ export default class ListeComponent implements OnInit {
     this.router.navigateByUrl('/avance/add');
   }
 
-  getMembreById(id: number): Membre {
-    return this.membres.find((m) => m.id === id) || new Membre();
+  onAvanceSelected(avance: InfosPret): void {
+    this.selectedAvance = avance;
+  }
+
+  onView(avance: Avance): void {
+    this.router.navigateByUrl(
+      '/avance/view/' + avance.id + '/infos/' + avance.id
+    );
   }
 }

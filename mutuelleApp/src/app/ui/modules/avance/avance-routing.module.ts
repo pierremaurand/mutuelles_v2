@@ -32,8 +32,11 @@ const routes: Routes = [
       import('../../pages/avance/view/view.component').then((m) => m.default),
     children: [
       {
-        path: '',
+        path: 'infos/:id',
         loadComponent: () => import('../../pages/avance/infos/infos.component'),
+        data: {
+          origin: 'avance',
+        },
         resolve: [avanceResolver, echeancesResolver],
       },
       {

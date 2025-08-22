@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { InfosPretComponent } from '../../../composants/infos-pret/infos-pret.component';
 import { EcheancierPretComponent } from '../../../composants/echeancier-pret/echeancier-pret.component';
 import { Membre } from '../../../../core/models/membre';
 import { MembreService } from '../../../../core/services/membre.service';
@@ -11,7 +10,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { combineLatest, map, Observable, startWith, tap } from 'rxjs';
+import { combineLatest, map, Observable, startWith } from 'rxjs';
 import { Agence } from '../../../../core/models/agence';
 import { AgenceService } from '../../../../core/services/agence.service';
 import { Avance } from '../../../../core/models/avance';
@@ -20,11 +19,13 @@ import { Echeance } from '../../../../core/models/echeance';
 import { Router } from '@angular/router';
 import { AvanceRequest } from '../../../../core/models/avance-request';
 import { ToastrService } from 'ngx-toastr';
+import { MembreCardComponent } from '../../membre/membre-card/membre-card.component';
+import { InfosPret } from '../../../../core/models/infos-pret';
 
 @Component({
   selector: 'app-add',
   imports: [
-    InfosPretComponent,
+    MembreCardComponent,
     EcheancierPretComponent,
     ReactiveFormsModule,
     CommonModule,
@@ -38,8 +39,6 @@ export default class AddComponent implements OnInit {
   id: number = 0;
   membreIdCtrl!: FormControl;
   montantCapitalCtrl!: FormControl;
-  montantCommissionCtrl!: FormControl;
-  montantInteretsCtrl!: FormControl;
   dureeCtrl!: FormControl;
   dateDemandeCtrl!: FormControl;
   dateDecaissementCtrl!: FormControl;
@@ -54,11 +53,7 @@ export default class AddComponent implements OnInit {
 
   echeancier: Echeance[] = [];
 
-  membre!: Membre;
-  montant!: number;
-  interets!: number;
-  duree!: number;
-  commission!: number;
+  infosPret!: InfosPret;
 
   constructor(
     private membreService: MembreService,
@@ -71,6 +66,7 @@ export default class AddComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.infosPret = new InfosPret();
     this.initControls();
     this.initForm();
     this.initObservables();
@@ -87,8 +83,6 @@ export default class AddComponent implements OnInit {
       Validators.min(10000),
       Validators.max(300000),
     ]);
-    this.montantCommissionCtrl = this.fb.control('', Validators.required);
-    this.montantInteretsCtrl = this.fb.control('', Validators.required);
     this.dureeCtrl = this.fb.control('', [
       Validators.required,
       Validators.min(1),
@@ -103,8 +97,6 @@ export default class AddComponent implements OnInit {
     this.request = this.fb.group({
       membreId: this.membreIdCtrl,
       montantCapital: this.montantCapitalCtrl,
-      montantCommission: this.montantCommissionCtrl,
-      montantInterets: this.montantInteretsCtrl,
       duree: this.dureeCtrl,
       dateDemande: this.dateDemandeCtrl,
       dateDecaissement: this.dateDecaissementCtrl,
@@ -125,18 +117,13 @@ export default class AddComponent implements OnInit {
 
     this.montantCapitalCtrl.valueChanges.subscribe({
       next: (value: number) => {
-        const commission = (value * 1) / 100; // 1% commission
-        this.montantCommissionCtrl.setValue(
-          commission < 1000 ? 1000 : commission
-        );
+        this.infosPret.montantCapital = value;
       },
     });
 
     this.dureeCtrl.valueChanges.subscribe({
       next: (value: number) => {
-        const montant = this.montantCapitalCtrl.value;
-        const interets = Math.round((montant * value * 2) / 1200); // 2% interest rate
-        this.montantInteretsCtrl.setValue(interets);
+        this.infosPret.duree = value;
         this.genererEcheancier();
       },
     });
@@ -172,7 +159,13 @@ export default class AddComponent implements OnInit {
     );
 
     this.membres$.subscribe();
-    this.membre$.subscribe();
+    this.membre$.subscribe({
+      next: (membre: Membre) => {
+        this.infosPret.nom = membre.nom;
+        this.infosPret.photo = membre.photo;
+        this.infosPret.nomSexe = membre.nomSexe;
+      },
+    });
   }
 
   genererEcheancier(): void {
@@ -248,5 +241,33 @@ export default class AddComponent implements OnInit {
     } else {
       this.toastr.error('Tous les champs doivent être renseignés.');
     }
+  }
+
+  get agenceClass(): string {
+    return this.agenceCtrl.valid ? 'is-valid' : 'is-invalid';
+  }
+
+  get membreClass(): string {
+    return this.membreIdCtrl.valid ? 'is-valid' : 'is-invalid';
+  }
+
+  get montantCapitalClass(): string {
+    return this.montantCapitalCtrl.valid ? 'is-valid' : 'is-invalid';
+  }
+
+  get dureeClass(): string {
+    return this.dureeCtrl.valid ? 'is-valid' : 'is-invalid';
+  }
+
+  get dateDemandeClass(): string {
+    return this.dateDemandeCtrl.valid ? 'is-valid' : 'is-invalid';
+  }
+
+  get dateDecaissementClass(): string {
+    return this.dateDecaissementCtrl.valid ? 'is-valid' : 'is-invalid';
+  }
+
+  get differeClass(): string {
+    return this.differeCtrl.valid ? 'is-valid' : 'is-invalid';
   }
 }

@@ -1,11 +1,14 @@
 export class Cotisation {
-  membreId: number = 0;
-  dateCotisation: string = '';
+  id?: number;
+  membreId?: number;
+  dateCotisation?: string;
 
-  retenue: number = 0;
+  retenue?: number;
+  salaire?: number;
 
-  nomMembre: string = '';
-  photoMembre: string = '';
-  sexeMembre: string = '';
-  agenceId: number = 0;
+  nom?: string;
+  photo?: string;
+  nomSexe?: string;
+  nomAgence?: string;
+  agenceId?: number;
 }

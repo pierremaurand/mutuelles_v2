@@ -8,35 +8,32 @@ namespace mutuelleApi.controllers
     {
         private readonly IWebHostEnvironment _env = webHost;
 
+
         [HttpPost]
-        public async Task<IActionResult> UploadFile(UploadImage fichier)
+        public IActionResult UploadImage(UploadImage request)
         {
+            if (string.IsNullOrEmpty(request.Image) || string.IsNullOrEmpty(request.Extension))
+            {
+                return BadRequest("Invalid image data or filename.");
+            }
 
             try
             {
-                // Define the upload directory (e.g., within WebRootPath)
-                var uploadsFolder = Path.Combine(_env.WebRootPath, "uploads");
+                // Remove "data:image/png;base64," prefix if present
+                string base64Data = request.Image.Split(',')[1];
+                byte[] imageBytes = Convert.FromBase64String(base64Data);
+
+                // Save the image to a desired location (e.g., wwwroot/uploads)
+                string uploadsFolder = Path.Combine(_env.WebRootPath,"uploads");
                 if (!Directory.Exists(uploadsFolder))
                 {
                     Directory.CreateDirectory(uploadsFolder);
                 }
-
-                // Generate a unique file name to prevent overwrites and security issues
-                string fileName = Guid.NewGuid().ToString() + '.' + fichier.Extension;
+                string fileName = Guid.NewGuid().ToString() + '.' + request.Extension;
                 string filePath = Path.Combine(uploadsFolder, fileName);
-                
-                byte[] bytes = Convert.FromBase64String(fichier.Image.Split(',')[1]);
-                MemoryStream image = new MemoryStream(bytes);
-        
-                IFormFile file = new FormFile(image, 0, bytes.Length, "image", "image");
+                System.IO.File.WriteAllBytes(filePath, imageBytes);
 
-                // Save the file
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(stream);
-                }
-
-                return Ok(new { FileName = fileName });
+                return Ok(new { FileName = fileName, Message = "Image uploaded successfully!" });
             }
             catch (Exception ex)
             {

@@ -25,15 +25,15 @@ namespace mutuelleApi.models
             }
         }
 
-        public int NombreEcheancePaye => Echeances?.Count(e => e.MontantRestant == 0)??0;
+        public int NombreEcheancePaye => Echeances?.Count(e => e.MontantCapitalRestant == 0)??0;
 		
-		public int NombreEcheanceImpaye => Echeances?.Count(e => e.MontantRestant > 0)??0;
+		public int NombreEcheanceImpaye => Echeances?.Count(e => e.MontantCapitalRestant > 0)??0;
 		
 		public string DateDerniereEcheance => Echeances?.Max(e => e.DateEcheance)??"";
 
-        public double MontantRestant => Echeances?.Sum(m => m.MontantRestant) ?? 0;
+        public double MontantCapitalRestant => Echeances?.Sum(m => m.MontantCapitalRestant) ?? 0;
 
-        public string Status => MontantRestant == 0 ? "Soldé" : "En cour";
+        public string Status => MontantCapitalRestant == 0 ? "Soldé" : "En cour";
 
         public void Decaisser(int modificateur)
         {
@@ -59,7 +59,7 @@ namespace mutuelleApi.models
             }
         }
 
-        public string NomMembre
+        public string Nom
         {
             get
             {
@@ -67,7 +67,7 @@ namespace mutuelleApi.models
             }
         }
 
-        public string SexeMembre
+        public string NomSexe
         {
             get
             {
@@ -75,7 +75,7 @@ namespace mutuelleApi.models
             }
         }
 
-        public string PhotoMembre
+        public string Photo
         {
             get
             {
@@ -96,6 +96,14 @@ namespace mutuelleApi.models
             get
             {
                 return Membre?.AgenceId ?? 0;
+            }
+        }
+
+        public int CreditId
+        {
+            get
+            {
+                return Id;
             }
         }
 

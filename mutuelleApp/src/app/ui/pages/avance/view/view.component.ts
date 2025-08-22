@@ -1,34 +1,38 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { Avance } from '../../../../core/models/avance';
-import { combineLatest, map, Observable } from 'rxjs';
-import { SafeUrl } from '@angular/platform-browser';
-import { environment } from '../../../../../environments/environment';
+import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { AvanceService } from '../../../../core/services/avance.service';
 import { Router, RouterOutlet } from '@angular/router';
-import { MembreService } from '../../../../core/services/membre.service';
-import { Membre } from '../../../../core/models/membre';
-import { InfosPretComponent } from '../../../composants/infos-pret/infos-pret.component';
-import { EcheanceService } from '../../../../core/services/echeance.service';
+import { MembreCardComponent } from '../../membre/membre-card/membre-card.component';
 
 @Component({
   selector: 'app-view',
-  imports: [CommonModule, RouterOutlet, InfosPretComponent],
+  imports: [CommonModule, RouterOutlet, MembreCardComponent],
   templateUrl: './view.component.html',
   styleUrl: './view.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ViewComponent implements OnInit {
   avance$!: Observable<Avance>;
-  membre$!: Observable<Membre>;
-  avanceSolder: boolean = false;
-  photo: SafeUrl = './assets/images/default_man.jpg';
-  baseUrl: string = environment.imagesUrl;
+  avance: Avance = new Avance();
 
   constructor(private avanceService: AvanceService, private router: Router) {}
 
   ngOnInit(): void {
+    this.initObservables();
+  }
+
+  initObservables(): void {
     this.avance$ = this.avanceService.avance$;
+    this.avance$.subscribe({
+      next: (avance) => {
+        this.avance = avance;
+      },
+      error: (err) => {
+        console.error('Error fetching avance:', err);
+      },
+    });
   }
 
   onAnticipePaiement(id: number): void {
