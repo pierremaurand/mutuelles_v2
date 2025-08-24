@@ -1,10 +1,5 @@
-<div class="d-flex flex-column flex-shrink-0">
-  <a
-    routerLink="/home"
-    class="d-flex align-items-center mb-md-0 me-md-auto text-decoration-none"
-  >
-    <span class="fs-4">MEF</span>
-  </a>
+<div class="d-flex flex-column flex-shrink-0 container">
+  <h3>MEF</h3>
   <hr />
   <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item">
@@ -14,61 +9,68 @@
         class="nav-link"
         aria-current="page"
       >
-        <i class="fa-solid fa-house"></i>
+        <i class="fa-solid fa-house me-2"></i>
         Accueil
       </a>
     </li>
     <li>
       <a routerLink="/membre" routerLinkActive="active" class="nav-link">
-        <i class="fa-solid fa-users"></i>
+        <i class="fa-solid fa-users me-2"></i>
         Membres
       </a>
     </li>
     <li>
       <a routerLink="/adhesion" routerLinkActive="active" class="nav-link">
-        <i class="fa-solid fa-user-check"></i>
+        <i class="fa-solid fa-user-check me-2"></i>
         Adhésions
       </a>
     </li>
     <li>
       <a routerLink="/cotisation" routerLinkActive="active" class="nav-link">
-        <i class="fa-solid fa-coins"></i>
+        <i class="fa-solid fa-coins me-2"></i>
         Cotisations
       </a>
     </li>
     <li>
       <a routerLink="/avance" routerLinkActive="active" class="nav-link">
-        <i class="fa-solid fa-users"></i>
+        <i class="fa-solid fa-hand-holding-dollar me-2"></i>
         Avances
       </a>
     </li>
     <li>
       <a routerLink="/credit" routerLinkActive="active" class="nav-link">
-        <i class="fa-solid fa-users"></i>
+        <i class="fa-brands fa-stack-overflow me-2"></i>
         Crédits
       </a>
     </li>
     <li>
       <a routerLink="/caisse" routerLinkActive="active" class="nav-link">
-        <i class="fa-solid fa-users"></i>
+        <i class="fa-solid fa-cash-register me-2"></i>
         Caisse
       </a>
     </li>
     <li>
       <a routerLink="/utilisateur" routerLinkActive="active" class="nav-link">
-        <i class="fa-solid fa-users"></i>
+        <i class="fa-solid fa-users me-2"></i>
         Utilisateurs
       </a>
     </li>
     <li>
       <a routerLink="/agence" routerLinkActive="active" class="nav-link">
-        <i class="fa-solid fa-building"></i>
+        <i class="fa-solid fa-building me-2"></i>
         Agences
+      </a>
+    </li>
+    <li>
+      <a routerLink="/banque" routerLinkActive="active" class="nav-link">
+        <i class="fa-solid fa-building-columns me-2"></i>
+        Banques
       </a>
     </li>
   </ul>
   <hr />
-  <div class="dropdown" *ngIf="userInfos$ | async as user">
+  @if(userInfos$ | async; as user){
+  <div class="dropdown">
     <a
       href="#"
       class="d-flex align-items-center text-decoration-none dropdown-toggle"
@@ -88,15 +90,16 @@
     <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser1">
       <li>
         <a class="dropdown-item" routerLink="/home/profile/{{ user.id }}"
-          ><i class="fa-solid fa-address-card"></i> Profile</a
+          ><i class="fa-solid fa-address-card me-2"></i> Profile</a
         >
       </li>
       <li><hr class="dropdown-divider" /></li>
       <li>
         <a routerLink="/auth/login" class="dropdown-item" (click)="logout()"
-          ><i class="fa-solid fa-right-from-bracket"></i> Se déconnecté</a
+          ><i class="fa-solid fa-right-from-bracket me-2"></i> Se déconnecté</a
         >
       </li>
     </ul>
   </div>
+  }
 </div>

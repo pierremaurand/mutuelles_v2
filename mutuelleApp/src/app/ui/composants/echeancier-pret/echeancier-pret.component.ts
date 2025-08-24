@@ -17,4 +17,15 @@ export class EcheancierPretComponent {
   echeancierCredit: boolean = true; // Adjust type as needed
   @Input()
   echeancierView: boolean = false; // Adjust type as needed
+
+  get montantTotal(): number {
+    return this.echeancier.reduce((total, echeance) => {
+      return (
+        total +
+        (echeance.montantInterets ?? 0) +
+        (echeance.montantCapital ?? 0) +
+        (echeance.montantCommission ?? 0)
+      );
+    }, 0);
+  }
 }

@@ -11,16 +11,18 @@ import { UpperCasePipe } from '@angular/common';
 export class AgenceCardComponent {
   @Input()
   agence!: Agence;
+  @Input()
+  showActions: boolean = true;
   @Output()
-  edit = new EventEmitter<number>();
+  editEvent = new EventEmitter<Agence>();
   @Output()
-  view = new EventEmitter<number>();
+  viewEvent = new EventEmitter<Agence>();
 
   onEdit(): void {
-    this.edit.emit(this.agence.id);
+    this.editEvent.emit(this.agence);
   }
 
   onView(): void {
-    this.view.emit(this.agence.id);
+    this.viewEvent.emit(this.agence);
   }
 }

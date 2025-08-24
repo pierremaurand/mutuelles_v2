@@ -5,11 +5,16 @@
         <tr>
           <th class="text-center">N°</th>
           <th class="text-center">Date</th>
-          <th class="text-center" *ngIf="echeancierCredit">Capital</th>
+          @if(echeancierCredit) {
+          <th class="text-center">Capital</th>
+          } @if(echeancierCredit) {
           <th class="text-center" *ngIf="echeancierCredit">Commission</th>
           <th class="text-center" *ngIf="echeancierCredit">Intérets</th>
+          }
           <th class="text-center">Montant échéance</th>
+          @if(echeancierView) {
           <th class="text-center" *ngIf="echeancierView">Etat</th>
+          }
         </tr>
       </thead>
       <tbody>
@@ -18,31 +23,26 @@
           <td class="text-center">
             {{ echeance.dateEcheance | date : "dd/MM/yyyy" }}
           </td>
-          <td class="text-end" *ngIf="echeancierCredit">
-            {{ echeance.montantCapital | number }} FCFA
-          </td>
-          <td class="text-end" *ngIf="echeancierCredit">
+          @if(echeancierCredit){
+          <td class="text-end">{{ echeance.montantCapital | number }} FCFA</td>
+          <td class="text-end">
             {{ echeance.montantCommission | number }} FCFA
           </td>
-          <td class="text-end" *ngIf="echeancierCredit">
-            {{ echeance.montantInterets | number }} FCFA
-          </td>
+          <td class="text-end">{{ echeance.montantInterets | number }} FCFA</td>
+          }
           <td class="text-end">
-            {{
-              echeance.montantInterets +
-                echeance.montantCommission +
-                echeance.montantCapital | number
-            }}
+            {{ montantTotal | number }}
             FCFA
           </td>
+          @if(echeancierView){
           <td
             class="text-center text-{{
               echeance.status !== 'Impayée' ? 'success' : 'danger'
             }}"
-            *ngIf="echeancierView"
           >
             {{ echeance.status }}
           </td>
+          }
         </tr>
       </tbody>
     </table>

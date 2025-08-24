@@ -120,6 +120,31 @@ namespace mutuelleApi.Migrations
                     b.ToTable("Avances");
                 });
 
+            modelBuilder.Entity("mutuelleApi.models.Banque", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("ModifieLe")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ModifiePar")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nom")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ModifiePar");
+
+                    b.ToTable("Banques");
+                });
+
             modelBuilder.Entity("mutuelleApi.models.Cotisation", b =>
                 {
                     b.Property<int>("Id")
@@ -323,6 +348,9 @@ namespace mutuelleApi.Migrations
                     b.Property<int?>("AvanceId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("BanqueId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("CotisationId")
                         .HasColumnType("int");
 
@@ -362,6 +390,8 @@ namespace mutuelleApi.Migrations
                         .HasFilter("[AdhesionId] IS NOT NULL");
 
                     b.HasIndex("AvanceId");
+
+                    b.HasIndex("BanqueId");
 
                     b.HasIndex("CotisationId")
                         .IsUnique()
@@ -468,6 +498,15 @@ namespace mutuelleApi.Migrations
                     b.Navigation("Utilisateur");
                 });
 
+            modelBuilder.Entity("mutuelleApi.models.Banque", b =>
+                {
+                    b.HasOne("mutuelleApi.models.Utilisateur", "Utilisateur")
+                        .WithMany()
+                        .HasForeignKey("ModifiePar");
+
+                    b.Navigation("Utilisateur");
+                });
+
             modelBuilder.Entity("mutuelleApi.models.Cotisation", b =>
                 {
                     b.HasOne("mutuelleApi.models.Membre", "Membre")
@@ -550,6 +589,10 @@ namespace mutuelleApi.Migrations
                         .WithMany("Mouvements")
                         .HasForeignKey("AvanceId");
 
+                    b.HasOne("mutuelleApi.models.Banque", null)
+                        .WithMany("Mouvements")
+                        .HasForeignKey("BanqueId");
+
                     b.HasOne("mutuelleApi.models.Cotisation", null)
                         .WithOne("Mouvement")
                         .HasForeignKey("mutuelleApi.models.Mouvement", "CotisationId");
@@ -582,6 +625,11 @@ namespace mutuelleApi.Migrations
                 {
                     b.Navigation("Echeances");
 
+                    b.Navigation("Mouvements");
+                });
+
+            modelBuilder.Entity("mutuelleApi.models.Banque", b =>
+                {
                     b.Navigation("Mouvements");
                 });
 

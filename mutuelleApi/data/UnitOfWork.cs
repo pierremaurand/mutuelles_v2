@@ -9,6 +9,7 @@ namespace mutuelleApi.data
 
         public IAdhesionRepository AdhesionRepository => new AdhesionRepository(dc);
         public IAgenceRepository AgenceRepository => new AgenceRepository(dc);
+        public IBanqueRepository BanqueRepository => new BanqueRepository(dc);
         public IAvanceRepository AvanceRepository => new AvanceRepository(dc);
         public ICotisationRepository CotisationRepository => new CotisationRepository(dc);
         public ICreditRepository CreditRepository => new CreditRepository(dc);

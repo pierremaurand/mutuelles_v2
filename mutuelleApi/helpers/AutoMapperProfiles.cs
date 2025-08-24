@@ -35,6 +35,9 @@ namespace mutuelleApi.helpers
 
             CreateMap<Mouvement, MouvementDto>().ReverseMap();
             CreateMap<Mouvement, MouvementRequestDto>().ReverseMap();
+
+            CreateMap<Banque, BanqueDto>().ReverseMap();
+            CreateMap<Banque, BanqueRequestDto>().ReverseMap();
         }
     }
 }

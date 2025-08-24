@@ -15,6 +15,7 @@ namespace mutuelleApi.models
         public int? AvanceId { get; set; }
         public int? CreditId { get; set; }
         public int? EcheanceId { get; set; }
+        public int? BanqueId { get; set; }
 		
 		[ForeignKey("ModifiePar")]
 		public Utilisateur? Utilisateur { get; set; }
