@@ -45,7 +45,7 @@ export default class InfosComponent implements OnInit {
         if (credit) {
           this.membreId = credit.membreId ?? 0;
           this.initChartData(
-            (credit.montantCapital ?? 0) - (credit.montantCapitalRestant ?? 0),
+            (credit.montantTotal ?? 0) - (credit.montantCapitalRestant ?? 0),
             credit.montantCapitalRestant ?? 0
           );
         }

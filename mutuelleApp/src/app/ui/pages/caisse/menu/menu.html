@@ -1,25 +1,103 @@
 <div class="d-flex flex-column flex-shrink-0">
-  <app-widget [label]="label" [value]="soldeCaisse" />
-  <hr />
   <ul class="nav nav-pills flex-column mb-auto">
     <li>
       <a
-        routerLink="/caisse/view/liste"
+        routerLink="/caisse/view/{{caisseId}}/accueil"
         routerLinkActive="active"
         class="nav-link"
       >
-        <i class="fa-solid fa-list-check"></i>
-        Journal de caisse
+        <i class="fa-solid fa-list-check me-2"></i>
+        Accueil
       </a>
     </li>
     <li>
       <a
-        routerLink="/caisse/view/paiement"
+        routerLink="/caisse/view/{{caisseId}}/alimentation"
         routerLinkActive="active"
         class="nav-link"
       >
-        <i class="fa-solid fa-list-check"></i>
-        Remboursement échéances
+        <i class="fa-solid fa-list-check me-2"></i>
+        Alimentation
+      </a>
+    </li>
+    <li>
+      <a
+        routerLink="/caisse/view/{{caisseId}}/remontee"
+        routerLinkActive="active"
+        class="nav-link"
+      >
+        <i class="fa-solid fa-list-check me-2"></i>
+        Remontée
+      </a>
+    </li>
+    <li>
+      <a
+        routerLink="/caisse/view/{{caisseId}}/adhesion"
+        routerLinkActive="active"
+        class="nav-link"
+      >
+        <i class="fa-solid fa-list-check me-2"></i>
+        Adhésions
+      </a>
+    </li>
+    <li>
+      <a
+        routerLink="/caisse/view/{{caisseId}}/cotisation"
+        routerLinkActive="active"
+        class="nav-link"
+      >
+        <i class="fa-solid fa-list-check me-2"></i>
+        Cotisations
+      </a>
+    </li>
+    <li>
+      <a
+        routerLink="/caisse/view/{{caisseId}}/avance"
+        routerLinkActive="active"
+        class="nav-link"
+      >
+        <i class="fa-solid fa-list-check me-2"></i>
+        Avances
+      </a>
+    </li>
+    <li>
+      <a
+        routerLink="/caisse/view/{{caisseId}}/credit"
+        routerLinkActive="active"
+        class="nav-link"
+      >
+        <i class="fa-solid fa-list-check me-2"></i>
+        Crédits
+      </a>
+    </li>
+    <li>
+      <a
+        routerLink="/caisse/view/{{caisseId}}/echeance"
+        routerLinkActive="active"
+        class="nav-link"
+      >
+        <i class="fa-solid fa-list-check me-2"></i>
+        Echéances
+      </a>
+    </li>
+    <li>
+      <a
+        routerLink="/caisse/view/{{caisseId}}/entree"
+        routerLinkActive="active"
+        class="nav-link"
+      >
+        <i class="fa-solid fa-list-check me-2"></i>
+        Entrée de caisse
+      </a>
+    </li>
+    <li>
+      <a
+        routerLink="/caisse/view/{{caisseId}}/sortie"
+        routerLinkActive="active"
+        class="nav-link"
+      >
+        <i class="fa-solid fa-list-check me-2"></i>
+        Sortie de caisse
       </a>
     </li>
   </ul>

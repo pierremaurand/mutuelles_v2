@@ -1,31 +1,32 @@
-<div class="d-flex justify-content-between">
-  <h1 class="h3">Les membres</h1>
-  <button class="btn btn-primary" type="button" (click)="add()">
-    Ajouter un membre
-  </button>
-</div>
-<hr />
-<div class="row">
-  <div class="col-md-9 liste">
-    <div class="row">
-      @if(membres$ | async; as membres){ @for(membre of membres| sort : ['nom',
-      'asc']| sort : ['nomAgence', 'asc']; track membre.id) {
-      <div class="col-md-6">
-        <app-ligne [membre]="membre" (selectedEvent)="onSelected($event)" />
-      </div>
-      } }
-    </div>
+<div class="container">
+  <div class="d-flex justify-content-between p-2">
+    <h3 class="titre">Les membres</h3>
+    <button class="btn btn-primary" type="button" (click)="add()">
+      Ajouter un membre
+    </button>
   </div>
-  <div class="col-md-3">
-    @if(selectedMembre) {
-    <app-membre-card
-      [membre]="selectedMembre"
-      [showActions]="true"
-      [showEditEd]="true"
-      [showViewed]="true"
-      (onEditEvent)="onEdited($event)"
-      (onViewEvent)="onViewed($event)"
-    ></app-membre-card>
-    }
+  <div class="row">
+    <div class="col-md-9 liste">
+      <div class="row">
+        @if(membres$ | async; as membres){ @for(membre of membres| sort :
+        ['nom', 'asc']| sort : ['nomAgence', 'asc']; track membre.id) {
+        <div class="col-md-6">
+          <app-ligne [membre]="membre" (selectedEvent)="onSelected($event)" />
+        </div>
+        } }
+      </div>
+    </div>
+    <div class="col-md-3">
+      @if(selectedMembre) {
+      <app-membre-card
+        [membre]="selectedMembre"
+        [showActions]="true"
+        [showEditEd]="true"
+        [showViewed]="true"
+        (onEditEvent)="onEdited($event)"
+        (onViewEvent)="onViewed($event)"
+      ></app-membre-card>
+      }
+    </div>
   </div>
 </div>

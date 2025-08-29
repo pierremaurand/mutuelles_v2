@@ -8,6 +8,7 @@ namespace mutuelleApi.interfaces
         IAgenceRepository AgenceRepository { get; } 
         IAvanceRepository AvanceRepository { get; }
         IBanqueRepository BanqueRepository { get; }
+        ICaisseRepository CaisseRepository { get; }
         ICotisationRepository CotisationRepository { get; }
         ICreditRepository CreditRepository { get; }
         IEcheanceRepository EcheanceRepository { get; }

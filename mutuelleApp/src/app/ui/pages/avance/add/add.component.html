@@ -1,5 +1,10 @@
 <div class="container">
-  <h5>Infos avance</h5>
+  <div class="d-flex justify-content-between p-2">
+    <h3 class="titre">
+      <i class="fa fa-arrow-circle-left me-2 action" (click)="onBack()"></i
+      >Infos avance
+    </h3>
+  </div>
   <hr />
   <form [formGroup]="request" (ngSubmit)="submitForm()">
     <div class="row">
@@ -18,7 +23,7 @@
           <div class="card-body">
             <div class="row">
               @if(agences$ | async; as agences){
-              <div class="col-md-6 mb-3">
+              <div class="col-md-3 mb-3">
                 <label for="agenceId" class="form-label">Agence</label>
                 <select
                   name="agenceId"
@@ -55,7 +60,7 @@
               </div>
               }
 
-              <div class="col-md-6 mb-3">
+              <div class="col-md-3 mb-3">
                 <label for="montantCapital" class="form-label">Montant</label>
                 <input
                   type="number"
@@ -64,11 +69,9 @@
                   class="form-control {{ montantCapitalClass }}"
                   formControlName="montantCapital"
                 />
-                <div class="invalid-feedback">
-                  Le montant est requis doit être <= 300 000 FCFA!
-                </div>
+                <div class="invalid-feedback">Le montant est invalide!</div>
               </div>
-              <div class="col-md-6 mb-3">
+              <div class="col-md-3 mb-3">
                 <label for="duree" class="form-label">Durée</label>
                 <input
                   type="number"
@@ -77,11 +80,9 @@
                   class="form-control {{ dureeClass }}"
                   formControlName="duree"
                 />
-                <div class="invalid-feedback">
-                  La durée est requis et doit être <= 9 mois!
-                </div>
+                <div class="invalid-feedback">La durée est invalide!</div>
               </div>
-              <div class="col-md-4 mb-3">
+              <div class="col-md-3 mb-3">
                 <label for="dateDemande" class="form-label"
                   >Date de la demande</label
                 >
@@ -92,11 +93,9 @@
                   class="form-control {{ dateDemandeClass }}"
                   formControlName="dateDemande"
                 />
-                <div class="invalid-feedback">
-                  La date de la demande est requise!
-                </div>
+                <div class="invalid-feedback">La date est requise!</div>
               </div>
-              <div class="col-md-4 mb-3">
+              <div class="col-md-3 mb-3">
                 <label for="dateDecaissement" class="form-label"
                   >Date décaissement</label
                 >
@@ -107,11 +106,9 @@
                   class="form-control {{ dateDecaissementClass }}"
                   formControlName="dateDecaissement"
                 />
-                <div class="invalid-feedback">
-                  La date du décaissement est requise!
-                </div>
+                <div class="invalid-feedback">La date est requise!</div>
               </div>
-              <div class="col-md-4 mb-3">
+              <div class="col-md-3 mb-3">
                 <label for="differe" class="form-label">Différer de</label>
                 <input
                   type="number"

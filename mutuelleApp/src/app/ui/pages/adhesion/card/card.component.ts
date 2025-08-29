@@ -6,7 +6,7 @@ import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-card',
-  imports: [UpperCasePipe, DecimalPipe, DatePipe],
+  imports: [DecimalPipe, DatePipe],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
 })

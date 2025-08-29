@@ -24,9 +24,16 @@ const routes: Routes = [
     resolve: [agenceResolver],
   },
   {
+    path: 'edit/:id',
+    loadComponent: () =>
+      import('../../pages/agence/add/add.component').then((m) => m.default),
+    resolve: [agenceResolver],
+  },
+  {
     path: 'view/:id',
     loadComponent: () =>
       import('../../pages/agence/view/view.component').then((m) => m.default),
+    resolve: [agenceResolver],
   },
 ];
 

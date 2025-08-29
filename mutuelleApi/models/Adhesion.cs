@@ -10,22 +10,6 @@ namespace mutuelleApi.models
 
         public Membre? Membre { get; set; }
         public Mouvement? Mouvement { get; set; }
-
-        public string Libelle => "adhésion du membre " + Membre?.Nom;
-        
-        public void Payer(int modificateur)
-        {
-            if (!string.IsNullOrEmpty(DateAdhesion) && Mouvement is null)
-            {
-                var mouvement = new Mouvement();
-                mouvement.DateMouvement = DateAdhesion;
-                mouvement.Libelle = "Paiement " + Libelle;
-                mouvement.MontantCredit = Montant;
-                mouvement.ModifiePar = modificateur;
-                mouvement.ModifieLe = DateTime.Now;
-                Mouvement = mouvement;
-            }
-        }
 		
 		public string Nom => Membre?.Nom ?? "";
 		public string NomSexe => Membre?.NomSexe ?? "";
@@ -33,6 +17,7 @@ namespace mutuelleApi.models
 		public string NomAgence => Membre?.NomAgence ?? "";
 		public int AgenceId => Membre?.AgenceId ?? 0;
         public int AdhesionId => Id;
+        public string Status => Mouvement is null ? "Non payée" : "Payée";
 		
 		[ForeignKey("ModifiePar")]
 		public Utilisateur? Utilisateur { get; set; }

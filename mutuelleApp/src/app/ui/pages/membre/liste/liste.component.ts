@@ -58,9 +58,7 @@ export default class ListeComponent implements OnInit {
   }
 
   onEdited(membre: Membre): void {
-    this.router.navigateByUrl(
-      '/membre/add/' + membre.id + '/infos/' + membre.id
-    );
+    this.router.navigateByUrl('/membre/add/' + membre.id);
   }
 
   onViewed(membre: Membre): void {

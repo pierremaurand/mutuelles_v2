@@ -270,4 +270,8 @@ export default class AddComponent implements OnInit {
   get differeClass(): string {
     return this.differeCtrl.valid ? 'is-valid' : 'is-invalid';
   }
+
+  onBack(): void {
+    this.router.navigateByUrl('/avance');
+  }
 }

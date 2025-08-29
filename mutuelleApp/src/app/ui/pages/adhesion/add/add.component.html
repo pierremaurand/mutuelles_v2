@@ -1,6 +1,6 @@
 <div class="container" *ngIf="membres$ | async as membres">
-  <div class="d-flex justify-content-between">
-    <h1 class="h3">Nouvelles adhésions</h1>
+  <div class="d-flex justify-content-between p-2">
+    <h3 class="titre">Nouvelles adhésions</h3>
     <div class="row g-3 align-items-center">
       <div class="col-auto">
         <label for="date" class="col-form-label">Date d'adhésion</label>
@@ -16,7 +16,6 @@
       </div>
     </div>
   </div>
-  <hr />
   <form [formGroup]="request" (ngSubmit)="submitForm()">
     <div formArrayName="lines" class="row liste">
       @for(membre of membres; track membre.id){

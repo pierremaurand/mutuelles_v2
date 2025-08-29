@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { UserInfos } from '../models/user-infos';
 import { UpdateUtilisateurActifRequest } from '../models/update-utilisateur-actif-request';
 import { UtilisateurRequest } from '../models/utilisateur-request';
+import { Utilisateur } from '../models/utilisateur';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +13,8 @@ import { UtilisateurRequest } from '../models/utilisateur-request';
 export class UtilisateurService {
   baseUrl: string = environment.baseUrl;
 
-  private _utilisateurs$ = new BehaviorSubject<UserInfos[]>([]);
-  get utilisateurs$(): Observable<UserInfos[]> {
+  private _utilisateurs$ = new BehaviorSubject<Utilisateur[]>([]);
+  get utilisateurs$(): Observable<Utilisateur[]> {
     return this._utilisateurs$.asObservable();
   }
 
@@ -24,15 +25,30 @@ export class UtilisateurService {
 
   constructor(private http: HttpClient) {}
 
-  getAllUtilisateurFromServer(): void {
+  getAllUtilisateursFromServer(): void {
     this.http
-      .get<UserInfos[]>(`${this.baseUrl}/utilisateur`)
+      .get<Utilisateur[]>(`${this.baseUrl}/utilisateur`)
       .pipe(
         tap((utilisateurs) => {
           this._utilisateurs$.next(utilisateurs);
         })
       )
       .subscribe();
+  }
+
+  getUtilisateurFromServer(id: number): void {
+    if (id != 0) {
+      this.http
+        .get<Utilisateur>(`${this.baseUrl}/${id}`)
+        .pipe(
+          tap((utilisateur) => {
+            this._utilisateur$.next(utilisateur);
+          })
+        )
+        .subscribe();
+    } else {
+      this._utilisateur$.next(new Utilisateur());
+    }
   }
 
   getUtilisateur(id: number): void {

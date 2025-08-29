@@ -9,7 +9,7 @@ namespace mutuelleApi.helpers
         public AutoMapperProfiles()
         {
             CreateMap<Adhesion, AdhesionDto>().ReverseMap();
-            CreateMap<Adhesion, AdhesionRequestDto>().ReverseMap(); 
+            CreateMap<Adhesion, AdhesionRequestDto>().ReverseMap();
 
             CreateMap<Agence, AgenceDto>().ReverseMap();
             CreateMap<Agence, AgenceRequestDto>().ReverseMap();
@@ -22,13 +22,13 @@ namespace mutuelleApi.helpers
 
             CreateMap<Credit, CreditDto>().ReverseMap();
             CreateMap<Credit, CreditRequestDto>().ReverseMap();
-			
-			CreateMap<Membre, MembreDto>().ReverseMap();
+
+            CreateMap<Membre, MembreDto>().ReverseMap();
             CreateMap<Membre, MembreRequestDto>().ReverseMap();
-			
-			CreateMap<Utilisateur, UtilisateurDto>().ReverseMap();
+
+            CreateMap<Utilisateur, UtilisateurDto>().ReverseMap();
             CreateMap<Utilisateur, UtilisateurRequestDto>().ReverseMap();
-			
+
             CreateMap<Echeance, EcheanceAvanceRequestDto>().ReverseMap();
             CreateMap<Echeance, EcheanceCreditRequestDto>().ReverseMap();
             CreateMap<Echeance, EcheanceDto>().ReverseMap();
@@ -38,6 +38,9 @@ namespace mutuelleApi.helpers
 
             CreateMap<Banque, BanqueDto>().ReverseMap();
             CreateMap<Banque, BanqueRequestDto>().ReverseMap();
+            
+            CreateMap<Caisse, CaisseDto>().ReverseMap();
+            CreateMap<Caisse, CaisseRequestDto>().ReverseMap();
         }
     }
 }

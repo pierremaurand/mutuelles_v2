@@ -1,11 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Banque } from '../../../../core/models/banque';
+import { UpperCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-ligne',
-  imports: [],
+  imports: [UpperCasePipe],
   templateUrl: './ligne.html',
-  styleUrl: './ligne.scss'
+  styleUrl: './ligne.scss',
 })
 export class Ligne {
+  @Input()
+  banque!: Banque;
+  @Output()
+  selectedEvent = new EventEmitter<Banque>();
 
+  onSelected(): void {
+    this.selectedEvent.emit(this.banque);
+  }
 }

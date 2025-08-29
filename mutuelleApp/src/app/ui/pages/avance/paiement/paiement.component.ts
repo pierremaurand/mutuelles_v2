@@ -33,7 +33,7 @@ export default class PaiementComponent implements OnInit {
   datePaiementCtrl!: FormControl;
   items: any[] = [];
 
-  checkBoxLabel: string = 'Cochez tout';
+  checkBoxLabel: string = 'Tout selectionner';
 
   constructor(
     private avanceService: AvanceService,
@@ -81,10 +81,7 @@ export default class PaiementComponent implements OnInit {
     ]).pipe(
       map(([avance, echeances]) =>
         echeances.filter(
-          (e) =>
-            e.avanceId === avance.id &&
-            e.montantCapitalRestant &&
-            e.montantCapitalRestant > 0
+          (e) => e.avanceId === avance.id && e.status?.includes('Non payée')
         )
       )
     );
@@ -159,12 +156,12 @@ export default class PaiementComponent implements OnInit {
 
   onCheckAll(echeancier: Echeance[], $event: any) {
     if ($event.target.checked) {
-      this.checkBoxLabel = 'Décochez tout';
+      this.checkBoxLabel = 'Tout selectionner';
       echeancier.forEach((echeance) => {
         this.addLine(echeance);
       });
     } else {
-      this.checkBoxLabel = 'Cochez tout';
+      this.checkBoxLabel = 'Tout déselectionner';
       echeancier.forEach((echeance) => {
         this.removeLine(echeance);
       });

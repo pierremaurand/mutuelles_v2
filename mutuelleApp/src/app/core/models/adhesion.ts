@@ -9,4 +9,6 @@ export class Adhesion {
   nomSexe?: string;
   nomAgence?: string;
   agenceId?: number;
+  nomMembre?: string;
+  status?: string;
 }

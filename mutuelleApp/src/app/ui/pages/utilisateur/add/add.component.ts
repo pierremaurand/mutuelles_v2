@@ -15,7 +15,7 @@ import {
 import { SafeUrl } from '@angular/platform-browser';
 import { environment } from '../../../../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Sexe } from '../../../../core/models/sexe';
 import { Role } from '../../../../core/models/role';
 
@@ -44,25 +44,25 @@ export default class AddComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    const id = this.route.snapshot.params['id'];
-    if (id) {
-      this.utilisateur$ = this.utilisateurService.utilisateur$;
-      this.utilisateurService.getUtilisateur(id);
-      this.utilisateur$.subscribe({
-        next: (utilisateur: UserInfos) => {
-          this.request.patchValue({
-            id: utilisateur.id as number,
-            login: utilisateur.login as string,
-            nom: utilisateur.nom as string,
-            sexe: utilisateur.sexe as Sexe,
-            role: utilisateur.role as Role,
-          });
-          if (utilisateur.photo) {
-            this.photo = this.baseUrl + '/' + utilisateur.photo;
-          }
-        },
-      });
-    }
+    this.initObservables();
+  }
+
+  initObservables(): void {
+    this.utilisateur$ = this.utilisateurService.utilisateur$.pipe(
+      tap((utilisateur: UserInfos) => {
+        this.request.patchValue({
+          id: utilisateur.id,
+          login: utilisateur.login,
+          nom: utilisateur.nom,
+          sexe: utilisateur.sexe,
+          role: utilisateur.role,
+        });
+        if (utilisateur.photo) {
+          this.photo = this.baseUrl + '/' + utilisateur.photo;
+        }
+      })
+    );
+    this.utilisateur$.subscribe();
   }
 
   initForm(): void {
@@ -82,8 +82,6 @@ export default class AddComponent implements OnInit {
         .subscribe({
           next: () => {
             this.toastr.success("L'enregistrement a réussie!", 'Succès');
-            this.authService.getUserInfosFromServer();
-            this.utilisateurService.getAllUtilisateurFromServer();
             this.router.navigateByUrl('/utilisateur');
           },
           error: (error) => {

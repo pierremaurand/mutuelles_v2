@@ -60,7 +60,7 @@ export class MouvementService {
     return this.http.post<any>(`${this.baseUrl}`, mouvement);
   }
 
-  remboursement(echeancier: Echeance[]): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}`, echeancier);
+  addAll(mouvements: MouvementRequest[]): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/add-all`, mouvements);
   }
 }

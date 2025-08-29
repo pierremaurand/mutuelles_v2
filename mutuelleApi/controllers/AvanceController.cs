@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using mutuelleApi.dtos;
 using mutuelleApi.interfaces;
@@ -37,7 +38,6 @@ namespace mutuelleApi.controllers
 				echeance.DateAnticipation = echeanceRequest.DatePaiement;
 				echeance.ModifiePar = GetUserId();
                 echeance.ModifieLe = DateTime.Now;
-                echeance.Rembourser(GetUserId());
 			}
 
             await uow.SaveAsync();
@@ -63,7 +63,6 @@ namespace mutuelleApi.controllers
 			avance.Membre = membre;
             avance.ModifiePar = GetUserId();
             avance.ModifieLe = DateTime.Now;
-            avance.Decaisser(GetUserId());
             uow.AvanceRepository.Add(avance);
 			
             await uow.SaveAsync();
@@ -95,10 +94,12 @@ namespace mutuelleApi.controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var avances = await uow.AvanceRepository.GetAllAsync();
-            if(avances is null) {
+            if (avances is null)
+            {
                 return NotFound("Avances non trouvées");
             }
             var avancesDto = mapper.Map<List<AvanceDto>>(avances);

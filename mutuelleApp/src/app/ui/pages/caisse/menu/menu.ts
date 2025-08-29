@@ -6,21 +6,11 @@ import { Widget } from '../../../composants/widget/widget';
 
 @Component({
   selector: 'app-menu',
-  imports: [CommonModule, RouterLink, RouterLinkActive, Widget],
+  imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './menu.html',
   styleUrl: './menu.scss',
 })
 export class Menu {
   @Input()
-  mouvements!: Mouvement[];
-  label: string = 'Solde caisse';
-
-  get soldeCaisse(): number {
-    return (
-      this.mouvements.reduce(
-        (sum, x) => sum + x.montantCredit - x.montantDebit,
-        0
-      ) ?? 0
-    );
-  }
+  caisseId!: number;
 }

@@ -145,6 +145,36 @@ namespace mutuelleApi.Migrations
                     b.ToTable("Banques");
                 });
 
+            modelBuilder.Entity("mutuelleApi.models.Caisse", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AgentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("DateCaisse")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifieLe")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("ModifiePar")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AgentId");
+
+                    b.HasIndex("ModifiePar");
+
+                    b.ToTable("Caisses");
+                });
+
             modelBuilder.Entity("mutuelleApi.models.Cotisation", b =>
                 {
                     b.Property<int>("Id")
@@ -351,6 +381,9 @@ namespace mutuelleApi.Migrations
                     b.Property<int?>("BanqueId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CaisseId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("CotisationId")
                         .HasColumnType("int");
 
@@ -392,6 +425,8 @@ namespace mutuelleApi.Migrations
                     b.HasIndex("AvanceId");
 
                     b.HasIndex("BanqueId");
+
+                    b.HasIndex("CaisseId");
 
                     b.HasIndex("CotisationId")
                         .IsUnique()
@@ -507,6 +542,23 @@ namespace mutuelleApi.Migrations
                     b.Navigation("Utilisateur");
                 });
 
+            modelBuilder.Entity("mutuelleApi.models.Caisse", b =>
+                {
+                    b.HasOne("mutuelleApi.models.Utilisateur", "Agent")
+                        .WithMany()
+                        .HasForeignKey("AgentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("mutuelleApi.models.Utilisateur", "Createur")
+                        .WithMany()
+                        .HasForeignKey("ModifiePar");
+
+                    b.Navigation("Agent");
+
+                    b.Navigation("Createur");
+                });
+
             modelBuilder.Entity("mutuelleApi.models.Cotisation", b =>
                 {
                     b.HasOne("mutuelleApi.models.Membre", "Membre")
@@ -581,37 +633,59 @@ namespace mutuelleApi.Migrations
 
             modelBuilder.Entity("mutuelleApi.models.Mouvement", b =>
                 {
-                    b.HasOne("mutuelleApi.models.Adhesion", null)
+                    b.HasOne("mutuelleApi.models.Adhesion", "Adhesion")
                         .WithOne("Mouvement")
                         .HasForeignKey("mutuelleApi.models.Mouvement", "AdhesionId");
 
-                    b.HasOne("mutuelleApi.models.Avance", null)
+                    b.HasOne("mutuelleApi.models.Avance", "Avance")
                         .WithMany("Mouvements")
                         .HasForeignKey("AvanceId");
 
-                    b.HasOne("mutuelleApi.models.Banque", null)
+                    b.HasOne("mutuelleApi.models.Banque", "Banque")
                         .WithMany("Mouvements")
                         .HasForeignKey("BanqueId");
 
-                    b.HasOne("mutuelleApi.models.Cotisation", null)
+                    b.HasOne("mutuelleApi.models.Caisse", "Caisse")
+                        .WithMany("Mouvements")
+                        .HasForeignKey("CaisseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("mutuelleApi.models.Cotisation", "Cotisation")
                         .WithOne("Mouvement")
                         .HasForeignKey("mutuelleApi.models.Mouvement", "CotisationId");
 
-                    b.HasOne("mutuelleApi.models.Credit", null)
+                    b.HasOne("mutuelleApi.models.Credit", "Credit")
                         .WithMany("Mouvements")
                         .HasForeignKey("CreditId");
 
-                    b.HasOne("mutuelleApi.models.Echeance", null)
+                    b.HasOne("mutuelleApi.models.Echeance", "Echeance")
                         .WithMany("Mouvements")
                         .HasForeignKey("EcheanceId");
 
-                    b.HasOne("mutuelleApi.models.Membre", null)
+                    b.HasOne("mutuelleApi.models.Membre", "Membre")
                         .WithMany("Mouvements")
                         .HasForeignKey("MembreId");
 
                     b.HasOne("mutuelleApi.models.Utilisateur", "Utilisateur")
                         .WithMany()
                         .HasForeignKey("ModifiePar");
+
+                    b.Navigation("Adhesion");
+
+                    b.Navigation("Avance");
+
+                    b.Navigation("Banque");
+
+                    b.Navigation("Caisse");
+
+                    b.Navigation("Cotisation");
+
+                    b.Navigation("Credit");
+
+                    b.Navigation("Echeance");
+
+                    b.Navigation("Membre");
 
                     b.Navigation("Utilisateur");
                 });
@@ -629,6 +703,11 @@ namespace mutuelleApi.Migrations
                 });
 
             modelBuilder.Entity("mutuelleApi.models.Banque", b =>
+                {
+                    b.Navigation("Mouvements");
+                });
+
+            modelBuilder.Entity("mutuelleApi.models.Caisse", b =>
                 {
                     b.Navigation("Mouvements");
                 });

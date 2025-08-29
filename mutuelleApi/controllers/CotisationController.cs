@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using mutuelleApi.dtos;
 using mutuelleApi.interfaces;
@@ -24,7 +25,6 @@ namespace mutuelleApi.controllers
 				cotisation.Membre = membre;
                 cotisation.ModifiePar = GetUserId();
                 cotisation.ModifieLe = DateTime.Now;
-				cotisation.Payer(GetUserId());
                 uow.CotisationRepository.Add(cotisation);
             }
 
@@ -57,10 +57,12 @@ namespace mutuelleApi.controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var cotisations = await uow.CotisationRepository.GetAllAsync();
-            if(cotisations is null) {
+            if (cotisations is null)
+            {
                 return NotFound("Cotisations non trouvées");
             }
             var cotisationsDto = mapper.Map<List<CotisationDto>>(cotisations);

@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using mutuelleApi.dtos;
 using mutuelleApi.interfaces;
@@ -37,7 +38,6 @@ namespace mutuelleApi.controllers
 				echeance.DateAnticipation = echeanceRequest.DatePaiement;
 				echeance.ModifiePar = GetUserId();
                 echeance.ModifieLe = DateTime.Now;
-                echeance.Rembourser(GetUserId());
 			}
 
             await uow.SaveAsync();
@@ -63,7 +63,6 @@ namespace mutuelleApi.controllers
 			credit.Membre = membre;
             credit.ModifiePar = GetUserId();
             credit.ModifieLe = DateTime.Now;
-            credit.Decaisser(GetUserId());
             uow.CreditRepository.Add(credit);
 			
             await uow.SaveAsync();
@@ -95,10 +94,12 @@ namespace mutuelleApi.controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var credits = await uow.CreditRepository.GetAllAsync();
-            if(credits is null) {
+            if (credits is null)
+            {
                 return NotFound("Credits non trouvées");
             }
             var creditsDto = mapper.Map<List<CreditDto>>(credits);

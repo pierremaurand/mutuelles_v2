@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace mutuelleApi.models
@@ -21,37 +22,13 @@ namespace mutuelleApi.models
 		public int AgenceId => Membre?.AgenceId ?? 0;
 		public int AvanceId => Id;
 
-        public double MontantTotal => (MontantCapital);
+        public double MontantTotal => MontantCapital;
+		public int NombreEcheancePaye => Echeances?.Count(e => e.Status.CompareTo("Payée")==0)??0;
+		public int NombreEcheanceImpaye => Echeances?.Count(e => e.Status.CompareTo("Payée")!=0)??0;
+		public string DateDerniereEcheance => Echeances?.Max(e => e.DateEcheance)??"";
+        public double MontantCapitalRestant => Echeances?.Sum(m => m.MontantCapitalRestant) ?? 0;
+        public string Status => Mouvements is not null && Mouvements.Any(m => m.MontantDebit == MontantCapital) && MontantCapitalRestant == 0  ? "Remboursée" : Mouvements is not null && Mouvements.Any(m => m.MontantDebit == MontantCapital) && MontantCapitalRestant > 0 ? "Validée" : "Payée";
 
-		public int NombreEcheancePaye => (Echeances?.Count(e => e.MontantCapitalRestant == 0)??0);
-		
-		public int NombreEcheanceImpaye => (Echeances?.Count(e => e.MontantCapitalRestant > 0)??0);
-		
-		public string DateDerniereEcheance => (Echeances?.Max(e => e.DateEcheance)??"");
-		
-        public double MontantCapitalRestant => (Echeances?.Sum(m => m.MontantCapitalRestant) ?? 0);
-
-        public string Status => MontantCapitalRestant == 0 ? "Remboursée" : "En cour";
-
-        public void Decaisser(int modificateur)
-        {
-            if (!string.IsNullOrEmpty(DateDecaissement) && Mouvements is null)
-            {
-				
-                Mouvements = new List<Mouvement>();
-				var mouvement = new Mouvement();
-                mouvement.DateMouvement = DateDecaissement;
-                mouvement.Libelle = "Décaissement " + Libelle;
-                mouvement.MontantDebit = MontantCapital;
-                mouvement.MembreId = MembreId;
-                mouvement.ModifiePar = modificateur;
-                mouvement.ModifieLe = DateTime.Now;
-                Mouvements.Add(mouvement);
-            }
-        }
-        
-        public string Libelle => "avance de " + MontantCapital + " du membre " + Membre?.Nom + " du " + DateDemande + " remboursable en " + Duree + " mois";
-		
 		[ForeignKey("ModifiePar")]
 		public Utilisateur? Utilisateur { get; set; }
 		

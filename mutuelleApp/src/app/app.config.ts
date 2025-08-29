@@ -3,7 +3,12 @@ import {
   LOCALE_ID,
   provideZoneChangeDetection,
 } from '@angular/core';
-import { provideRouter, withViewTransitions } from '@angular/router';
+import {
+  provideRouter,
+  withViewTransitions,
+  withComponentInputBinding,
+  withRouterConfig,
+} from '@angular/router';
 
 import { routes } from './app.routes';
 import {
@@ -20,11 +25,19 @@ import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes, withViewTransitions()),
+    provideRouter(
+      routes,
+      withViewTransitions(),
+      withComponentInputBinding(),
+      withRouterConfig({
+        paramsInheritanceStrategy: 'always',
+      })
+    ),
     { provide: LOCALE_ID, useValue: 'fr-FR' },
     provideHttpClient(withInterceptors([httpTokenInterceptor]), withFetch()),
     provideToastr({ closeButton: true }),
     provideAnimations(),
-    DatePipe, provideCharts(withDefaultRegisterables()),
+    DatePipe,
+    provideCharts(withDefaultRegisterables()),
   ],
 };

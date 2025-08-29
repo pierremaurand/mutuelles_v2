@@ -11,4 +11,5 @@ export class Cotisation {
   nomSexe?: string;
   nomAgence?: string;
   agenceId?: number;
+  status?: string;
 }

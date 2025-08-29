@@ -7,6 +7,7 @@ namespace mutuelleApi.dtos
         public string Libelle { get; set; } = string.Empty;
         public float MontantDebit { get; set; }
         public float MontantCredit { get; set; }
+        public int CaisseId { get; set; }
 
         public int? MembreId { get; set; }
         public int? CotisationId { get; set; }
@@ -14,7 +15,7 @@ namespace mutuelleApi.dtos
         public int? AvanceId { get; set; }
         public int? CreditId { get; set; }
         public int? EcheanceId { get; set; }
-		
+        public int? BanqueId { get; set; }
 		public string UtilisateurLogin { get; set; } = string.Empty;
     }
 }

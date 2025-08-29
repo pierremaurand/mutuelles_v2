@@ -11,88 +11,17 @@ namespace mutuelleApi.models
 
         public Membre? Membre { get; set; }
         public Mouvement? Mouvement { get; set; }
-
-
-        public string Libelle
-        {
-            get
-            {
-                return "cotisation du membre " + Membre?.Nom + " du " + DateCotisation;
-            }
-        }
-
-        public void Payer(int modificateur)
-        {
-            if (!string.IsNullOrEmpty(DateCotisation) && Mouvement is null)
-            {
-                var mouvement = new Mouvement();
-                mouvement.DateMouvement = DateCotisation;
-                mouvement.Libelle = "Paiement " + Libelle;
-                mouvement.MontantCredit = Retenue;
-                mouvement.MembreId = MembreId;
-                mouvement.ModifiePar = modificateur;
-                mouvement.ModifieLe = DateTime.Now;
-                Mouvement = mouvement;
-            }
-        }
-
-        public string Nom
-        {
-            get
-            {
-                return Membre?.Nom ?? "";
-            }
-        }
-
-        public string NomSexe
-        {
-            get
-            {
-                return Membre?.NomSexe ?? "";
-            }
-        }
-
-        public string Photo
-        {
-            get
-            {
-                return Membre?.Photo ?? "";
-            }
-        }
-
-        public string NomAgence
-        {
-            get
-            {
-                return Membre?.NomAgence ?? "";
-            }
-        }
-
-        public int AgenceId
-        {
-            get
-            {
-                return Membre?.AgenceId ?? 0;
-            }
-        }
-
-        public int CotisationId
-        {
-            get
-            {
-                return Id;
-            }
-        }
+        public string Status => Mouvement is null ? "Non payée" : "Payée";
+        public string Nom => Membre?.Nom ?? "";
+        public string NomSexe => Membre?.NomSexe ?? "";
+        public string Photo => Membre?.Photo ?? "";
+        public string NomAgence => Membre?.NomAgence ?? "";
+        public int AgenceId => Membre?.AgenceId ?? 0;
+        public int CotisationId => Id;
 
         [ForeignKey("ModifiePar")]
 		public Utilisateur? Utilisateur { get; set; }
 
-        public string UtilisateurLogin
-        {
-            get
-            {
-                return Utilisateur?.Login ?? "";
-            }
-        }
+        public string UtilisateurLogin => Utilisateur?.Login ?? "";
     }
 }

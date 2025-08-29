@@ -11,10 +11,12 @@ import { AgenceService } from '../../../../core/services/agence.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
+import { Card } from '../../banque/card/card';
+import { AgenceCardComponent } from '../agence-card/agence-card.component';
 
 @Component({
   selector: 'app-add',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, AgenceCardComponent],
   templateUrl: './add.component.html',
   styleUrl: './add.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -89,6 +91,14 @@ export default class AddComponent implements OnInit {
       return error.errors[0] || 'Une erreur est survenue!';
     } else {
       return 'Une erreur est survenue!';
+    }
+  }
+
+  get nomClass(): string {
+    if (this.request.get('nom')?.touched) {
+      return this.request.get('nom')?.valid ? 'is-valid' : 'is-invalid';
+    } else {
+      return '';
     }
   }
 }

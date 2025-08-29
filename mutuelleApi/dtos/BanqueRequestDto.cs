@@ -4,7 +4,7 @@ namespace mutuelleApi.dtos
 {
     public class BanqueRequestDto
     {
-        [Required(ErrorMessage = "Le nom de l'banque est obligatoire!")]
+        [Required(ErrorMessage = "Le nom de la banque est obligatoire!")]
         public string Nom { get; set; } = string.Empty;
     }
 }

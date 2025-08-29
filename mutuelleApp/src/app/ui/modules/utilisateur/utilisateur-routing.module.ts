@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {
+  utilisateurResolver,
+  utilisateursResolver,
+} from '../../../core/resolvers/utilisateur.resolver';
 
 const routes: Routes = [
   {
@@ -13,6 +17,7 @@ const routes: Routes = [
       import('../../pages/utilisateur/liste/liste.component').then(
         (m) => m.default
       ),
+    resolve: [utilisateursResolver],
   },
   {
     path: 'add/:id',
@@ -20,6 +25,7 @@ const routes: Routes = [
       import('../../pages/utilisateur/add/add.component').then(
         (m) => m.default
       ),
+    resolve: [utilisateurResolver],
   },
   {
     path: 'view/:id',

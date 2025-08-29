@@ -26,6 +26,10 @@ export default class ListeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.initObservables();
+  }
+
+  initObservables(): void {
     this.utilisateurs$ = this.utilisateurService.utilisateurs$;
     this.utilisateurs$.subscribe();
   }
@@ -42,7 +46,6 @@ export default class ListeComponent implements OnInit {
             this.toastr.success(
               "Le statut de l'utilisateur a été mis à jour avec succès!"
             );
-            this.utilisateurService.getAllUtilisateurFromServer();
           },
           error: (error) => {
             this.toastr.error(

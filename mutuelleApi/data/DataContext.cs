@@ -9,6 +9,7 @@ namespace mutuelleApi.data
         public DbSet<Agence>? Agences { get; set; }
         public DbSet<Avance>? Avances { get; set; }
         public DbSet<Banque>? Banques { get; set; }
+        public DbSet<Caisse>? Caisses { get; set; }
         public DbSet<Cotisation>? Cotisations { get; set; }
         public DbSet<Credit>? Credits { get; set; }
         public DbSet<Echeance>? Echeances { get; set; }

@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using mutuelleApi.dtos;
 using mutuelleApi.interfaces;
@@ -26,7 +27,6 @@ namespace mutuelleApi.controllers
 				adhesion.Membre = membre;
                 adhesion.ModifiePar = GetUserId();
                 adhesion.ModifieLe = DateTime.Now;
-				adhesion.Payer(GetUserId());
                 uow.AdhesionRepository.Add(adhesion);
 				
             }
@@ -60,10 +60,12 @@ namespace mutuelleApi.controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var adhesions = await uow.AdhesionRepository.GetAllAsync();
-            if(adhesions is null) {
+            if (adhesions is null)
+            {
                 return NotFound("Adhesions non trouvées!");
             }
             var adhesionsDto = mapper.Map<List<AdhesionDto>>(adhesions);

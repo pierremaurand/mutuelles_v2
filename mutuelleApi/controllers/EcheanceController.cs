@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using mutuelleApi.dtos;
 using mutuelleApi.interfaces;
@@ -11,10 +12,12 @@ namespace mutuelleApi.controllers
         private readonly IMapper mapper = mapper;
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
             var echeances = await uow.EcheanceRepository.GetAllAsync();
-            if(echeances is null) {
+            if (echeances is null)
+            {
                 return NotFound("Echéances non trouvées");
             }
             var echeancesDto = mapper.Map<List<EcheanceDto>>(echeances);
@@ -44,7 +47,6 @@ namespace mutuelleApi.controllers
 				echeance.DatePaiement = echeanceRequest.DatePaiement;
 				echeance.ModifiePar = GetUserId();
                 echeance.ModifieLe = DateTime.Now;
-                echeance.Rembourser(GetUserId());
 			}
 
             await uow.SaveAsync();

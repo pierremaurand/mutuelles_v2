@@ -31,7 +31,11 @@
           <td class="text-end">{{ echeance.montantInterets | number }} FCFA</td>
           }
           <td class="text-end">
-            {{ montantTotal | number }}
+            {{
+              (echeance.montantCapital ?? 0) +
+                (echeance.montantCommission ?? 0) +
+                (echeance.montantInterets ?? 0) | number
+            }}
             FCFA
           </td>
           @if(echeancierView){

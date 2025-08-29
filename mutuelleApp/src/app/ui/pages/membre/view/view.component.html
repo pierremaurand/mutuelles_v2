@@ -1,18 +1,17 @@
 <div class="container">
   <div class="d-flex justify-content-between">
-    <div class="d-flex justify-content-start gap-2">
+    <div class="d-flex justify-content-start gap-2 p-2">
       <button
         class="btn btn-primary rounded-circle shadow-sm"
         (click)="onBack()"
       >
         <i class="fa fa-arrow-left"></i>
       </button>
-      <h3>Infos membre</h3>
+      <h3 class="titre">Infos membre</h3>
     </div>
 
     <div class="d-flex justify-content-end gap-1"></div>
   </div>
-  <hr />
   <div class="row">
     <div class="col-md-3">
       @if(membre$ | async; as membre){
