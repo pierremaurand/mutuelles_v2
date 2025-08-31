@@ -29,6 +29,15 @@
       </div>
       <p class="text-center">{{ mouvement.libelle | uppercase}}</p>
     </div>
+    } @if(showAction) {
+    <div class="d-flex justify-content-center gap-2">
+      <a
+        routerLink="/print/{{mouvement.id}}"
+        target="_blank"
+        class="btn btn-primary"
+        ><i class="fa-solid fa-eye"></i
+      ></a>
+    </div>
     }
   </div>
 </div>

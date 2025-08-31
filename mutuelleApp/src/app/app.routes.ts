@@ -87,4 +87,11 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./ui/modules/auth/auth.module').then((m) => m.AuthModule),
   },
+  {
+    path: 'print/:id',
+    loadComponent: () =>
+      import('./ui/pages/print-mouvement/print-mouvement').then(
+        (m) => m.default
+      ),
+  },
 ];

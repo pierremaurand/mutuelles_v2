@@ -1,3 +1,4 @@
+import { NgxPrintElementModule } from 'ngx-print-element';
 import {
   ApplicationConfig,
   LOCALE_ID,
@@ -21,6 +22,7 @@ import { httpTokenInterceptor } from './core/interceptors/http-token.interceptor
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { DatePipe } from '@angular/common';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+// import { NgxPrintElementModule } from 'ngx-print-element';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -33,6 +35,7 @@ export const appConfig: ApplicationConfig = {
         paramsInheritanceStrategy: 'always',
       })
     ),
+    NgxPrintElementModule,
     { provide: LOCALE_ID, useValue: 'fr-FR' },
     provideHttpClient(withInterceptors([httpTokenInterceptor]), withFetch()),
     provideToastr({ closeButton: true }),

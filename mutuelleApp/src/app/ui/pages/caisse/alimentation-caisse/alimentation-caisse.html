@@ -2,6 +2,7 @@
   <div class="d-flex justify-content-between p-2">
     <h3 class="titre">Infos alimentation de caisse</h3>
   </div>
+  <hr />
   <div class="row">
     <div class="col-md-12">
       <form
@@ -26,7 +27,8 @@
                     <option selected>Selectionner une banque</option>
                     @for(banque of banques; track banque.id){
                     <option [value]="banque.id">
-                      {{banque.nom | uppercase}}
+                      {{banque.nom | uppercase}} ({{banque.solde??0 | number}}
+                      FCFA)
                     </option>
                     }
                   </select>

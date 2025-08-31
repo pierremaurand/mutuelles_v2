@@ -2,7 +2,9 @@
   @if(caisse$ | async; as caisse){
   <div class="d-flex justify-content-between p-2">
     <h3 class="titre">Accueil caisse: {{caisse.nom | uppercase}}</h3>
+    <button class="btn btn-danger">Clôturer</button>
   </div>
+  <hr />
   <div class="row">
     @if(mouvements$ | async; as mouvements){
     <div class="col-md-8 liste">
@@ -16,7 +18,7 @@
     }
     <div class="col-md-4">
       @if(selectedMouvement){
-      <app-card-mouvement [mouvement]="selectedMouvement" />
+      <app-card-mouvement [mouvement]="selectedMouvement" [showAction]="true" />
       }
     </div>
   </div>
