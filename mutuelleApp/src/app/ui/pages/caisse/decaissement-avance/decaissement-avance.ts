@@ -62,7 +62,7 @@ export default class DecaissementAvance {
             (avance) =>
               avance.dateDecaissement?.includes(caisse.dateCaisse ?? '') &&
               avance.status &&
-              avance.status.includes('Non payée')
+              avance.status.includes('Validée')
           )
           .sort((a, b) => ((a.id ?? 0) < (b.id ?? 0) ? 1 : -1))
       )

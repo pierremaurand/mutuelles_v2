@@ -7,14 +7,14 @@
     </h3>
 
     <div class="d-flex justify-content-end gap-1">
+      @if(avance.nombreEcheanceImpaye && !avance.status?.includes("Validée")){
       <button
         type="button"
         class="btn btn-success"
         (click)="onAnticipePaiement(avance.id ?? 0)"
-        *ngIf="avance.nombreEcheanceImpaye"
       >
-        <i class="fa-solid fa-list-check"></i>
-      </button>
+        <i class="fa-solid fa-list-check"></i></button
+      >}
     </div>
   </div>
   <hr />

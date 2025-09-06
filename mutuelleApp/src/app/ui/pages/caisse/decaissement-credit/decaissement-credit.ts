@@ -61,7 +61,7 @@ export default class DecaissementCredit {
             (credit) =>
               credit.dateDecaissement?.includes(caisse.dateCaisse ?? '') &&
               credit.status &&
-              credit.status.includes('Non payée')
+              credit.status.includes('Validée')
           )
           .sort((a, b) => ((a.id ?? 0) < (b.id ?? 0) ? 1 : -1))
       )

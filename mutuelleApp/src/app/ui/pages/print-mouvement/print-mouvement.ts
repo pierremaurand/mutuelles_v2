@@ -6,7 +6,6 @@ import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-print-mouvement',
-  imports: [AsyncPipe],
   templateUrl: './print-mouvement.html',
   styleUrl: './print-mouvement.scss',
 })

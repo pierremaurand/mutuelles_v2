@@ -19,10 +19,10 @@ namespace mutuelleApi.models
 
         public double MontantTotal => MontantCapital + MontantCommission + MontantInterets;
         public int NombreEcheancePaye => Echeances?.Count(e => e.MontantCapitalRestant == 0)??0;
-		public int NombreEcheanceImpaye => Echeances?.Count(e => e.MontantCapitalRestant > 0)??0;
+		public int NombreEcheanceImpaye => Echeances?.Count(e => e.MontantCapitalRestant > 0)??Duree;
 		public string DateDerniereEcheance => Echeances?.Max(e => e.DateEcheance)??"";
         public double MontantCapitalRestant => Echeances?.Sum(m => m.MontantCapitalRestant) ?? 0;
-        public string Status => Mouvements is null || !Mouvements.Any(m => m.MontantDebit == MontantCapital) ? "Non payée" : "Payée";
+        public string Status => NombreEcheanceImpaye == 0 ? "Remboursée" : Mouvements is not null && Mouvements.Count == 0 ? "Validée" : Mouvements is not null && Mouvements.Any(x => x.MontantDebit == MontantCapital) && NombreEcheancePaye == 0 ? "Décaissée" : "En cours";
         public string Nom => Membre?.Nom ?? "";
         public string NomSexe => Membre?.NomSexe ?? "";
         public string Photo => Membre?.Photo ?? "";

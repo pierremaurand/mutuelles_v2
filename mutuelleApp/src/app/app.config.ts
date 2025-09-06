@@ -1,4 +1,4 @@
-import { NgxPrintElementModule } from 'ngx-print-element';
+// import { NgxPrintElementModule } from 'ngx-print-element';
 import {
   ApplicationConfig,
   LOCALE_ID,
@@ -35,7 +35,6 @@ export const appConfig: ApplicationConfig = {
         paramsInheritanceStrategy: 'always',
       })
     ),
-    NgxPrintElementModule,
     { provide: LOCALE_ID, useValue: 'fr-FR' },
     provideHttpClient(withInterceptors([httpTokenInterceptor]), withFetch()),
     provideToastr({ closeButton: true }),
