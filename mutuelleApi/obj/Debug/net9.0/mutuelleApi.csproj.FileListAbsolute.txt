@@ -181,3 +181,15 @@ D:\MesProjets\mutuelles_v2\mutuelleApi\bin\Debug\net9.0\System.Net.WebSockets.We
 D:\MesProjets\mutuelles_v2\mutuelleApi\bin\Debug\net9.0\System.Private.Windows.Core.dll
 D:\MesProjets\mutuelles_v2\mutuelleApi\bin\Debug\net9.0\runtimes\win\lib\net9.0\Microsoft.Win32.SystemEvents.dll
 D:\MesProjets\mutuelles_v2\mutuelleApi\bin\Debug\net9.0\mutuelleApi.staticwebassets.runtime.json
+D:\MesProjets\applications\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\mutuelleApi.csproj.AssemblyReference.cache
+D:\MesProjets\applications\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\rpswa.dswa.cache.json
+D:\MesProjets\applications\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\mutuelleApi.GeneratedMSBuildEditorConfig.editorconfig
+D:\MesProjets\applications\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\mutuelleApi.AssemblyInfoInputs.cache
+D:\MesProjets\applications\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\mutuelleApi.AssemblyInfo.cs
+D:\MesProjets\applications\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\mutuelleApi.csproj.CoreCompileInputs.cache
+D:\MesProjets\applications\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\mutuelleApi.MvcApplicationPartsAssemblyInfo.cs
+D:\MesProjets\applications\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\mutuelleApi.MvcApplicationPartsAssemblyInfo.cache
+D:\MesProjets\applications\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\mutuelleApi.sourcelink.json
+D:\MesProjets\applications\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\mutuelleApi.dll
+D:\MesProjets\applications\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\refint\mutuelleApi.dll
+D:\MesProjets\applications\mutuelles_v2\mutuelleApi\obj\Debug\net9.0\mutuelleApi.pdb
