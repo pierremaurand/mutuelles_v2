@@ -12,8 +12,8 @@ using mutuelleApi.data;
 namespace mutuelleApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250826190302_update_mouvement_entity_4")]
-    partial class update_mouvement_entity_4
+    [Migration("20250906102644_initial-migrations")]
+    partial class initialmigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
